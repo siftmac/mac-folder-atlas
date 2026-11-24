@@ -1,0 +1,40 @@
+{
+ "_about": [
+  "Hand-kept additions to the match rules that scripts/sync.py derives from each entry's paths.",
+  "'paths' adds to the rule made from one of a page's paths, keyed by the path as the page writes it:",
+  "  beside: a file that must sit next to the folder, has: a file that must be inside it (so an ordinary",
+  "  build or target folder isn't taken for Flutter's or Rust's);",
+  "  verdict and note: for a folder a page lists as where the item lives, not as the item itself, such as",
+  "  the Homebrew Cellar on the Homebrew cache page. The note says what the page says about that folder.",
+  "'extra' adds rules an entry's page supports but its paths don't spell out.",
+  "Every addition must be backed by the page's own text."
+ ],
+ "paths": {
+  "<project>/build": {"beside": "pubspec.yaml"},
+  "<project>/target": {"beside": "Cargo.toml"},
+  "<package>/.build": {"beside": "Package.swift"},
+  "<project>/Pods": {"beside": "Podfile"},
+  "<project>/venv": {"has": "pyvenv.cfg"},
+  "/opt/homebrew/Cellar": {"verdict": "leave", "note": "Don’t delete folders in the Cellar by hand: Homebrew links each installed version into its `bin` and other folders. `brew cleanup` removes old versions, and `brew uninstall` a package you don’t need."},
+  "/usr/local/Cellar": {"verdict": "leave", "note": "Don’t delete folders in the Cellar by hand: Homebrew links each installed version into its `bin` and other folders. `brew cleanup` removes old versions, and `brew uninstall` a package you don’t need."},
+  "~/Library/Safari": {"verdict": "leave", "note": "Don’t delete `~/Library/Safari` to save space: it holds your bookmarks and history along with site data. Clear the cache from Safari’s own settings."},
+  "~/Library/Containers/com.apple.Safari": {"verdict": "leave", "note": "Apple doesn’t document which file is which in Safari’s folders, so the safe route is Safari’s own settings, not the folders."},
+  "~/Library/Application Support/Spotify": {"verdict": "leave", "note": "Don’t delete this folder to clear the cache: it’s Spotify’s data folder, so downloads and settings saved on this Mac would go with it. Use Clear cache in Spotify’s settings."},
+  "~/.vscode/extensions": {"verdict": "leave", "note": "Uninstall extensions you don’t use from VS Code. Only a folder for an older version of an extension, one VS Code no longer uses, can go by hand, with VS Code quit."},
+  "~/Movies/iMovie Library.imovielibrary": {"verdict": "leave", "note": "That’s the whole iMovie library, a package iMovie manages. Delete render files with iMovie’s own Delete button: removing files inside by hand can break your projects."},
+  "~/Movies/<library name>.fcpbundle": {"verdict": "leave", "note": "That’s the whole Final Cut Pro library. Delete render files from inside Final Cut Pro; don’t open the library and delete things inside by hand."}
+ },
+ "extra": {
+  "library-caches": [{"glob": "~/Library/Caches/com.apple.*", "verdict": "leave", "note": "Leave the `com.apple.…` folders to macOS: many are guarded, and they belong to system services rather than to apps you can quit."}],
+  "ds-store-files": [{"glob": "**/.DS_Store"}],
+  "dot-underscore-files": [{"glob": "**/._*"}],
+  "macos-installers": [{"glob": "/Applications/Install macOS *.app"}, {"glob": "~/Applications/Install macOS *.app"}],
+  "final-cut-pro-render-files": [{"glob": "**/*.fcpbundle", "verdict": "leave", "note": "That’s the whole Final Cut Pro library. Delete render files from inside Final Cut Pro; don’t open the library and delete things inside by hand."}],
+  "imovie-render-files": [{"glob": "**/*.imovielibrary", "verdict": "leave", "note": "That’s the whole iMovie library, a package iMovie manages. Delete render files with iMovie’s own Delete button: removing files inside by hand can break your projects."}],
+  "photos-library": [{"glob": "**/*.photoslibrary"}],
+  "lightroom-previews": [{"glob": "**/*Catalog Previews.lrdata"}],
+  "parallels-virtual-machines": [{"glob": "**/*.pvm"}],
+  "utm-virtual-machines": [{"glob": "**/*.utm"}],
+  "ios-device-support": [{"glob": "~/Library/Developer/Xcode/*DeviceSupport"}]
+ }
+}

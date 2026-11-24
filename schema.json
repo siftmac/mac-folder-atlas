@@ -1,0 +1,80 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "https://raw.githubusercontent.com/siftmac/mac-folder-atlas/main/schema.json",
+ "title": "Mac Folder Atlas",
+ "description": "Is it safe to delete this folder on a Mac? One record per folder. Text fields are Markdown with absolute links. CC BY 4.0, credit “Mac Folder Atlas (siftmac.com)”.",
+ "type": "object",
+ "required": ["name", "homepage", "license", "credit", "updated", "count", "verdicts", "folders"],
+ "properties": {
+  "name": {"const": "Mac Folder Atlas"},
+  "description": {"type": "string"},
+  "homepage": {"type": "string", "format": "uri"},
+  "license": {"const": "CC-BY-4.0"},
+  "credit": {"type": "string", "description": "How to credit the data."},
+  "updated": {"type": "string", "format": "date", "description": "The latest date any answer changed."},
+  "count": {"type": "integer", "minimum": 1},
+  "verdicts": {
+   "type": "object",
+   "description": "Each verdict key with the label the app and site show, and what it means.",
+   "additionalProperties": {
+    "type": "object",
+    "required": ["label", "means"],
+    "properties": {"label": {"type": "string"}, "means": {"type": "string"}}
+   }
+  },
+  "folders": {"type": "array", "items": {"$ref": "#/$defs/folder"}}
+ },
+ "$defs": {
+  "verdict": {"enum": ["rebuilds", "safe", "decide", "leave"]},
+  "folder": {
+   "type": "object",
+   "required": ["id", "name", "question", "category", "paths", "verdict", "verdict_label", "answer", "summary",
+                "comes_back", "how_to_clear", "sources", "match", "url"],
+   "properties": {
+    "id": {"type": "string", "pattern": "^[a-z0-9-]+$", "description": "Stable id, also the page's slug."},
+    "name": {"type": "string", "description": "A short name for the folder or file."},
+    "question": {"type": "string", "description": "The question the page answers."},
+    "category": {"type": "string"},
+    "paths": {"type": "array", "items": {"type": "string"}, "minItems": 1,
+              "description": "Where it is, written for people: ~ is the home folder, <project> any project folder, … any folders in between."},
+    "verdict": {"$ref": "#/$defs/verdict"},
+    "verdict_label": {"type": "string"},
+    "answer": {"type": "string", "description": "The short answer: the summary's first sentence, or its first two when the first is only a few words."},
+    "summary": {"type": "array", "items": {"type": "string"}, "minItems": 3, "maxItems": 3,
+                "description": "The answer, what it costs (or what to do instead), and whether it comes back."},
+    "comes_back": {"type": "string", "description": "Does it come back, and how."},
+    "what": {"type": "string", "description": "What it is: the page's first paragraph about it."},
+    "measure": {"type": "array", "items": {"type": "string"}, "description": "Shell commands that show how big it is."},
+    "how_to_clear": {"type": "string", "description": "How to clear it safely."},
+    "clear_commands": {"type": "array", "items": {"type": "string"}, "description": "The shell commands in how_to_clear, as written there."},
+    "sources": {
+     "type": "array",
+     "items": {"type": "object", "required": ["title", "url"],
+               "properties": {"title": {"type": "string"}, "url": {"type": "string", "format": "uri"}}}
+    },
+    "see_also": {"type": "array", "items": {"type": "string"}, "description": "Ids of related entries."},
+    "match": {
+     "type": "array",
+     "minItems": 1,
+     "description": "Globs for tools: ~ is the home folder, * part of one name, **/ any folders. A path matches when it is the folder or inside it; the deepest match wins.",
+     "items": {
+      "type": "object",
+      "required": ["glob"],
+      "properties": {
+       "glob": {"type": "string"},
+       "beside": {"type": "string", "description": "A file that must sit next to the folder for this rule to match."},
+       "has": {"type": "string", "description": "A file that must be inside the folder for this rule to match."},
+       "verdict": {"$ref": "#/$defs/verdict", "description": "This folder's own verdict, when the page treats it differently from the entry."},
+       "note": {"type": "string", "description": "Why, in the page's words. Always given with verdict."}
+      },
+      "additionalProperties": false
+     }
+    },
+    "url": {"type": "string", "format": "uri", "description": "The full answer."},
+    "markdown_url": {"type": "string", "format": "uri", "description": "The full answer as Markdown, for AI tools."},
+    "published": {"type": ["string", "null"], "format": "date"},
+    "updated": {"type": ["string", "null"], "format": "date"}
+   }
+  }
+ }
+}
