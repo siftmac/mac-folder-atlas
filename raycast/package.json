@@ -1,0 +1,52 @@
+{
+  "$schema": "https://www.raycast.com/schemas/extension.json",
+  "name": "is-it-safe-to-delete",
+  "title": "Is It Safe to Delete?",
+  "description": "Check whether a folder on your Mac is safe to delete: a verdict, a short answer and how to clear it, for 93 folders from the open Mac Folder Atlas.",
+  "icon": "icon.png",
+  "author": "siftmac",
+  "categories": [
+    "System",
+    "Developer Tools"
+  ],
+  "license": "MIT",
+  "platforms": [
+    "macOS"
+  ],
+  "commands": [
+    {
+      "name": "search-folders",
+      "title": "Search Mac Folders",
+      "subtitle": "Is It Safe to Delete?",
+      "description": "Search the folders that fill Macs by name or by path, with a verdict, a short answer and how to clear each one.",
+      "mode": "view"
+    },
+    {
+      "name": "check-selected-folder",
+      "title": "Check Selected Folder",
+      "subtitle": "Is It Safe to Delete?",
+      "description": "Check the folders or files selected in Finder: is each one safe to delete, does it come back, and how to clear it.",
+      "mode": "view"
+    }
+  ],
+  "dependencies": {
+    "@raycast/api": "^2.13.1",
+    "@raycast/utils": "^2.3.3"
+  },
+  "devDependencies": {
+    "@raycast/eslint-config": "^2.2.0",
+    "@types/node": "26.6.5",
+    "@types/react": "19.3.0",
+    "eslint": "^10.15.0",
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.2"
+  },
+  "scripts": {
+    "build": "ray build",
+    "dev": "ray develop",
+    "fix-lint": "ray lint --fix",
+    "lint": "ray lint",
+    "prepublishOnly": "echo \"\\n\\nIt seems like you are trying to publish the Raycast extension to npm.\\n\\nIf you did intend to publish it to npm, remove the \\`prepublishOnly\\` script and rerun \\`npm publish\\` again.\\nIf you wanted to publish it to the Raycast Store instead, use \\`npm run publish\\` instead.\\n\\n\" && exit 1",
+    "publish": "npx @raycast/api@latest publish"
+  }
+}

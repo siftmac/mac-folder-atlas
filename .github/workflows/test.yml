@@ -21,3 +21,17 @@ jobs:
       - uses: actions/checkout@v4
       - name: shellcheck
         run: shellcheck -s sh src/folder-atlas.sh test/test.sh
+
+  raycast:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: raycast
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+      - name: Types, ESLint and Prettier (ray lint also checks the author against Raycast's store)
+        run: npx tsc --noEmit && npx eslint src && npx prettier --check src

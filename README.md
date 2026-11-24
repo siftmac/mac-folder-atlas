@@ -136,8 +136,9 @@ come back, answer "can I delete this?" in a chat bot or an AI assistant, or chec
 
 ## Raycast
 
-[`raycast/`](raycast) holds a Raycast extension, **Is It Safe to Delete?**: search the Atlas, or check the folder
-selected in Finder.
+[`raycast/`](raycast) holds a Raycast extension, **Is It Safe to Delete?**: search the Atlas by name or path, or check
+the folders selected in Finder. It's on its way to the Raycast Store; to try it now,
+`cd raycast && npm install && npm run dev`.
 
 ## Where the answers come from
 
