@@ -20,7 +20,6 @@
   "~/Library/Safari": {"verdict": "leave", "note": "Don’t delete `~/Library/Safari` to save space: it holds your bookmarks and history along with site data. Clear the cache from Safari’s own settings."},
   "~/Library/Containers/com.apple.Safari": {"verdict": "leave", "note": "Apple doesn’t document which file is which in Safari’s folders, so the safe route is Safari’s own settings, not the folders."},
   "~/Library/Application Support/Spotify": {"verdict": "leave", "note": "Don’t delete this folder to clear the cache: it’s Spotify’s data folder, so downloads and settings saved on this Mac would go with it. Use Clear cache in Spotify’s settings."},
-  "~/.vscode/extensions": {"verdict": "leave", "note": "Uninstall extensions you don’t use from VS Code. Only a folder for an older version of an extension, one VS Code no longer uses, can go by hand, with VS Code quit."},
   "~/Movies/iMovie Library.imovielibrary": {"verdict": "leave", "note": "That’s the whole iMovie library, a package iMovie manages. Delete render files with iMovie’s own Delete button: removing files inside by hand can break your projects."},
   "~/Movies/<library name>.fcpbundle": {"verdict": "leave", "note": "That’s the whole Final Cut Pro library. Delete render files from inside Final Cut Pro; don’t open the library and delete things inside by hand."}
  },

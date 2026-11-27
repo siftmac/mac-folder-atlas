@@ -4,8 +4,8 @@
  "homepage": "https://github.com/siftmac/mac-folder-atlas",
  "license": "CC-BY-4.0",
  "credit": "Mac Folder Atlas (siftmac.com)",
- "updated": "2026-11-21",
- "count": 93,
+ "updated": "2026-11-27",
+ "count": 142,
  "verdicts": {
   "rebuilds": {
    "label": "Rebuilds",
@@ -85,7 +85,56 @@
    "url": "https://siftmac.com/safe-to-delete/adobe-media-cache",
    "markdown_url": "https://siftmac.com/safe-to-delete/adobe-media-cache.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
+  },
+  {
+   "id": "aerial-wallpapers",
+   "name": "Aerial wallpaper videos",
+   "question": "Can I delete the aerial wallpaper videos (com.apple.idleassetsd)?",
+   "category": "macOS files",
+   "paths": [
+    "/Library/Application Support/com.apple.idleassetsd"
+   ],
+   "verdict": "rebuilds",
+   "verdict_label": "Rebuilds",
+   "answer": "**Yes, the videos.** The aerial clips in `/Library/Application Support/com.apple.idleassetsd/Customer` are downloads, not part of macOS.",
+   "summary": [
+    "**Yes, the videos.** The aerial clips in `/Library/Application Support/com.apple.idleassetsd/Customer` are downloads, not part of macOS. Removing the video files loses nothing you made.",
+    "**What it costs you:** the moving wallpaper and screen saver fall back to a still picture until the clip is fetched again. Leave the database and the small files beside the videos alone.",
+    "**Does it come back?** Yes, for whichever aerials your wallpaper or screen saver still uses. To keep the folder small, pick a still wallpaper and a screen saver that isn’t an aerial, and avoid Shuffle Aerials."
+   ],
+   "comes_back": "Yes, for whichever aerials your wallpaper or screen saver still uses. To keep the folder small, pick a still wallpaper and a screen saver that isn’t an aerial, and avoid Shuffle Aerials.",
+   "what": "The Wallpaper settings in recent versions of macOS offer slow-motion aerial videos of landscapes, cities, underwater scenes and the Earth, the same kind the Apple TV shows. A system helper called `idleassetsd` fetches them. Its manual page describes it as a helper for the TVIdleServices framework, used for asset downloading and privileged operations, and not meant to be run by hand.",
+   "measure": [
+    "du -sh \"/Library/Application Support/com.apple.idleassetsd\"\ndu -sh \"/Library/Application Support/com.apple.idleassetsd/Customer\"/*"
+   ],
+   "how_to_clear": "1. **Stop new downloads first.** Open System Settings › Wallpaper and choose a still picture or a colour. Then click Screen Saver and pick one that isn’t an aerial. If you want to keep one aerial, choose that single one and not Shuffle Aerials.\n2. **Open the folder.** In Finder choose Go › Go to Folder and paste `/Library/Application Support/com.apple.idleassetsd/Customer`.\n3. **Open the format folder that `du` showed as large** and move the video files in it to the Trash. Finder asks for an administrator’s password.\n4. **Leave everything else**: `Aerial.sqlite`, `snapshots`, `entries.json` and the other small files. They are how macOS knows which aerials exist.\n5. **Empty the Trash** to get the space back.\n\n> Don’t delete the whole `com.apple.idleassetsd` folder or its database to stop downloads. Changing the wallpaper and screen saver choice is the supported way.",
+   "clear_commands": [],
+   "sources": [
+    {
+     "title": "Apple: Customize the wallpaper on your Mac",
+     "url": "https://support.apple.com/guide/mac-help/customize-the-wallpaper-mchlp3013/mac"
+    },
+    {
+     "title": "Apple: Use a screen saver on your Mac",
+     "url": "https://support.apple.com/guide/mac-help/use-a-screen-saver-mchl4b68853d/mac"
+    }
+   ],
+   "see_also": [
+    "assetsv2",
+    "application-support",
+    "content-caching",
+    "siri-voices"
+   ],
+   "match": [
+    {
+     "glob": "/Library/Application Support/com.apple.idleassetsd"
+    }
+   ],
+   "url": "https://siftmac.com/safe-to-delete/aerial-wallpapers",
+   "markdown_url": "https://siftmac.com/safe-to-delete/aerial-wallpapers.md",
+   "published": "2026-11-26",
+   "updated": "2026-11-27"
   },
   {
    "id": "after-effects-disk-cache",
@@ -137,7 +186,7 @@
    "url": "https://siftmac.com/safe-to-delete/after-effects-disk-cache",
    "markdown_url": "https://siftmac.com/safe-to-delete/after-effects-disk-cache.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-26"
   },
   {
    "id": "android-emulators",
@@ -195,7 +244,7 @@
    "url": "https://siftmac.com/safe-to-delete/android-emulators",
    "markdown_url": "https://siftmac.com/safe-to-delete/android-emulators.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
   },
   {
    "id": "android-sdk",
@@ -253,7 +302,156 @@
    "url": "https://siftmac.com/safe-to-delete/android-sdk",
    "markdown_url": "https://siftmac.com/safe-to-delete/android-sdk.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
+  },
+  {
+   "id": "app-store-cache",
+   "name": "App Store cache",
+   "question": "Can I delete the App Store cache (com.apple.appstore)?",
+   "category": "Apple apps",
+   "paths": [
+    "~/Library/Caches/com.apple.appstoreagent",
+    "~/Library/Caches/com.apple.appstorecomponentsd",
+    "/private/var/folders/…/C/com.apple.AppStore"
+   ],
+   "verdict": "rebuilds",
+   "verdict_label": "Rebuilds",
+   "answer": "**Yes, but it rarely helps.**",
+   "summary": [
+    "**Yes, but it rarely helps.** The App Store’s caches hold store pages and lookups it can fetch again. On most Macs they add up to a few megabytes, so clearing them is a fix for a misbehaving store, not a way to free space.",
+    "**What it costs you:** the store reloads its pages the next time you open it. Your purchases, installed apps and Apple Account are not stored here.",
+    "**Does it come back?** Yes, as soon as the App Store or its background helpers run again."
+   ],
+   "comes_back": "Yes, as soon as the App Store or its background helpers run again.",
+   "what": "The App Store on a Mac is the app you see plus a few background helpers that do its work when the window is closed. On macOS 15 their launchd jobs are `com.apple.appstoreagent`, `com.apple.appstorecomponentsd` and `com.apple.appstored`. Each keeps a small cache under its own name:",
+   "measure": [
+    "du -sh ~/Library/Caches/com.apple.appstore* ~/Library/Caches/com.apple.commerce\ndu -sh \"$(getconf DARWIN_USER_CACHE_DIR)\"com.apple.[Aa]pp[Ss]tore*"
+   ],
+   "how_to_clear": "1. **Let downloads finish or cancel them** in the App Store, then quit the App Store with App Store › Quit App Store.\n2. **Try a restart first** if your aim is to fix a store that shows blank pages or stuck updates. It ends the helpers and gives them a clean start, with no files touched.\n3. **To clear the caches in your Library,** run the command below. It empties the folders and keeps the folders themselves.\n4. **Leave the set in `/private/var/folders` to macOS.** It is tiny, and macOS manages that area itself; see [var/folders](https://siftmac.com/safe-to-delete/var-folders).\n\n```\nrm -rf ~/Library/Caches/com.apple.appstoreagent/* ~/Library/Caches/com.apple.appstorecomponentsd/*\n```\n\n> The helpers keep running after the App Store window closes, so a database file may be in use when you clear it. Restart the Mac afterwards so they open fresh ones.",
+   "clear_commands": [
+    "rm -rf ~/Library/Caches/com.apple.appstoreagent/* ~/Library/Caches/com.apple.appstorecomponentsd/*"
+   ],
+   "sources": [
+    {
+     "title": "Apple: File System Programming Guide, File System Basics (the Caches directory)",
+     "url": "https://developer.apple.com/library/archive/documentation/FileManagement/Conceptual/FileSystemProgrammingGuide/FileSystemOverview/FileSystemOverview.html"
+    }
+   ],
+   "see_also": [
+    "library-caches",
+    "var-folders"
+   ],
+   "match": [
+    {
+     "glob": "~/Library/Caches/com.apple.appstoreagent"
+    },
+    {
+     "glob": "~/Library/Caches/com.apple.appstorecomponentsd"
+    },
+    {
+     "glob": "/private/var/folders/**/C/com.apple.AppStore"
+    }
+   ],
+   "url": "https://siftmac.com/safe-to-delete/app-store-cache",
+   "markdown_url": "https://siftmac.com/safe-to-delete/app-store-cache.md",
+   "published": "2026-11-26",
+   "updated": "2026-11-27"
+  },
+  {
+   "id": "apple-music-downloads",
+   "name": "Apple Music downloads",
+   "question": "Can I delete downloaded music in ~/Music/Music/Media?",
+   "category": "Apple apps",
+   "paths": [
+    "~/Music/Music/Media"
+   ],
+   "verdict": "decide",
+   "verdict_label": "You decide",
+   "answer": "**Yes, with Remove Download.**",
+   "summary": [
+    "**Yes, with Remove Download.** Songs saved from the Apple Music catalogue for offline listening are copies. Removing the download keeps the song in your library and frees its space.",
+    "**What it costs you:** those songs play only when the Mac is online. Songs you ripped from CDs or added as files are not downloads, and deleting them can lose your only copy.",
+    "**Does it come back?** Only when you download the song again."
+   ],
+   "comes_back": "Only when you download the song again.",
+   "what": "The Music app keeps its audio in one media folder. Three different things end up in it, and they call for different answers:",
+   "measure": [
+    "du -sh ~/Music/Music/Media*\ndu -sh ~/Music/Music/Media*/Music/* 2>/dev/null | sort -h | tail -10"
+   ],
+   "how_to_clear": "These are Apple’s steps on a Mac:\n\n1. Open the Apple Music app.\n2. In the sidebar, click Songs or Albums.\n3. Click the More button next to a song, or move the pointer over an album and click More there.\n4. Choose Remove Download.\n\nApple describes the result: the download is removed from only your Mac, and music from the Apple Music catalogue still appears in your library but can be played only when your Mac is connected to the internet.\n\nThe other command in that menu, Delete from Library, takes the music out of your library and playlists, and with Sync Library on it is removed from your other devices too. That is rarely what you want when the aim is disk space.\n\n> Before touching music you imported yourself, copy `~/Music/Music` to a backup drive. And don’t delete files from `Media` in Finder: the app goes on listing songs it can no longer find.",
+   "clear_commands": [],
+   "sources": [
+    {
+     "title": "Apple: Delete music in the Apple Music app",
+     "url": "https://support.apple.com/en-us/102344"
+    },
+    {
+     "title": "Apple: Change where your music files are stored on Mac",
+     "url": "https://support.apple.com/guide/music/change-where-music-files-are-stored-mus69248042d/mac"
+    }
+   ],
+   "see_also": [
+    "tv-app-downloads",
+    "podcasts-downloads",
+    "garageband-logic-sound-library"
+   ],
+   "match": [
+    {
+     "glob": "~/Music/Music/Media"
+    }
+   ],
+   "url": "https://siftmac.com/safe-to-delete/apple-music-downloads",
+   "markdown_url": "https://siftmac.com/safe-to-delete/apple-music-downloads.md",
+   "published": "2026-11-27",
+   "updated": "2026-11-27"
+  },
+  {
+   "id": "application-scripts",
+   "name": "Application Scripts folder",
+   "question": "Can I delete the Application Scripts folder in my Library?",
+   "category": "Library and system",
+   "paths": [
+    "~/Library/Application Scripts"
+   ],
+   "verdict": "leave",
+   "verdict_label": "Leave it",
+   "answer": "**No point.** The folder holds hundreds of subfolders, but almost all of them are empty.",
+   "summary": [
+    "**No point.** The folder holds hundreds of subfolders, but almost all of them are empty. On the Mac this page was checked on, 722 of them added up to zero bytes.",
+    "**What it costs you:** any script you or an app’s setup placed there would stop working, and the app feature that ran it with it.",
+    "**Does it come back?** Yes. macOS makes an app’s folder again when the app next asks for it."
+   ],
+   "comes_back": "Yes. macOS makes an app’s folder again when the app next asks for it.",
+   "what": "Apps from the App Store, and many others, run in a sandbox: macOS limits which files they can reach and what they can run. A sandboxed app can’t simply run any script on your disk. Apple gives developers one approved route, a class called `NSUserScriptTask`, which Apple’s documentation says is intended to execute user-supplied scripts and will execute them outside of the application’s sandbox.",
+   "measure": [
+    "du -sh ~/Library/Application\\ Scripts\nfind ~/Library/Application\\ Scripts -mindepth 2 -maxdepth 2 | head -20"
+   ],
+   "how_to_clear": "This folder turns up in clean-up advice because it looks cluttered, with a folder for every app you have ever opened, including ones long since removed. But clutter in a hidden folder costs nothing, and there are two small risks in clearing it:\n\n- A script inside one of the folders is something you, or an app’s installer, put there on purpose. Remove it and the feature that ran it stops, often without an error.\n- Apps expect their folder to exist. macOS recreates it, but only when the app asks.\n\nIf what you want is to remove the traces of an app you’ve uninstalled, its empty folder here is the least of them. The app’s data is in `Containers`, `Group Containers` and [`Application Support`](https://siftmac.com/safe-to-delete/application-support): see [how to delete apps completely](https://siftmac.com/guides/delete-apps-completely-on-mac). If you do tidy an old app’s folder here, run the `find` command first and move only that one folder to the Trash.",
+   "clear_commands": [],
+   "sources": [
+    {
+     "title": "Apple Developer: NSUserScriptTask",
+     "url": "https://developer.apple.com/documentation/foundation/nsuserscripttask"
+    },
+    {
+     "title": "Apple Developer: FileManager.SearchPathDirectory.applicationScriptsDirectory",
+     "url": "https://developer.apple.com/documentation/foundation/filemanager/searchpathdirectory/applicationscriptsdirectory"
+    }
+   ],
+   "see_also": [
+    "containers",
+    "group-containers",
+    "application-support"
+   ],
+   "match": [
+    {
+     "glob": "~/Library/Application Scripts"
+    }
+   ],
+   "url": "https://siftmac.com/safe-to-delete/application-scripts",
+   "markdown_url": "https://siftmac.com/safe-to-delete/application-scripts.md",
+   "published": "2026-11-27",
+   "updated": "2026-11-27"
   },
   {
    "id": "application-support",
@@ -291,7 +489,8 @@
    ],
    "see_also": [
     "containers",
-    "preferences-plist-files"
+    "preferences-plist-files",
+    "aerial-wallpapers"
    ],
    "match": [
     {
@@ -304,7 +503,7 @@
    "url": "https://siftmac.com/safe-to-delete/application-support",
    "markdown_url": "https://siftmac.com/safe-to-delete/application-support.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-26"
   },
   {
    "id": "assetsv2",
@@ -340,7 +539,9 @@
     }
    ],
    "see_also": [
-    "dyld-cache"
+    "dyld-cache",
+    "aerial-wallpapers",
+    "preboot-volume"
    ],
    "match": [
     {
@@ -350,7 +551,50 @@
    "url": "https://siftmac.com/safe-to-delete/assetsv2",
    "markdown_url": "https://siftmac.com/safe-to-delete/assetsv2.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-26"
+  },
+  {
+   "id": "biome",
+   "name": "Biome folder",
+   "question": "Can I delete the Biome folder in my Mac’s Library?",
+   "category": "Library and system",
+   "paths": [
+    "~/Library/Biome"
+   ],
+   "verdict": "leave",
+   "verdict_label": "Leave it",
+   "answer": "**Leave it.** Biome is the store macOS uses to build suggestions from how you use your Mac.",
+   "summary": [
+    "**Leave it.** Biome is the store macOS uses to build suggestions from how you use your Mac. It is normally around 150 MB, and its own background services keep it in order.",
+    "**What it costs you:** nothing you made is in there, so clearing it shouldn’t lose data, but macOS forgets the patterns its suggestions are based on and starts collecting again.",
+    "**Does it come back?** Yes. The Biome services recreate what they need while you work."
+   ],
+   "comes_back": "Yes. The Biome services recreate what they need while you work.",
+   "what": "The name suggests fingerprints or Face ID. It has nothing to do with either. Howard Oakley of The Eclectic Light Company, who has looked at it more closely than anyone outside Apple, describes Biome as a subsystem that compiles contextual suggestions: it works with Siri Suggestions and with `suggestd`, the service that picks contacts, events and names out of your content. He dates it to around macOS Catalina, with much more activity from Monterey on.",
+   "measure": [
+    "du -sh ~/Library/Biome\ndu -sh ~/Library/Biome/* | sort -h"
+   ],
+   "how_to_clear": "At its usual size there’s nothing to gain. Apple gives no setting for its size and no button to clear it, and the files are in use by services that run all the time. If yours is far larger than normal, work up from the gentlest step:\n\n1. **Restart the Mac.** Oakley reports that Biome is robust and that runaway processor use by its services is usually put right by a restart.\n2. **Install any waiting macOS update**, in case the fault has been fixed since.\n3. **Measure again after a day or two** with the `du` lines above, to see whether it is still growing.\n4. **Only as a last resort**, with a current backup, remove what is inside `~/Library/Biome` and restart. Oakley’s view is that deleting the folder’s contents shouldn’t result in data loss. Keep the `Biome` folder itself.\n\n> Starting up in Safe Mode doesn’t shrink it. Oakley points out that Biome’s folders are maintained by Biome and aren’t treated as a cache.",
+   "clear_commands": [],
+   "sources": [
+    {
+     "title": "Howard Oakley, The Eclectic Light Company: Biome isn’t about biometrics, but suggestions",
+     "url": "https://eclecticlight.co/2022/06/27/biome-isnt-about-biometrics-but-suggestions/"
+    }
+   ],
+   "see_also": [
+    "core-spotlight-metadata",
+    "application-support"
+   ],
+   "match": [
+    {
+     "glob": "~/Library/Biome"
+    }
+   ],
+   "url": "https://siftmac.com/safe-to-delete/biome",
+   "markdown_url": "https://siftmac.com/safe-to-delete/biome.md",
+   "published": "2026-11-27",
+   "updated": "2026-11-27"
   },
   {
    "id": "bun-cache",
@@ -448,7 +692,8 @@
    ],
    "see_also": [
     "rust-target-folder",
-    "go-module-cache"
+    "go-module-cache",
+    "rustup-toolchains"
    ],
    "match": [
     {
@@ -461,7 +706,63 @@
    "url": "https://siftmac.com/safe-to-delete/cargo-registry",
    "markdown_url": "https://siftmac.com/safe-to-delete/cargo-registry.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
+  },
+  {
+   "id": "chatgpt-app-data",
+   "name": "ChatGPT app data",
+   "question": "Is it safe to delete the ChatGPT app’s data on a Mac?",
+   "category": "AI tools",
+   "paths": [
+    "~/Library/Application Support/Codex",
+    "~/Library/Application Support/com.openai.codex",
+    "~/Library/Caches/com.openai.codex"
+   ],
+   "verdict": "decide",
+   "verdict_label": "You decide",
+   "answer": "**Yes, for the caches.**",
+   "summary": [
+    "**Yes, for the caches.** They refill. The app’s support folders are safe to remove too if you accept setting the app up again, because OpenAI keeps your conversations in your account, not only on this Mac.",
+    "**What it costs you:** expect to sign in again and to lose whatever the app remembered locally. `~/.codex` is different: it holds Codex sessions and settings, and those are yours.",
+    "**Does it come back?** The folders are made again the next time the app opens. Your chats reappear because they were never only local."
+   ],
+   "comes_back": "The folders are made again the next time the app opens. Your chats reappear because they were never only local.",
+   "what": "There are two ChatGPT apps for the Mac. OpenAI’s help centre says the new ChatGPT desktop app combines Chat, Work and Codex, and that the previous app has been renamed ChatGPT Classic and is still supported. Each keeps its own folders.",
+   "measure": [
+    "du -sh ~/Library/\"Application Support\"/Codex ~/Library/\"Application Support\"/OpenAI ~/Library/Caches/Codex ~/Library/Caches/com.openai.codex ~/.codex 2>/dev/null"
+   ],
+   "how_to_clear": "1. Open chatgpt.com in a browser and confirm your conversations are listed. That is your proof they don’t depend on this Mac.\n2. Stop anything the app is running, such as a Codex task working on local files.\n3. Quit ChatGPT with `⌘Q`. Quit it from the menu bar as well if it has an icon there.\n4. In Finder, move the two folders in `~/Library/Caches` to the Trash. This is the low-cost step and is often enough.\n5. Only if you want a full reset, move the Application Support folders to the Trash too.\n\n> Leave `~/.codex` out of this unless you have read what is in it. And if you are removing the app for good, follow [the uninstall steps](https://siftmac.com/uninstall/chatgpt-app), which cover preferences and the other leftovers.\n\nThe Trash is the right tool here. Nothing is gone until you empty it, so open the app once, check it works, and then empty it.",
+   "clear_commands": [],
+   "sources": [
+    {
+     "title": "OpenAI Help Center: Using the ChatGPT macOS app",
+     "url": "https://help.openai.com/en/articles/9275200-using-the-chatgpt-macos-app"
+    },
+    {
+     "title": "OpenAI Help Center: Chat and file retention policies in ChatGPT",
+     "url": "https://help.openai.com/en/articles/8983778-chat-and-file-retention-policies-in-chatgpt"
+    }
+   ],
+   "see_also": [
+    "codex-folder",
+    "claude-desktop-data",
+    "library-caches"
+   ],
+   "match": [
+    {
+     "glob": "~/Library/Application Support/Codex"
+    },
+    {
+     "glob": "~/Library/Application Support/com.openai.codex"
+    },
+    {
+     "glob": "~/Library/Caches/com.openai.codex"
+    }
+   ],
+   "url": "https://siftmac.com/safe-to-delete/chatgpt-app-data",
+   "markdown_url": "https://siftmac.com/safe-to-delete/chatgpt-app-data.md",
+   "published": "2026-11-27",
+   "updated": "2026-11-27"
   },
   {
    "id": "chrome-cache",
@@ -504,7 +805,8 @@
    "see_also": [
     "chrome-on-device-ai-model",
     "safari-cache",
-    "firefox-cache"
+    "firefox-cache",
+    "chrome-code-sign-clone"
    ],
    "match": [
     {
@@ -517,7 +819,57 @@
    "url": "https://siftmac.com/safe-to-delete/chrome-cache",
    "markdown_url": "https://siftmac.com/safe-to-delete/chrome-cache.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-26"
+  },
+  {
+   "id": "chrome-code-sign-clone",
+   "name": "Chrome’s code_sign_clone",
+   "question": "Is it safe to delete com.google.Chrome.code_sign_clone?",
+   "category": "Browsers",
+   "paths": [
+    "/private/var/folders/…/X/com.google.Chrome.code_sign_clone"
+   ],
+   "verdict": "rebuilds",
+   "verdict_label": "Rebuilds",
+   "answer": "**Mostly, but let Chrome do it.**",
+   "summary": [
+    "**Mostly, but let Chrome do it.** The folder holds a clone of the Chrome app that Chrome makes each time it starts and removes when it quits. Quit Chrome fully and it goes; restart the Mac and leftovers go too.",
+    "**What it costs you:** nothing of yours is in it. Don’t delete it while Chrome is open, because the running browser is using those files.",
+    "**Does it come back?** Yes, at every launch. The gigabytes shown for it are mostly not extra space: the clone shares its data with the Chrome app in Applications."
+   ],
+   "comes_back": "Yes, at every launch. The gigabytes shown for it are mostly not extra space: the clone shares its data with the Chrome app in Applications.",
+   "what": "Chromium’s own source code explains it, in the files `code_sign_clone_manager.h` and `.mm`. When Chrome starts, it makes a temporary copy-on-write clone of its whole app bundle with the APFS call `clonefile()`, then replaces the main program inside the clone with a hard link to the real one.",
+   "measure": [
+    "du -sh \"$(dirname \"$(getconf DARWIN_USER_DIR)\")/X/com.google.Chrome.code_sign_clone\""
+   ],
+   "how_to_clear": "1. **Quit Chrome completely** with Chrome › Quit Google Chrome, not just by closing its windows. On exit Chrome starts a small helper that waits for the browser to end and then deletes that copy’s clone.\n2. **Check the folder again** with the `ls` command above. If it is empty or gone, you are done.\n3. **Restart the Mac if old clones remain.** Chromium’s source notes that this `X` folder is cleaned when the machine boots.\n4. **Only if you can’t restart:** with Chrome and every other Google app closed, remove the leftovers. The path is inside your own account’s folder, so no password is needed.\n\n```\nrm -rf \"$(dirname \"$(getconf DARWIN_USER_DIR)\")/X/com.google.Chrome.code_sign_clone\"/*\n```\n\n> Never run that while Chrome is open. The source says that without a working clone, code signature validation of the running browser may fail later, and that lasts until you relaunch.",
+   "clear_commands": [
+    "rm -rf \"$(dirname \"$(getconf DARWIN_USER_DIR)\")/X/com.google.Chrome.code_sign_clone\"/*"
+   ],
+   "sources": [
+    {
+     "title": "Chromium source: code_sign_clone_manager.h",
+     "url": "https://github.com/chromium/chromium/blob/main/chrome/browser/mac/code_sign_clone_manager.h"
+    },
+    {
+     "title": "Chromium source: code_sign_clone_manager.mm",
+     "url": "https://github.com/chromium/chromium/blob/main/chrome/browser/mac/code_sign_clone_manager.mm"
+    }
+   ],
+   "see_also": [
+    "var-folders",
+    "chrome-cache",
+    "chrome-on-device-ai-model"
+   ],
+   "match": [
+    {
+     "glob": "/private/var/folders/**/X/com.google.Chrome.code_sign_clone"
+    }
+   ],
+   "url": "https://siftmac.com/safe-to-delete/chrome-code-sign-clone",
+   "markdown_url": "https://siftmac.com/safe-to-delete/chrome-code-sign-clone.md",
+   "published": "2026-11-26",
+   "updated": "2026-11-27"
   },
   {
    "id": "chrome-on-device-ai-model",
@@ -553,7 +905,8 @@
     }
    ],
    "see_also": [
-    "chrome-cache"
+    "chrome-cache",
+    "chrome-code-sign-clone"
    ],
    "match": [
     {
@@ -563,7 +916,7 @@
    "url": "https://siftmac.com/safe-to-delete/chrome-on-device-ai-model",
    "markdown_url": "https://siftmac.com/safe-to-delete/chrome-on-device-ai-model.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-26"
   },
   {
    "id": "claude-code-folder",
@@ -609,7 +962,8 @@
    ],
    "see_also": [
     "codex-folder",
-    "cursor-update-cache"
+    "cursor-update-cache",
+    "claude-desktop-data"
    ],
    "match": [
     {
@@ -625,7 +979,69 @@
    "url": "https://siftmac.com/safe-to-delete/claude-code-folder",
    "markdown_url": "https://siftmac.com/safe-to-delete/claude-code-folder.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
+  },
+  {
+   "id": "claude-desktop-data",
+   "name": "Claude desktop app data",
+   "question": "Is it safe to delete ~/Library/Application Support/Claude?",
+   "category": "AI tools",
+   "paths": [
+    "~/Library/Application Support/Claude",
+    "~/Library/Application Support/Claude/claude_desktop_config.json",
+    "~/Library/Logs/Claude"
+   ],
+   "verdict": "decide",
+   "verdict_label": "You decide",
+   "answer": "**Partly.** The cache folders inside it are safe to clear with Claude quit, and they are usually the bulk of it.",
+   "summary": [
+    "**Partly.** The cache folders inside it are safe to clear with Claude quit, and they are usually the bulk of it. The folder as a whole is not a cache: it also holds `claude_desktop_config.json`, where your local MCP servers are set up.",
+    "**What it costs you:** clearing caches costs a slower first launch. Deleting everything costs your MCP server setup, the app’s local state and any task folders it kept, and you should expect to sign in again.",
+    "**Does it come back?** Caches, yes. A config file you wrote by hand, no."
+   ],
+   "comes_back": "Caches, yes. A config file you wrote by hand, no.",
+   "what": "This is the data folder of Claude, Anthropic’s desktop app. It is a different thing from `~/.claude`, which belongs to Claude Code and has [its own page](https://siftmac.com/safe-to-delete/claude-code-folder). Anthropic documents one file in it by name: the MCP guide gives `~/Library/Application Support/Claude/claude_desktop_config.json` as the place the app reads local MCP servers from, and `~/Library/Logs/Claude` as where it writes MCP logs.",
+   "measure": [
+    "du -sh ~/Library/Application\\ Support/Claude/* 2>/dev/null | sort -h | tail -15\ndu -sh ~/Library/Logs/Claude"
+   ],
+   "how_to_clear": "1. Copy `claude_desktop_config.json` somewhere safe if you set up MCP servers. It is small and it is the one file you can’t get back.\n2. Quit the app first: Claude › Quit Claude (`⌘Q`). A window closed is not the app quit.\n3. Clear the contents of the cache folders only, and leave every other item where it is.\n\n```\nrm -rf ~/Library/Application\\ Support/Claude/Cache/*\nrm -rf ~/Library/Application\\ Support/Claude/\"Code Cache\"/*\nrm -rf ~/Library/Application\\ Support/Claude/GPUCache/*\n```\n\nThe MCP logs in `~/Library/Logs/Claude` (`mcp.log` and one `mcp-server-NAME.log` per server) are only for troubleshooting and can go to the Trash once a server works.\n\n> Be careful with `scratch-workspaces` and the two sessions folders. They can hold files from tasks you ran. Open them and look before deleting, and don’t remove one that belongs to a task still listed in the app.",
+   "clear_commands": [
+    "rm -rf ~/Library/Application\\ Support/Claude/Cache/*\nrm -rf ~/Library/Application\\ Support/Claude/\"Code Cache\"/*\nrm -rf ~/Library/Application\\ Support/Claude/GPUCache/*"
+   ],
+   "sources": [
+    {
+     "title": "Model Context Protocol: Connect to local MCP servers (config file and log locations for Claude Desktop)",
+     "url": "https://modelcontextprotocol.io/docs/develop/connect-local-servers"
+    },
+    {
+     "title": "Claude Help Center: Getting started with local MCP servers on Claude Desktop",
+     "url": "https://support.claude.com/en/articles/10949351-getting-started-with-local-mcp-servers-on-claude-desktop"
+    },
+    {
+     "title": "Claude Code Docs: Desktop app",
+     "url": "https://code.claude.com/docs/en/desktop"
+    }
+   ],
+   "see_also": [
+    "claude-code-folder",
+    "cursor-update-cache",
+    "application-support"
+   ],
+   "match": [
+    {
+     "glob": "~/Library/Application Support/Claude"
+    },
+    {
+     "glob": "~/Library/Application Support/Claude/claude_desktop_config.json"
+    },
+    {
+     "glob": "~/Library/Logs/Claude"
+    }
+   ],
+   "url": "https://siftmac.com/safe-to-delete/claude-desktop-data",
+   "markdown_url": "https://siftmac.com/safe-to-delete/claude-desktop-data.md",
+   "published": "2026-11-27",
+   "updated": "2026-11-27"
   },
   {
    "id": "cocoapods-cache",
@@ -634,8 +1050,7 @@
    "category": "Package caches",
    "paths": [
     "~/Library/Caches/CocoaPods",
-    "~/.cocoapods/repos",
-    "<project>/Pods"
+    "~/.cocoapods/repos"
    ],
    "verdict": "rebuilds",
    "verdict_label": "Rebuilds",
@@ -680,7 +1095,9 @@
    ],
    "see_also": [
     "swift-package-manager-cache",
-    "xcode-archives"
+    "xcode-archives",
+    "cocoapods-pods-folder",
+    "ruby-gems-and-rbenv"
    ],
    "match": [
     {
@@ -688,16 +1105,66 @@
     },
     {
      "glob": "~/.cocoapods/repos"
-    },
-    {
-     "glob": "**/Pods",
-     "beside": "Podfile"
     }
    ],
    "url": "https://siftmac.com/safe-to-delete/cocoapods-cache",
    "markdown_url": "https://siftmac.com/safe-to-delete/cocoapods-cache.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
+  },
+  {
+   "id": "cocoapods-pods-folder",
+   "name": "A project’s Pods folder",
+   "question": "Is it safe to delete a project’s Pods folder?",
+   "category": "Project folders",
+   "paths": [
+    "<project>/Pods"
+   ],
+   "verdict": "rebuilds",
+   "verdict_label": "Rebuilds",
+   "answer": "**Yes**, if the project has its `Podfile` and `Podfile.lock`.",
+   "summary": [
+    "**Yes**, if the project has its `Podfile` and `Podfile.lock`. `pod install` reads them and puts the same pod versions back.",
+    "**What it costs you:** the project won’t build until `pod install` has run, and that needs the network unless the pods are still in CocoaPods’ own cache.",
+    "**Does it come back?** Not by itself. You run `pod install` in the project folder."
+   ],
+   "comes_back": "Not by itself. You run `pod install` in the project folder.",
+   "what": "`pod install` downloads every dependency named in the `Podfile` and creates an Xcode Pods library project in `./Pods`. The folder holds the source or binaries of each pod, a `Pods.xcodeproj` that builds them, and support files that wire them into your targets. It also creates or updates the `.xcworkspace` you open in Xcode.",
+   "measure": [
+    "du -sh ~/Projects/MyApp/Pods\nfind ~/Projects -type d -name Pods -prune -exec du -sh {} + 2>/dev/null | sort -h"
+   ],
+   "how_to_clear": "1. Quit Xcode, or at least close the project’s workspace.\n2. Check that `Podfile` and `Podfile.lock` are there, and run `git status` to see whether Pods is tracked.\n3. Remove the folder.\n\n```\ncd ~/Projects/MyApp\nls Podfile Podfile.lock\nrm -rf \"$HOME/Projects/MyApp/Pods\"\n```\n\n`pod deintegrate` is a different tool for a different job: it removes all traces of CocoaPods from the Xcode project. Use it when you are leaving CocoaPods, not to free space.",
+   "clear_commands": [
+    "cd ~/Projects/MyApp\nls Podfile Podfile.lock\nrm -rf \"$HOME/Projects/MyApp/Pods\""
+   ],
+   "sources": [
+    {
+     "title": "CocoaPods Guides: Using CocoaPods",
+     "url": "https://guides.cocoapods.org/using/using-cocoapods.html"
+    },
+    {
+     "title": "CocoaPods Guides: pod install vs. pod update",
+     "url": "https://guides.cocoapods.org/using/pod-install-vs-update.html"
+    },
+    {
+     "title": "CocoaPods Guides: Command-line reference",
+     "url": "https://guides.cocoapods.org/terminal/commands.html"
+    }
+   ],
+   "see_also": [
+    "cocoapods-cache",
+    "swift-package-manager-cache"
+   ],
+   "match": [
+    {
+     "glob": "**/Pods",
+     "beside": "Podfile"
+    }
+   ],
+   "url": "https://siftmac.com/safe-to-delete/cocoapods-pods-folder",
+   "markdown_url": "https://siftmac.com/safe-to-delete/cocoapods-pods-folder.md",
+   "published": "2026-11-27",
+   "updated": "2026-11-27"
   },
   {
    "id": "codex-folder",
@@ -743,7 +1210,8 @@
    ],
    "see_also": [
     "claude-code-folder",
-    "cursor-extensions"
+    "cursor-extensions",
+    "chatgpt-app-data"
    ],
    "match": [
     {
@@ -759,7 +1227,148 @@
    "url": "https://siftmac.com/safe-to-delete/codex-folder",
    "markdown_url": "https://siftmac.com/safe-to-delete/codex-folder.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
+  },
+  {
+   "id": "colima-lima-orbstack",
+   "name": "Colima, Lima and OrbStack data",
+   "question": "Is it safe to delete ~/.colima, ~/.lima or OrbStack’s data?",
+   "category": "Developer tools",
+   "paths": [
+    "~/.colima",
+    "~/.lima",
+    "~/Library/Group Containers/HUAQ24HBR6.dev.orbstack",
+    "~/.orbstack"
+   ],
+   "verdict": "decide",
+   "verdict_label": "You decide",
+   "answer": "**Only on purpose.** These folders are virtual machines.",
+   "summary": [
+    "**Only on purpose.** These folders are virtual machines. Inside them are your containers, images and volumes, and volumes can hold databases that exist nowhere else.",
+    "**What it costs you:** images can be pulled or built again. Volume data cannot.",
+    "**Does it come back?** The tool creates a fresh, empty VM next time it starts. Usually the better move is to prune inside the VM and delete nothing."
+   ],
+   "comes_back": "The tool creates a fresh, empty VM next time it starts. Usually the better move is to prune inside the VM and delete nothing.",
+   "what": "Docker containers need Linux, so on a Mac every container tool runs a Linux virtual machine and stores that machine’s disk as files in your home folder. All three of these do the same job as Docker Desktop’s [Docker.raw](https://siftmac.com/safe-to-delete/docker-raw).",
+   "measure": [
+    "du -sh ~/.colima ~/.lima ~/.orbstack \"$HOME/Library/Group Containers/HUAQ24HBR6.dev.orbstack\" 2>/dev/null",
+    "docker system df"
+   ],
+   "how_to_clear": "### First, prune inside the VM\n\n`docker system prune` removes stopped containers, unused networks and dangling images without touching volumes. Colima’s FAQ says space freed this way is released to macOS when Colima next starts (version 0.5.0 and later), so restart it afterwards. OrbStack’s disk shrinks without a restart.\n\n```\ndocker system prune\ncolima stop && colima start\n```\n\n### Colima: delete a VM\n\n`colima list` shows your profiles. `colima delete` removes the VM but, by default, preserves container data (images and volumes), which is restored when the profile is started again with the same runtime. Add `--data` to delete the instance and all of that data too.\n\n```\ncolima list\ncolima delete\ncolima delete --data\n```\n\n### Lima: delete an instance\n\n```\nlimactl delete INSTANCE\nlimactl prune\n```\n\nReplace `INSTANCE` with the name of a folder in `~/.lima`. `limactl prune` clears Lima’s download cache.\n\n### OrbStack: remove all data\n\nOrbStack’s docs say to uninstall by deleting the app from Applications, and to remove all data by deleting two directories. Quit OrbStack first. This erases every container, image, volume and Linux machine in it.\n\n```\nrm -rf \"$HOME/.orbstack\" \"$HOME/Library/Group Containers/HUAQ24HBR6.dev.orbstack\"\n```",
+   "clear_commands": [
+    "docker system prune\ncolima stop && colima start",
+    "colima list\ncolima delete\ncolima delete --data",
+    "limactl delete INSTANCE\nlimactl prune",
+    "rm -rf \"$HOME/.orbstack\" \"$HOME/Library/Group Containers/HUAQ24HBR6.dev.orbstack\""
+   ],
+   "sources": [
+    {
+     "title": "Colima: Commands (delete, list, prune)",
+     "url": "https://colima.run/docs/commands/"
+    },
+    {
+     "title": "Colima FAQ (disk space, data, file locations)",
+     "url": "https://github.com/abiosoft/colima/blob/main/docs/FAQ.md"
+    },
+    {
+     "title": "Lima: Internal data structure (~/.lima, cache)",
+     "url": "https://lima-vm.io/docs/dev/internals/"
+    },
+    {
+     "title": "Lima: limactl delete",
+     "url": "https://lima-vm.io/docs/reference/limactl_delete/"
+    },
+    {
+     "title": "OrbStack Docs: FAQ (data storage, sparse data.img)",
+     "url": "https://docs.orbstack.dev/faq"
+    },
+    {
+     "title": "OrbStack Docs: Install and uninstall",
+     "url": "https://docs.orbstack.dev/install"
+    }
+   ],
+   "see_also": [
+    "docker-raw",
+    "minikube-and-kube-cache"
+   ],
+   "match": [
+    {
+     "glob": "~/.colima"
+    },
+    {
+     "glob": "~/.lima"
+    },
+    {
+     "glob": "~/Library/Group Containers/HUAQ24HBR6.dev.orbstack"
+    },
+    {
+     "glob": "~/.orbstack"
+    }
+   ],
+   "url": "https://siftmac.com/safe-to-delete/colima-lima-orbstack",
+   "markdown_url": "https://siftmac.com/safe-to-delete/colima-lima-orbstack.md",
+   "published": "2026-11-27",
+   "updated": "2026-11-27"
+  },
+  {
+   "id": "comfyui-models",
+   "name": "ComfyUI models",
+   "question": "Is it safe to delete ComfyUI’s models folder?",
+   "category": "AI tools",
+   "paths": [
+    "ComfyUI/models/checkpoints",
+    "ComfyUI/models/loras",
+    "ComfyUI/models/vae",
+    "~/ComfyUI-Shared"
+   ],
+   "verdict": "decide",
+   "verdict_label": "You decide",
+   "answer": "**Yes, one by one.**",
+   "summary": [
+    "**Yes, one by one.** Each file in ComfyUI’s `models` folder is a model you downloaded and placed there. ComfyUI runs fine without any single one of them, but it will not fetch a replacement for you.",
+    "**What it costs you:** every workflow that loads a deleted model stops working until you download that exact file again. Models you merged or trained yourself have no download to go back to.",
+    "**Does it come back?** No. ComfyUI’s documentation notes that model files are not included with the app; you put them there, and you would have to do it again."
+   ],
+   "comes_back": "No. ComfyUI’s documentation notes that model files are not included with the app; you put them there, and you would have to do it again.",
+   "what": "ComfyUI is a node-based app for running image, video and audio generation models locally. The app itself is small. The weight comes from the models, which ComfyUI’s documentation says are often many gigabytes each and are never bundled with the install.",
+   "measure": [
+    "du -sh ~/ComfyUI-Shared/models/* 2>/dev/null | sort -h\ndu -sh ~/path/to/ComfyUI/models/* | sort -h\ndu -sh ~/path/to/ComfyUI/models/checkpoints/* | sort -h"
+   ],
+   "how_to_clear": "ComfyUI’s documentation describes where models go, not a command for removing them, so this is done in Finder.\n\n1. Quit ComfyUI, or stop the server in Terminal, so no model is loaded.\n2. Open the `models` folder and sort the subfolder you care about by size.\n3. Check where each large file came from. Note the download page for any you might want back.\n4. Move the files you no longer use to the Trash. Leave the subfolders themselves in place.\n5. Start ComfyUI and open the workflows you rely on before emptying the Trash.\n\n> Using the Trash rather than `rm` matters here. If a workflow turns out to need a file, you can put it back instead of waiting for a multi-gigabyte download.\n\nIf the same checkpoint is in two installs, don’t keep both copies. Keep one and point the other install at it with `extra_model_paths.yaml`, then restart ComfyUI so it reads the file.",
+   "clear_commands": [],
+   "sources": [
+    {
+     "title": "ComfyUI documentation: Models (folders by type, extra_model_paths.yaml)",
+     "url": "https://docs.comfy.org/development/core-concepts/models"
+    },
+    {
+     "title": "ComfyUI documentation: Desktop on macOS (install, shared and settings folders)",
+     "url": "https://docs.comfy.org/installation/desktop/macos"
+    }
+   ],
+   "see_also": [
+    "diffusionbee-models",
+    "hugging-face-cache",
+    "lm-studio-models"
+   ],
+   "match": [
+    {
+     "glob": "**/ComfyUI/models/checkpoints"
+    },
+    {
+     "glob": "**/ComfyUI/models/loras"
+    },
+    {
+     "glob": "**/ComfyUI/models/vae"
+    },
+    {
+     "glob": "~/ComfyUI-Shared"
+    }
+   ],
+   "url": "https://siftmac.com/safe-to-delete/comfyui-models",
+   "markdown_url": "https://siftmac.com/safe-to-delete/comfyui-models.md",
+   "published": "2026-11-27",
+   "updated": "2026-11-27"
   },
   {
    "id": "conda-packages",
@@ -814,7 +1423,8 @@
    "see_also": [
     "pip-cache",
     "python-venv",
-    "uv-cache"
+    "uv-cache",
+    "nltk-and-keras-data"
    ],
    "match": [
     {
@@ -830,7 +1440,7 @@
    "url": "https://siftmac.com/safe-to-delete/conda-packages",
    "markdown_url": "https://siftmac.com/safe-to-delete/conda-packages.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
   },
   {
    "id": "containers",
@@ -882,7 +1492,186 @@
    "url": "https://siftmac.com/safe-to-delete/containers",
    "markdown_url": "https://siftmac.com/safe-to-delete/containers.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-26"
+  },
+  {
+   "id": "content-caching",
+   "name": "Content Caching data",
+   "question": "Can I delete /Library/Application Support/Apple/AssetCache?",
+   "category": "macOS files",
+   "paths": [
+    "/Library/Application Support/Apple/AssetCache",
+    "/Library/Application Support/Apple/AssetCache/Data"
+   ],
+   "verdict": "rebuilds",
+   "verdict_label": "Rebuilds",
+   "answer": "**Yes, with the Reset button.**",
+   "summary": [
+    "**Yes, with the Reset button.** The cache holds copies of Apple downloads kept for the devices on your network. Use Reset in Sharing settings; don’t drag the folder to the Trash.",
+    "**What it costs you:** the next update or app that each device needs comes from Apple over the internet again, so it’s slower once.",
+    "**Does it come back?** Yes, while Content Caching stays on. Turn it off, or set a cache size, to keep it small."
+   ],
+   "comes_back": "Yes, while Content Caching stays on. Turn it off, or set a cache size, to keep it small.",
+   "what": "Content Caching is a sharing service built into macOS. When it is on, your Mac keeps a copy of things that devices on your network download from Apple, so the second iPhone, iPad or Mac that asks for the same file gets it from your Mac. The manual page for the service, `AssetCache`, puts it this way: it speeds up the download of software and content distributed by Apple by locally caching assets that were previously downloaded on your network.",
+   "measure": [
+    "AssetCacheManagerUtil status"
+   ],
+   "how_to_clear": "Apple’s guide gives the steps for deleting all cached content:\n\n1. Choose Apple menu › System Settings, click General in the sidebar, then click Sharing.\n2. Click the Info button next to Content Caching.\n3. Click Options.\n4. Click Reset, then click Reset again to confirm.\n\nTo stop it filling up again, pick one of these in the same place:\n\n- **Set a limit.** In Options, drag the cache size slider or type a figure, then click OK.\n- **Move it.** In Options, click Edit next to Cache Location and choose another volume. Caching pauses while the files are moved.\n- **Drop the iCloud part.** Set the Cache pop-up menu to Only Shared Content. Apple says all cached iCloud data is then removed immediately.\n- **Turn it off.** Switch off Content Caching in Sharing settings if nobody else on the network benefits.\n\n> Don’t remove the `AssetCache` folder by hand with administrator rights. It belongs to a system account, and Reset is the supported way to empty it in one step.",
+   "clear_commands": [],
+   "sources": [
+    {
+     "title": "Apple: Set up content caching on Mac",
+     "url": "https://support.apple.com/guide/mac-help/set-up-content-caching-on-mac-mchl3b6c3720/mac"
+    }
+   ],
+   "see_also": [
+    "assetsv2",
+    "system-library-caches",
+    "aerial-wallpapers"
+   ],
+   "match": [
+    {
+     "glob": "/Library/Application Support/Apple/AssetCache"
+    },
+    {
+     "glob": "/Library/Application Support/Apple/AssetCache/Data"
+    }
+   ],
+   "url": "https://siftmac.com/safe-to-delete/content-caching",
+   "markdown_url": "https://siftmac.com/safe-to-delete/content-caching.md",
+   "published": "2026-11-27",
+   "updated": "2026-11-27"
+  },
+  {
+   "id": "continue-and-aider",
+   "name": "Continue and aider files",
+   "question": "Is it safe to delete ~/.continue and aider’s .aider files?",
+   "category": "Developer tools",
+   "paths": [
+    "~/.continue",
+    "~/.continue/index",
+    "~/.continue/sessions",
+    ".aider.chat.history.md",
+    ".aider.input.history",
+    ".aider.tags.cache.v4"
+   ],
+   "verdict": "decide",
+   "verdict_label": "You decide",
+   "answer": "**Partly.** The index in `~/.continue/index` and aider’s `.aider.tags.cache` folders are derived from your code and get built again.",
+   "summary": [
+    "**Partly.** The index in `~/.continue/index` and aider’s `.aider.tags.cache` folders are derived from your code and get built again. Continue’s `config.yaml` and saved sessions, and aider’s chat history files, are yours.",
+    "**What it costs you:** clearing an index costs indexing time on the next use. Deleting sessions or history files costs the record of past conversations, which nothing can recreate.",
+    "**Does it come back?** Indexes and caches, yes. Configuration and history, no."
+   ],
+   "comes_back": "Indexes and caches, yes. Configuration and history, no.",
+   "what": "Two open-source coding assistants, two very different habits. Continue is an editor extension and keeps everything in one folder in your home folder. Aider is a terminal tool and writes its files into whichever project you run it in.",
+   "measure": [
+    "du -sh ~/.continue/* 2>/dev/null | sort -h\ndu -sh ~/path/to/project/.aider* 2>/dev/null"
+   ],
+   "how_to_clear": "Neither tool has a clean-up command, so work by hand and stop the tool beforehand.\n\n**Continue.** Quit the tool first, meaning the editor that runs the extension (VS Code or a JetBrains IDE). Then clear the derived data and the logs, and nothing else:\n\n```\nrm -rf ~/.continue/index/*\nrm -rf ~/.continue/logs/*\n```\n\nGo through `sessions` separately. Each file is a conversation; delete the ones you won’t reopen. Leave `config.yaml`, `config.json`, `config.ts` and any `.env` file in place.\n\n**Aider.** Exit aider in that project first. The tags cache folder is the safe target:\n\n```\nrm -rf ~/path/to/project/.aider.tags.cache.v*\n```\n\nRead `.aider.chat.history.md` before deciding on it. It is a plain record of what you asked and what changed, which can be worth more than the space. If you keep a `.aider.llm.history` log, that one is only for debugging.\n\n> Don’t run the `find` command above with `-delete`. A project may also contain `.aiderignore`, which is a setting you wrote, and it matches the same pattern.",
+   "clear_commands": [
+    "rm -rf ~/.continue/index/*\nrm -rf ~/.continue/logs/*",
+    "rm -rf ~/path/to/project/.aider.tags.cache.v*"
+   ],
+   "sources": [
+    {
+     "title": "Continue documentation: Configuration (config.yaml in ~/.continue)",
+     "url": "https://docs.continue.dev/customize/deep-dives/configuration"
+    },
+    {
+     "title": "Continue repository: core/util/paths.ts (index, sessions, dev_data, logs)",
+     "url": "https://github.com/continuedev/continue/blob/main/core/util/paths.ts"
+    },
+    {
+     "title": "Continue documentation: Troubleshooting (logs)",
+     "url": "https://docs.continue.dev/troubleshooting"
+    },
+    {
+     "title": "aider documentation: Options reference (history files)",
+     "url": "https://aider.chat/docs/config/options.html"
+    },
+    {
+     "title": "aider repository: repomap.py (tags cache folder)",
+     "url": "https://github.com/Aider-AI/aider/blob/main/aider/repomap.py"
+    }
+   ],
+   "see_also": [
+    "claude-code-folder",
+    "codex-folder",
+    "gemini-cli-folder",
+    "vs-code-cache"
+   ],
+   "match": [
+    {
+     "glob": "~/.continue"
+    },
+    {
+     "glob": "~/.continue/index"
+    },
+    {
+     "glob": "~/.continue/sessions"
+    },
+    {
+     "glob": "**/.aider.chat.history.md"
+    },
+    {
+     "glob": "**/.aider.input.history"
+    },
+    {
+     "glob": "**/.aider.tags.cache.v4"
+    }
+   ],
+   "url": "https://siftmac.com/safe-to-delete/continue-and-aider",
+   "markdown_url": "https://siftmac.com/safe-to-delete/continue-and-aider.md",
+   "published": "2026-11-27",
+   "updated": "2026-11-27"
+  },
+  {
+   "id": "core-spotlight-metadata",
+   "name": "Core Spotlight index",
+   "question": "Can I delete ~/Library/Metadata/CoreSpotlight on a Mac?",
+   "category": "Library and system",
+   "paths": [
+    "~/Library/Metadata/CoreSpotlight"
+   ],
+   "verdict": "leave",
+   "verdict_label": "Leave it",
+   "answer": "**No.** This folder is the index that lets Spotlight find things inside your apps, such as a message in Mail or a line in Notes.",
+   "summary": [
+    "**No.** This folder is the index that lets Spotlight find things inside your apps, such as a message in Mail or a line in Notes. Apps add their own entries to it, and Apple documents no way to clear it.",
+    "**What it costs you:** searches for app content come up empty or incomplete until every app has added its items again, and some may not do that until they’re next opened or updated.",
+    "**Does it come back?** Yes, but piece by piece and on each app’s schedule, with the indexing process working hard meanwhile."
+   ],
+   "comes_back": "Yes, but piece by piece and on each app’s schedule, with the indexing process working hard meanwhile.",
+   "what": "Spotlight keeps two kinds of index. The one for files is the hidden [`.Spotlight-V100` folder](https://siftmac.com/safe-to-delete/spotlight-index) at the top of each disk. The one in your Library is for things that aren’t files of their own: a single email, a note, a reminder, a page in your browsing history.",
+   "measure": [
+    "du -sh ~/Library/Metadata/CoreSpotlight\ndu -sh ~/Library/Metadata/CoreSpotlight/* | sort -h | tail -5"
+   ],
+   "how_to_clear": "The trouble with deleting this index is that macOS can’t rebuild it alone. For the file index, Spotlight reads the disk again. Here, each app has to hand its items over again, and nothing tells you when all of them have. Apple’s steps for rebuilding Spotlight, adding a disk or folder to Spotlight’s privacy list and removing it again, apply to the file index, and Apple describes no equivalent for this one.\n\nIf the folder is large or `corespotlightd` is busy, these are the safer moves:\n\n1. **Wait out a backlog.** After a macOS upgrade, a move to a new Mac, or a big mail download, the index is being filled. Leave the Mac on and plugged in.\n2. **Find the app.** If the growth began after installing or updating something, update that app again or look in its settings for a Spotlight or search option.\n3. **Quit `corespotlightd` in Activity Monitor** if its memory stays high for days. macOS starts a fresh copy, and the index is kept.\n4. **Remove an app you don’t use.** Its entries are that app’s to maintain, and they have no purpose once it has gone.",
+   "clear_commands": [],
+   "sources": [
+    {
+     "title": "Apple Developer: Core Spotlight",
+     "url": "https://developer.apple.com/documentation/corespotlight"
+    },
+    {
+     "title": "Apple: About Spotlight indexing and search results on Apple devices",
+     "url": "https://support.apple.com/en-us/102321"
+    }
+   ],
+   "see_also": [
+    "spotlight-index",
+    "biome"
+   ],
+   "match": [
+    {
+     "glob": "~/Library/Metadata/CoreSpotlight"
+    }
+   ],
+   "url": "https://siftmac.com/safe-to-delete/core-spotlight-metadata",
+   "markdown_url": "https://siftmac.com/safe-to-delete/core-spotlight-metadata.md",
+   "published": "2026-11-27",
+   "updated": "2026-11-27"
   },
   {
    "id": "cursor-extensions",
@@ -939,7 +1728,7 @@
    "url": "https://siftmac.com/safe-to-delete/cursor-extensions",
    "markdown_url": "https://siftmac.com/safe-to-delete/cursor-extensions.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
   },
   {
    "id": "cursor-update-cache",
@@ -980,7 +1769,8 @@
     "cursor-extensions",
     "vs-code-cache",
     "library-caches",
-    "claude-code-folder"
+    "claude-code-folder",
+    "claude-desktop-data"
    ],
    "match": [
     {
@@ -990,7 +1780,118 @@
    "url": "https://siftmac.com/safe-to-delete/cursor-update-cache",
    "markdown_url": "https://siftmac.com/safe-to-delete/cursor-update-cache.md",
    "published": "2026-11-20",
-   "updated": "2026-11-20"
+   "updated": "2026-11-27"
+  },
+  {
+   "id": "cypress-cache",
+   "name": "Cypress binary cache",
+   "question": "Is it safe to delete ~/Library/Caches/Cypress?",
+   "category": "Developer tools",
+   "paths": [
+    "~/Library/Caches/Cypress"
+   ],
+   "verdict": "rebuilds",
+   "verdict_label": "Rebuilds",
+   "answer": "**Yes.** It’s Cypress’s binary cache: the Cypress app itself, one folder for each version a project of yours has installed.",
+   "summary": [
+    "**Yes.** It’s Cypress’s binary cache: the Cypress app itself, one folder for each version a project of yours has installed. Specs, fixtures and config are in your projects.",
+    "**What it costs you:** after a full clear, Cypress won’t open until `npx cypress install` has downloaded the binary again.",
+    "**Does it come back?** Yes, on the next `npm install` of the `cypress` package or when you run `cypress install`."
+   ],
+   "comes_back": "Yes, on the next `npm install` of the `cypress` package or when you run `cypress install`.",
+   "what": "The `cypress` package in `node_modules` is a small launcher. The real application is a separate download that lands in a global cache, in a folder named after its version, so several projects on the same version share one copy.",
+   "measure": [
+    "npx cypress cache list --size\ndu -sh ~/Library/Caches/Cypress"
+   ],
+   "how_to_clear": "1. Close the Cypress app and stop any `cypress run`.\n2. From a project that uses Cypress, run `npx cypress cache prune`. It deletes every cached version except the one that project has installed. For most people this is the right step.\n3. To remove everything, run `npx cypress cache clear`.\n\n```\nnpx cypress cache prune\nnpx cypress cache clear\n```\n\nPrune keeps only the version of the project you run it from. If another project is on a different version, that project will need its binary installed again.\n\nIf Cypress is no longer installed in any project, quit it first and remove the versions by hand:\n\n```\nrm -rf \"$HOME/Library/Caches/Cypress\"/*\n```",
+   "clear_commands": [
+    "npx cypress cache prune\nnpx cypress cache clear",
+    "rm -rf \"$HOME/Library/Caches/Cypress\"/*"
+   ],
+   "sources": [
+    {
+     "title": "Cypress Docs: Advanced installation (binary cache)",
+     "url": "https://docs.cypress.io/app/references/advanced-installation"
+    },
+    {
+     "title": "Cypress Docs: Command line (cypress cache, install, verify)",
+     "url": "https://docs.cypress.io/app/references/command-line"
+    }
+   ],
+   "see_also": [
+    "playwright-browsers",
+    "node-modules",
+    "library-caches"
+   ],
+   "match": [
+    {
+     "glob": "~/Library/Caches/Cypress"
+    }
+   ],
+   "url": "https://siftmac.com/safe-to-delete/cypress-cache",
+   "markdown_url": "https://siftmac.com/safe-to-delete/cypress-cache.md",
+   "published": "2026-11-27",
+   "updated": "2026-11-27"
+  },
+  {
+   "id": "dart-tool-and-flutter-build",
+   "name": "Flutter’s build and .dart_tool",
+   "question": "Is it safe to delete .dart_tool and build in a Flutter project?",
+   "category": "Project folders",
+   "paths": [
+    "<project>/build",
+    "<project>/.dart_tool"
+   ],
+   "verdict": "rebuilds",
+   "verdict_label": "Rebuilds",
+   "answer": "**Yes.** Flutter has a command for exactly this: `flutter clean` deletes the `build/` and `.dart_tool/` directories.",
+   "summary": [
+    "**Yes.** Flutter has a command for exactly this: `flutter clean` deletes the `build/` and `.dart_tool/` directories.",
+    "**What it costs you:** the next run fetches package configuration again and compiles the app from nothing, so it is the slowest build you’ll see.",
+    "**Does it come back?** Yes. `flutter pub get` recreates `.dart_tool`, and `flutter run` or `flutter build` recreates `build`."
+   ],
+   "comes_back": "Yes. `flutter pub get` recreates `.dart_tool`, and `flutter run` or `flutter build` recreates `build`.",
+   "what": "Everything the compiler produced for this app: intermediate files and the finished bundles for each platform you built for. An app built for iOS, Android and the web has output for all three in here, in both debug and release flavours if you built both. None of it is source.",
+   "measure": [
+    "cd ~/Projects/my_app\ndu -sh build .dart_tool 2>/dev/null",
+    "find ~/Projects -name pubspec.yaml -execdir sh -c 'test -d build && du -sh \"$PWD/build\"' \\; 2>/dev/null | sort -h"
+   ],
+   "how_to_clear": "1. Stop the running app and any `flutter run` session. Close the project in Android Studio, VS Code or Xcode if a build is in progress.\n2. In the project root, run `flutter clean`.\n3. Repeat in other projects. The command only acts on the project it is run in.\n\n```\ncd ~/Projects/my_app\nflutter clean\n```\n\nThis is better than deleting the folders in Finder, because Flutter knows what it generated. It also saves you from deleting a `build` folder that belongs to something else: plenty of non-Flutter projects have a folder with that name, and in some of them it isn’t disposable.\n\n`flutter clean` leaves the rest of the project alone. The Android [Gradle caches](https://siftmac.com/safe-to-delete/gradle-caches) in your home folder and an iOS [Pods folder](https://siftmac.com/safe-to-delete/cocoapods-pods-folder) are separate things with their own pages.",
+   "clear_commands": [
+    "cd ~/Projects/my_app\nflutter clean"
+   ],
+   "sources": [
+    {
+     "title": "Flutter Docs: The flutter command-line tool (flutter clean)",
+     "url": "https://docs.flutter.dev/reference/flutter-cli"
+    },
+    {
+     "title": "Dart Docs: What not to commit",
+     "url": "https://dart.dev/tools/pub/private-files"
+    },
+    {
+     "title": "Dart Docs: dart pub get",
+     "url": "https://dart.dev/tools/pub/cmd/pub-get"
+    }
+   ],
+   "see_also": [
+    "flutter-pub-cache",
+    "gradle-caches",
+    "cocoapods-pods-folder"
+   ],
+   "match": [
+    {
+     "glob": "**/build",
+     "beside": "pubspec.yaml"
+    },
+    {
+     "glob": "**/.dart_tool"
+    }
+   ],
+   "url": "https://siftmac.com/safe-to-delete/dart-tool-and-flutter-build",
+   "markdown_url": "https://siftmac.com/safe-to-delete/dart-tool-and-flutter-build.md",
+   "published": "2026-11-27",
+   "updated": "2026-11-27"
   },
   {
    "id": "davinci-resolve-cache",
@@ -1038,7 +1939,7 @@
    "url": "https://siftmac.com/safe-to-delete/davinci-resolve-cache",
    "markdown_url": "https://siftmac.com/safe-to-delete/davinci-resolve-cache.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
   },
   {
    "id": "deleted-users",
@@ -1084,7 +1985,7 @@
    "url": "https://siftmac.com/safe-to-delete/deleted-users",
    "markdown_url": "https://siftmac.com/safe-to-delete/deleted-users.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
   },
   {
    "id": "diagnostic-reports",
@@ -1122,7 +2023,9 @@
    ],
    "see_also": [
     "library-logs",
-    "library-caches"
+    "library-caches",
+    "diagnostics-and-uuidtext",
+    "private-var-log"
    ],
    "match": [
     {
@@ -1135,7 +2038,117 @@
    "url": "https://siftmac.com/safe-to-delete/diagnostic-reports",
    "markdown_url": "https://siftmac.com/safe-to-delete/diagnostic-reports.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
+  },
+  {
+   "id": "diagnostics-and-uuidtext",
+   "name": "Unified log store",
+   "question": "Can I delete /private/var/db/diagnostics and /private/var/db/uuidtext?",
+   "category": "Library and system",
+   "paths": [
+    "/private/var/db/diagnostics",
+    "/private/var/db/uuidtext"
+   ],
+   "verdict": "leave",
+   "verdict_label": "Leave it",
+   "answer": "**No.** These two folders are the unified log, the record that Console and the `log` command read.",
+   "summary": [
+    "**No.** These two folders are the unified log, the record that Console and the `log` command read. A system service called `logd` owns them and prunes them continuously.",
+    "**What it costs you:** the history needed to work out why something crashed or slowed down. The two folders also depend on each other, so removing files from one can leave entries in the other unreadable.",
+    "**Does it come back?** Yes. `logd` writes new entries every second, and the store grows back to about the same size within days."
+   ],
+   "comes_back": "Yes. `logd` writes new entries every second, and the store grows back to about the same size within days.",
+   "what": "Since macOS 10.12, apps and the system write their messages to one shared log. The manual page for `logd` describes it as the part of the unified logging system that handles and manages historical data: every process hands it entries, and it compresses them and either keeps them in memory or writes them to a data store on disk. These folders are that data store.",
+   "measure": [
+    "du -sh /private/var/db/diagnostics /private/var/db/uuidtext",
+    "log stats --overview"
+   ],
+   "how_to_clear": "Don’t remove files from these folders in Finder or with `rm`. `logd` has them open, the entries in `diagnostics` refer to text in `uuidtext`, and the store is back to its usual size soon after. You would give up your Mac’s recent history for space you get to use for a few days.\n\nmacOS does provide a command for the rare case where a log really must be cleared, for example before handing a Mac to someone else. The `log` manual page lists `log erase`, which deletes the main log data store, and `log erase --all`, which also deletes the fault and error content. It needs an administrator, and there is no undo.\n\nIf the folders seem unusually large, the better fix is the one Oakley recommends: find what is flooding the log and deal with that. `log stats` names the busiest processes; an app that logs thousands of lines a minute is worth updating or reporting to its maker. See also [what `logd` is doing when it’s busy](https://siftmac.com/process/logd).",
+   "clear_commands": [],
+   "sources": [
+    {
+     "title": "Howard Oakley, The Eclectic Light Company: Inside the Unified Log 3, log storage and attrition",
+     "url": "https://eclecticlight.co/2025/09/29/inside-the-unified-log-3-log-storage-and-attrition/"
+    },
+    {
+     "title": "macOS manual page: log(1)",
+     "url": "https://keith.github.io/xcode-man-pages/log.1.html"
+    },
+    {
+     "title": "macOS manual page: hier(7), layout of the file system",
+     "url": "https://keith.github.io/xcode-man-pages/hier.7.html"
+    }
+   ],
+   "see_also": [
+    "private-var-log",
+    "library-logs",
+    "diagnostic-reports"
+   ],
+   "match": [
+    {
+     "glob": "/private/var/db/diagnostics"
+    },
+    {
+     "glob": "/private/var/db/uuidtext"
+    }
+   ],
+   "url": "https://siftmac.com/safe-to-delete/diagnostics-and-uuidtext",
+   "markdown_url": "https://siftmac.com/safe-to-delete/diagnostics-and-uuidtext.md",
+   "published": "2026-11-27",
+   "updated": "2026-11-27"
+  },
+  {
+   "id": "diffusionbee-models",
+   "name": "DiffusionBee’s data folder",
+   "question": "Is it safe to delete the ~/.diffusionbee folder?",
+   "category": "AI tools",
+   "paths": [
+    "~/.diffusionbee",
+    "~/.diffusionbee/downloads",
+    "~/.diffusionbee/images"
+   ],
+   "verdict": "decide",
+   "verdict_label": "You decide",
+   "answer": "**Yes, if you save your pictures first.**",
+   "summary": [
+    "**Yes, if you save your pictures first.** DiffusionBee’s documentation says the hidden `.diffusionbee` folder in your home folder can be removed safely. It holds the downloaded model, but also every image the app has made.",
+    "**What it costs you:** your generated images and the History tab’s record of prompts and seeds, unless you copied them out. The model costs only a new download.",
+    "**Does it come back?** The model does: DiffusionBee downloads its data again on the next launch. Your images don’t."
+   ],
+   "comes_back": "The model does: DiffusionBee downloads its data again on the next launch. Your images don’t.",
+   "what": "DiffusionBee is a Mac app that runs Stable Diffusion locally. Unlike most Mac apps it doesn’t keep its data in `~/Library`. Its documentation describes a hidden folder in your home folder with two parts that matter:",
+   "measure": [
+    "du -sh ~/.diffusionbee/* | sort -h\nls ~/.diffusionbee/images | wc -l"
+   ],
+   "how_to_clear": "Decide first which half you want gone.\n\n**Only old images.** DiffusionBee’s documentation says there is no interface in the app for deleting images, and that they can be deleted by hand from the hidden folder. Quit the app, open `~/.diffusionbee/images` in Finder, copy the pictures you want to keep somewhere else, and move the others to the Trash.\n\n**Everything, when you are done with the app.** Quit DiffusionBee, drag the app to the Trash, then remove the folder. The documentation gives both ways: drag `.diffusionbee` to the Trash from your home folder with hidden items showing, or run its Terminal command:\n\n```\nrm -r ~/.diffusionbee/\n```\n\n> That command removes generated images and imported models along with the cache, and `rm` doesn’t use the Trash. If you haven’t looked inside `images` recently, use the Finder route so you can change your mind.\n\n**Only the model**, to get space back for a while: deleting `downloads` is enough, and the app fetches it again when you next open it. If you have the model file elsewhere, the documentation notes you can move, copy or symlink it into that folder instead of downloading.",
+   "clear_commands": [
+    "rm -r ~/.diffusionbee/"
+   ],
+   "sources": [
+    {
+     "title": "DiffusionBee documentation (storage folders, uninstalling), in the project’s repository",
+     "url": "https://github.com/divamgupta/diffusionbee-stable-diffusion-ui/blob/master/docs/DOCUMENTATION.md"
+    }
+   ],
+   "see_also": [
+    "comfyui-models",
+    "hugging-face-cache"
+   ],
+   "match": [
+    {
+     "glob": "~/.diffusionbee"
+    },
+    {
+     "glob": "~/.diffusionbee/downloads"
+    },
+    {
+     "glob": "~/.diffusionbee/images"
+    }
+   ],
+   "url": "https://siftmac.com/safe-to-delete/diffusionbee-models",
+   "markdown_url": "https://siftmac.com/safe-to-delete/diffusionbee-models.md",
+   "published": "2026-11-27",
+   "updated": "2026-11-27"
   },
   {
    "id": "discord-cache",
@@ -1188,7 +2201,84 @@
    "url": "https://siftmac.com/safe-to-delete/discord-cache",
    "markdown_url": "https://siftmac.com/safe-to-delete/discord-cache.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-26"
+  },
+  {
+   "id": "docker-config-folder",
+   "name": "Docker’s ~/.docker config folder",
+   "question": "Is it safe to delete the ~/.docker folder?",
+   "category": "Developer tools",
+   "paths": [
+    "~/.docker",
+    "~/.docker/config.json",
+    "~/.docker/contexts",
+    "~/.docker/cli-plugins",
+    "~/.docker/buildx"
+   ],
+   "verdict": "leave",
+   "verdict_label": "Leave it",
+   "answer": "**No, while you use Docker.**",
+   "summary": [
+    "**No, while you use Docker.** `~/.docker` is the command-line client’s configuration: which registries you are logged in to, which context is active, your builders. Your images and containers are not in it, so removing it won’t give back the space you are after.",
+    "**What it costs you:** registry logins, saved contexts for remote hosts, proxy settings and builder definitions. All small, and all set up by hand.",
+    "**Does it come back?** The folder is made again with defaults. Your logins and contexts aren’t."
+   ],
+   "comes_back": "The folder is made again with defaults. Your logins and contexts aren’t.",
+   "what": "Docker’s CLI reference says the client stores its configuration files in a directory called `.docker` within your home directory. On a Mac with Docker Desktop, people often find it while hunting for the gigabytes Docker uses and assume this is the place. It isn’t: those are in the virtual machine’s disk image, covered on [the Docker.raw page](https://siftmac.com/safe-to-delete/docker-raw).",
+   "measure": [
+    "du -sh ~/.docker\ndu -sh ~/.docker/* | sort -h"
+   ],
+   "how_to_clear": "While Docker is installed, tidy with Docker’s commands and leave the folder itself.\n\n```\ndocker context ls\ndocker buildx ls\ndocker buildx rm <builder-name>\n```\n\n- `docker context ls` shows your contexts, with an asterisk on the active one. `default` is there out of the box and talks to the local daemon.\n- `docker buildx ls` shows builders. Removing one you made also deletes its local build cache; the default builder can’t be removed.\n- Before deleting a context you might need again, `docker context export` saves it to a file that `docker context import` can read back.\n\n**After uninstalling Docker Desktop**, the folder is a leftover. Docker’s uninstall guide lists it among the residual files to remove by hand, with this command. Quit the app first, and confirm Docker really is gone:\n\n```\nrm -rf ~/.docker\n```\n\n> Docker warns that `config.json` and other files in this directory may contain sensitive information, such as authentication details for proxies. Check the file before sharing it or copying it into a repository, and don’t paste it into a bug report unread.",
+   "clear_commands": [
+    "docker context ls\ndocker buildx ls\ndocker buildx rm <builder-name>",
+    "rm -rf ~/.docker"
+   ],
+   "sources": [
+    {
+     "title": "Docker documentation: docker CLI reference (configuration files, config.json, DOCKER_CONFIG)",
+     "url": "https://docs.docker.com/reference/cli/docker/"
+    },
+    {
+     "title": "Docker documentation: Docker contexts",
+     "url": "https://docs.docker.com/engine/manage-resources/contexts/"
+    },
+    {
+     "title": "Docker documentation: Build variables (BUILDX_CONFIG)",
+     "url": "https://docs.docker.com/build/building/variables/"
+    },
+    {
+     "title": "Docker documentation: Manage builders",
+     "url": "https://docs.docker.com/build/builders/manage/"
+    },
+    {
+     "title": "Docker documentation: Uninstall Docker Desktop",
+     "url": "https://docs.docker.com/desktop/uninstall/"
+    }
+   ],
+   "see_also": [
+    "docker-raw"
+   ],
+   "match": [
+    {
+     "glob": "~/.docker"
+    },
+    {
+     "glob": "~/.docker/config.json"
+    },
+    {
+     "glob": "~/.docker/contexts"
+    },
+    {
+     "glob": "~/.docker/cli-plugins"
+    },
+    {
+     "glob": "~/.docker/buildx"
+    }
+   ],
+   "url": "https://siftmac.com/safe-to-delete/docker-config-folder",
+   "markdown_url": "https://siftmac.com/safe-to-delete/docker-config-folder.md",
+   "published": "2026-11-27",
+   "updated": "2026-11-27"
   },
   {
    "id": "docker-raw",
@@ -1247,7 +2337,7 @@
    "url": "https://siftmac.com/safe-to-delete/docker-raw",
    "markdown_url": "https://siftmac.com/safe-to-delete/docker-raw.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
   },
   {
    "id": "document-revisions",
@@ -1297,6 +2387,71 @@
    "updated": "2026-11-21"
   },
   {
+   "id": "dot-trashes",
+   "name": ".Trashes and Recovered Files",
+   "question": "Can I delete .Trashes, .TemporaryItems and Recovered Files?",
+   "category": "macOS files",
+   "paths": [
+    "/Volumes/<drive>/.Trashes",
+    "/Volumes/<drive>/.TemporaryItems",
+    "~/.Trash/Recovered Files"
+   ],
+   "verdict": "decide",
+   "verdict_label": "You decide",
+   "answer": "**Yes, by emptying the Trash.**",
+   "summary": [
+    "**Yes, by emptying the Trash.** `.Trashes` is where a drive keeps the things you’ve already thrown away from it, and a Recovered Files folder holds temporary files an app left behind. Emptying the Trash in Finder clears both.",
+    "**What it costs you:** whatever is in the Trash is gone for good, so look first. Apple suggests checking a Recovered Files folder for anything useful before emptying.",
+    "**Does it come back?** The hidden folders return the next time you trash something on that drive or an app saves to it. They’re empty and tiny until then."
+   ],
+   "comes_back": "The hidden folders return the next time you trash something on that drive or an app saves to it. They’re empty and tiny until then.",
+   "what": "Three things with similar names, all to do with files that are on their way out:",
+   "measure": [
+    "du -sh \"/Volumes/<drive>/.Trashes\" \"/Volumes/<drive>/.TemporaryItems\" 2>/dev/null"
+   ],
+   "how_to_clear": "1. **Connect the drive** to the Mac that the files were trashed on, and log in as the same user.\n2. **Open the Trash** from the Dock and look through it. Drag out anything you still want.\n3. **For a Recovered Files folder**, open it. Apple’s advice is to drag any useful files out of the Trash, and to check with the app’s developer if you aren’t sure what they are.\n4. **Empty the Trash**: click Empty in the Trash window, or choose Finder › Empty Trash. Apple warns that emptied items are permanently deleted.\n5. **Eject the drive** in Finder before unplugging it.\n\nThere’s no need to remove the `.Trashes` or `.TemporaryItems` folders themselves. Empty, they take no meaningful space, and macOS makes them again when needed. If a drive is used only with cameras or other devices and the hidden folders bother you, erasing the drive in Disk Utility, after copying your files off it, gives a clean start.\n\n> Don’t delete inside `.TemporaryItems` while apps have documents open on that drive. A save in progress may be using it.",
+   "clear_commands": [],
+   "sources": [
+    {
+     "title": "Apple: If the Trash contains recovered files on Mac",
+     "url": "https://support.apple.com/guide/mac-help/mchlp2919/mac"
+    },
+    {
+     "title": "Apple: Delete files and folders on Mac",
+     "url": "https://support.apple.com/guide/mac-help/mchlp1093/mac"
+    },
+    {
+     "title": "Apple Developer: FileManager url(for:in:appropriateFor:create:), temporary directories on a volume",
+     "url": "https://developer.apple.com/documentation/foundation/filemanager/url(for:in:appropriatefor:create:)"
+    },
+    {
+     "title": "MacMost: How the Mac Trash handles external drive files",
+     "url": "https://macmost.com/how-mac-trash-handles-external-drive-files.html"
+    }
+   ],
+   "see_also": [
+    "trash",
+    "ds-store-files",
+    "dot-underscore-files",
+    "fseventsd"
+   ],
+   "match": [
+    {
+     "glob": "/Volumes/*/.Trashes"
+    },
+    {
+     "glob": "/Volumes/*/.TemporaryItems"
+    },
+    {
+     "glob": "~/.Trash/Recovered Files"
+    }
+   ],
+   "url": "https://siftmac.com/safe-to-delete/dot-trashes",
+   "markdown_url": "https://siftmac.com/safe-to-delete/dot-trashes.md",
+   "published": "2026-11-27",
+   "updated": "2026-11-27"
+  },
+  {
    "id": "dot-underscore-files",
    "name": "._ files (AppleDouble) and dot_clean",
    "question": "Is it safe to delete ._ files, and what does dot_clean do?",
@@ -1339,7 +2494,8 @@
    "see_also": [
     "ds-store-files",
     "downloads-folder",
-    "trash"
+    "trash",
+    "dot-trashes"
    ],
    "match": [
     {
@@ -1355,7 +2511,7 @@
    "url": "https://siftmac.com/safe-to-delete/dot-underscore-files",
    "markdown_url": "https://siftmac.com/safe-to-delete/dot-underscore-files.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
   },
   {
    "id": "downloads-folder",
@@ -1410,12 +2566,12 @@
    "url": "https://siftmac.com/safe-to-delete/downloads-folder",
    "markdown_url": "https://siftmac.com/safe-to-delete/downloads-folder.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
   },
   {
    "id": "dropbox-cache",
    "name": "Dropbox’s cache folder",
-   "question": "Is it safe to delete the .dropbox.cache folder on a Mac?",
+   "question": "How to clear Dropbox’s cache on a Mac, and is .dropbox.cache safe to delete?",
    "category": "Apps",
    "paths": [
     "~/Dropbox/.dropbox.cache",
@@ -1468,7 +2624,7 @@
    "url": "https://siftmac.com/safe-to-delete/dropbox-cache",
    "markdown_url": "https://siftmac.com/safe-to-delete/dropbox-cache.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-26"
   },
   {
    "id": "ds-store-files",
@@ -1517,7 +2673,8 @@
     "dot-underscore-files",
     "git-folder",
     "quicklook-thumbnail-cache",
-    "trash"
+    "trash",
+    "dot-trashes"
    ],
    "match": [
     {
@@ -1536,7 +2693,7 @@
    "url": "https://siftmac.com/safe-to-delete/ds-store-files",
    "markdown_url": "https://siftmac.com/safe-to-delete/ds-store-files.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
   },
   {
    "id": "dyld-cache",
@@ -1583,7 +2740,8 @@
    ],
    "see_also": [
     "assetsv2",
-    "swap-files"
+    "swap-files",
+    "preboot-volume"
    ],
    "match": [
     {
@@ -1599,7 +2757,62 @@
    "url": "https://siftmac.com/safe-to-delete/dyld-cache",
    "markdown_url": "https://siftmac.com/safe-to-delete/dyld-cache.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-26"
+  },
+  {
+   "id": "electron-cache",
+   "name": "Electron download caches",
+   "question": "Is it safe to delete ~/Library/Caches/electron and electron-builder?",
+   "category": "Developer tools",
+   "paths": [
+    "~/Library/Caches/electron",
+    "~/Library/Caches/electron-builder"
+   ],
+   "verdict": "rebuilds",
+   "verdict_label": "Rebuilds",
+   "answer": "**Yes.** These two folders are download caches for people who build Electron apps.",
+   "summary": [
+    "**Yes.** These two folders are download caches for people who build Electron apps. Apps you use that happen to be made with Electron, such as Slack or VS Code, don’t depend on them.",
+    "**What it costs you:** the next `npm install` of `electron`, or the next packaging run, downloads what it needs again.",
+    "**Does it come back?** Yes, as soon as you install Electron or package an app again."
+   ],
+   "comes_back": "Yes, as soon as you install Electron or package an app again.",
+   "what": "When you install the `electron` npm package, its install script downloads a prebuilt Electron release for your platform. The zip is kept in this cache so the next project on the same version can skip the download. Electron’s docs show the layout: cached zip files, such as `electron-v15.3.1-darwin-x64.zip`, stored in subdirectories with hashed names.",
+   "measure": [
+    "du -sh ~/Library/Caches/electron ~/Library/Caches/electron-builder 2>/dev/null\ndu -sh ~/Library/Caches/electron/* 2>/dev/null | sort -h"
+   ],
+   "how_to_clear": "Neither tool documents a clean command for its cache, so this is one of the cases where removing the files by hand is the way.\n\n1. Let any `npm install` finish, and stop any packaging run (`electron-builder`, or a build script that calls it).\n2. Empty one folder or both.\n\n```\nrm -rf \"$HOME/Library/Caches/electron\"/*\nrm -rf \"$HOME/Library/Caches/electron-builder\"/*\n```\n\nIf your goal is to fix a bad download and not to get space back, Electron’s docs suggest setting `force_no_cache` to `true` for one install. That forces the asset and its checksum file to be downloaded again without emptying the cache.",
+   "clear_commands": [
+    "rm -rf \"$HOME/Library/Caches/electron\"/*\nrm -rf \"$HOME/Library/Caches/electron-builder\"/*"
+   ],
+   "sources": [
+    {
+     "title": "Electron Docs: Advanced installation instructions (cache)",
+     "url": "https://www.electronjs.org/docs/latest/tutorial/installation"
+    },
+    {
+     "title": "electron-builder: Offline and air-gapped builds (toolset cache)",
+     "url": "https://www.electron.build/docs/tutorials/offline-air-gapped-builds"
+    }
+   ],
+   "see_also": [
+    "node-modules",
+    "npm-cache",
+    "library-caches",
+    "vs-code-cache"
+   ],
+   "match": [
+    {
+     "glob": "~/Library/Caches/electron"
+    },
+    {
+     "glob": "~/Library/Caches/electron-builder"
+    }
+   ],
+   "url": "https://siftmac.com/safe-to-delete/electron-cache",
+   "markdown_url": "https://siftmac.com/safe-to-delete/electron-cache.md",
+   "published": "2026-11-27",
+   "updated": "2026-11-27"
   },
   {
    "id": "final-cut-pro-render-files",
@@ -1654,7 +2867,7 @@
    "url": "https://siftmac.com/safe-to-delete/final-cut-pro-render-files",
    "markdown_url": "https://siftmac.com/safe-to-delete/final-cut-pro-render-files.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
   },
   {
    "id": "firefox-cache",
@@ -1707,7 +2920,7 @@
    "url": "https://siftmac.com/safe-to-delete/firefox-cache",
    "markdown_url": "https://siftmac.com/safe-to-delete/firefox-cache.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-26"
   },
   {
    "id": "flutter-pub-cache",
@@ -1715,9 +2928,7 @@
    "question": "Is it safe to delete ~/.pub-cache?",
    "category": "Package caches",
    "paths": [
-    "~/.pub-cache",
-    "<project>/build",
-    "<project>/.dart_tool"
+    "~/.pub-cache"
    ],
    "verdict": "rebuilds",
    "verdict_label": "Rebuilds",
@@ -1758,24 +2969,18 @@
    "see_also": [
     "android-sdk",
     "gradle-caches",
-    "cocoapods-cache"
+    "cocoapods-cache",
+    "dart-tool-and-flutter-build"
    ],
    "match": [
     {
      "glob": "~/.pub-cache"
-    },
-    {
-     "glob": "**/build",
-     "beside": "pubspec.yaml"
-    },
-    {
-     "glob": "**/.dart_tool"
     }
    ],
    "url": "https://siftmac.com/safe-to-delete/flutter-pub-cache",
    "markdown_url": "https://siftmac.com/safe-to-delete/flutter-pub-cache.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
   },
   {
    "id": "font-caches",
@@ -1872,7 +3077,8 @@
    "see_also": [
     "spotlight-index",
     "document-revisions",
-    "ds-store-files"
+    "ds-store-files",
+    "dot-trashes"
    ],
    "match": [
     {
@@ -1885,7 +3091,7 @@
    "url": "https://siftmac.com/safe-to-delete/fseventsd",
    "markdown_url": "https://siftmac.com/safe-to-delete/fseventsd.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
   },
   {
    "id": "garageband-logic-sound-library",
@@ -1956,7 +3162,73 @@
    "url": "https://siftmac.com/safe-to-delete/garageband-logic-sound-library",
    "markdown_url": "https://siftmac.com/safe-to-delete/garageband-logic-sound-library.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
+  },
+  {
+   "id": "gemini-cli-folder",
+   "name": "Gemini CLI’s ~/.gemini folder",
+   "question": "Is it safe to delete Gemini CLI’s ~/.gemini folder?",
+   "category": "AI tools",
+   "paths": [
+    "~/.gemini",
+    "~/.gemini/tmp",
+    "~/.gemini/history",
+    "~/.gemini/settings.json"
+   ],
+   "verdict": "decide",
+   "verdict_label": "You decide",
+   "answer": "**No, not the whole folder.**",
+   "summary": [
+    "**No, not the whole folder.** `~/.gemini` holds your Gemini CLI settings, your global `GEMINI.md` and your trusted-folders list beside the saved sessions. Sessions can go; use `gemini --delete-session` or let the built-in retention do it.",
+    "**What it costs you:** a deleted session can’t be resumed, and its plans, task trackers and tool outputs go with it. Deleting settings means setting the CLI up again.",
+    "**Does it come back?** Sessions don’t. New ones are saved as you work, and Gemini CLI removes chats older than 30 days on its own."
+   ],
+   "comes_back": "Sessions don’t. New ones are saved as you work, and Gemini CLI removes chats older than 30 days on its own.",
+   "what": "Gemini CLI is Google’s open-source terminal agent. Its repository documents what it keeps in `~/.gemini`:",
+   "measure": [
+    "du -sh ~/.gemini/* 2>/dev/null | sort -h\ndu -sh ~/.gemini/tmp/* 2>/dev/null | sort -h | tail"
+   ],
+   "how_to_clear": "**Check the retention setting first.** Session cleanup is on by default: `general.sessionRetention.maxAge` is `\"30d\"`, and `minRetention` protects anything newer than a day. To keep less, lower it in `~/.gemini/settings.json`:\n\n```\n{\n  \"general\": {\n    \"sessionRetention\": { \"enabled\": true, \"maxAge\": \"7d\" }\n  }\n}\n```\n\n`maxCount` is the alternative: keep only the most recent sessions, oldest removed first.\n\n**Delete one session.** From the project’s folder, list its sessions, then remove one by its number or ID:\n\n```\ngemini --list-sessions\ngemini --delete-session 2\n```\n\nInside the CLI, `/resume` opens the session browser; select a session and press `x` to delete it.\n\n**A project you no longer have.** Its folder in `~/.gemini/tmp` is never listed by `--list-sessions`, since that command only shows the current project. With no `gemini` process running, that leftover folder can go to the Trash in Finder.\n\n> Keep `settings.json`, `GEMINI.md` and `trustedFolders.json`. They are a few kilobytes and they are the part you wrote.",
+   "clear_commands": [
+    "{\n  \"general\": {\n    \"sessionRetention\": { \"enabled\": true, \"maxAge\": \"7d\" }\n  }\n}",
+    "gemini --list-sessions\ngemini --delete-session 2"
+   ],
+   "sources": [
+    {
+     "title": "Gemini CLI repository: Configuration reference (settings.json, GEMINI.md, session retention)",
+     "url": "https://github.com/google-gemini/gemini-cli/blob/main/docs/reference/configuration.md"
+    },
+    {
+     "title": "Gemini CLI repository: Session management",
+     "url": "https://github.com/google-gemini/gemini-cli/blob/main/docs/cli/session-management.md"
+    },
+    {
+     "title": "Gemini CLI repository: Checkpointing",
+     "url": "https://github.com/google-gemini/gemini-cli/blob/main/docs/cli/checkpointing.md"
+    }
+   ],
+   "see_also": [
+    "claude-code-folder",
+    "codex-folder"
+   ],
+   "match": [
+    {
+     "glob": "~/.gemini"
+    },
+    {
+     "glob": "~/.gemini/tmp"
+    },
+    {
+     "glob": "~/.gemini/history"
+    },
+    {
+     "glob": "~/.gemini/settings.json"
+    }
+   ],
+   "url": "https://siftmac.com/safe-to-delete/gemini-cli-folder",
+   "markdown_url": "https://siftmac.com/safe-to-delete/gemini-cli-folder.md",
+   "published": "2026-11-27",
+   "updated": "2026-11-27"
   },
   {
    "id": "git-folder",
@@ -2001,7 +3273,8 @@
    "see_also": [
     "node-modules",
     "python-venv",
-    "rust-target-folder"
+    "rust-target-folder",
+    "terraform-folders"
    ],
    "match": [
     {
@@ -2011,7 +3284,7 @@
    "url": "https://siftmac.com/safe-to-delete/git-folder",
    "markdown_url": "https://siftmac.com/safe-to-delete/git-folder.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
   },
   {
    "id": "go-module-cache",
@@ -2064,7 +3337,7 @@
    "url": "https://siftmac.com/safe-to-delete/go-module-cache",
    "markdown_url": "https://siftmac.com/safe-to-delete/go-module-cache.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
   },
   {
    "id": "google-drive-cache",
@@ -2124,7 +3397,7 @@
    "url": "https://siftmac.com/safe-to-delete/google-drive-cache",
    "markdown_url": "https://siftmac.com/safe-to-delete/google-drive-cache.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-26"
   },
   {
    "id": "gradle-caches",
@@ -2195,7 +3468,7 @@
    "url": "https://siftmac.com/safe-to-delete/gradle-caches",
    "markdown_url": "https://siftmac.com/safe-to-delete/gradle-caches.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
   },
   {
    "id": "group-containers",
@@ -2246,7 +3519,7 @@
    "url": "https://siftmac.com/safe-to-delete/group-containers",
    "markdown_url": "https://siftmac.com/safe-to-delete/group-containers.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-26"
   },
   {
    "id": "homebrew-cache",
@@ -2287,7 +3560,8 @@
    ],
    "see_also": [
     "library-caches",
-    "pip-cache"
+    "pip-cache",
+    "ruby-gems-and-rbenv"
    ],
    "match": [
     {
@@ -2307,7 +3581,7 @@
    "url": "https://siftmac.com/safe-to-delete/homebrew-cache",
    "markdown_url": "https://siftmac.com/safe-to-delete/homebrew-cache.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
   },
   {
    "id": "hugging-face-cache",
@@ -2354,7 +3628,8 @@
    "see_also": [
     "ollama-models",
     "lm-studio-models",
-    "pip-cache"
+    "pip-cache",
+    "comfyui-models"
    ],
    "match": [
     {
@@ -2370,7 +3645,7 @@
    "url": "https://siftmac.com/safe-to-delete/hugging-face-cache",
    "markdown_url": "https://siftmac.com/safe-to-delete/hugging-face-cache.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
   },
   {
    "id": "icloud-drive-local-files",
@@ -2425,7 +3700,7 @@
    "url": "https://siftmac.com/safe-to-delete/icloud-drive-local-files",
    "markdown_url": "https://siftmac.com/safe-to-delete/icloud-drive-local-files.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-26"
   },
   {
    "id": "imovie-render-files",
@@ -2479,7 +3754,7 @@
    "url": "https://siftmac.com/safe-to-delete/imovie-render-files",
    "markdown_url": "https://siftmac.com/safe-to-delete/imovie-render-files.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
   },
   {
    "id": "ios-device-support",
@@ -2527,7 +3802,7 @@
    "url": "https://siftmac.com/safe-to-delete/ios-device-support",
    "markdown_url": "https://siftmac.com/safe-to-delete/ios-device-support.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
   },
   {
    "id": "iphone-software-updates",
@@ -2588,6 +3863,76 @@
    "updated": "2026-11-21"
   },
   {
+   "id": "jan-and-gpt4all-models",
+   "name": "Jan and GPT4All models",
+   "question": "Is it safe to delete Jan’s data folder and GPT4All’s models folder?",
+   "category": "AI tools",
+   "paths": [
+    "~/Library/Application Support/Jan/data",
+    "~/Library/Application Support/Jan/data/models",
+    "~/Library/Application Support/nomic.ai/GPT4All",
+    "~/.config/gpt4all.io"
+   ],
+   "verdict": "decide",
+   "verdict_label": "You decide",
+   "answer": "**The models, yes. The folders, not blindly.**",
+   "summary": [
+    "**The models, yes. The folders, not blindly.** In both apps the folder that holds your downloaded models also holds your conversations. Remove model files and leave the rest, unless you mean to wipe the app.",
+    "**What it costs you:** a model you delete has to be downloaded again before you can chat with it. Delete the whole folder and you also lose every thread, and in GPT4All your LocalDocs embeddings.",
+    "**Does it come back?** No. Both apps run models you picked, and neither downloads one again unless you ask."
+   ],
+   "comes_back": "No. Both apps run models you picked, and neither downloads one again unless you ask.",
+   "what": "Jan and GPT4All are desktop apps for chatting with language models that run entirely on your Mac. Because nothing is in the cloud, everything they know is in a folder on your disk.",
+   "measure": [
+    "du -sh ~/Library/\"Application Support\"/Jan/data/models/*/models/* 2>/dev/null | sort -h\nls -lhS ~/Library/\"Application Support\"/nomic.ai/GPT4All/*.gguf 2>/dev/null"
+   ],
+   "how_to_clear": "Look in each app for its own way to remove a model before you reach for Finder, since the app then updates its own list. If you do it by hand:\n\n1. Quit the app first, so no model is loaded in memory.\n2. **Jan:** open `data/models`, then the engine folder, and move the folder of the model you don’t want to the Trash. Take the whole folder so its `model.yml` goes with it.\n3. **GPT4All:** in the Download Path folder, move the `.gguf` files you don’t want to the Trash. Don’t touch the `.chat` or `localdocs_v*.db` files.\n4. Open the app, confirm your chats are there, then empty the Trash.\n\nFor a complete wipe after uninstalling, each project gives its own instruction. Jan’s Mac guide offers this optional command and warns that it permanently deletes all data, so back up anything you need:\n\n```\nrm -rf ~/Library/Application\\ Support/Jan/data\n```\n\nGPT4All’s guide says deleting its `nomic.ai/GPT4All` folder wipes all models, the history for all chats and all LocalDocs embeddings, and that deleting `~/.config/gpt4all.io` wipes your customised settings.",
+   "clear_commands": [
+    "rm -rf ~/Library/Application\\ Support/Jan/data"
+   ],
+   "sources": [
+    {
+     "title": "Jan documentation: Data folder",
+     "url": "https://docs.jan.ai/desktop/data-folder"
+    },
+    {
+     "title": "Jan documentation: Mac installation and uninstall",
+     "url": "https://docs.jan.ai/desktop/install/mac"
+    },
+    {
+     "title": "GPT4All documentation: Settings (Download Path)",
+     "url": "https://docs.gpt4all.io/gpt4all_desktop/settings.html"
+    },
+    {
+     "title": "GPT4All wiki: Uninstalling the GPT4All Chat Application",
+     "url": "https://github.com/nomic-ai/gpt4all/wiki/Uninstalling-the-GPT4All-Chat-Application"
+    }
+   ],
+   "see_also": [
+    "lm-studio-models",
+    "ollama-models",
+    "mlx-models"
+   ],
+   "match": [
+    {
+     "glob": "~/Library/Application Support/Jan/data"
+    },
+    {
+     "glob": "~/Library/Application Support/Jan/data/models"
+    },
+    {
+     "glob": "~/Library/Application Support/nomic.ai/GPT4All"
+    },
+    {
+     "glob": "~/.config/gpt4all.io"
+    }
+   ],
+   "url": "https://siftmac.com/safe-to-delete/jan-and-gpt4all-models",
+   "markdown_url": "https://siftmac.com/safe-to-delete/jan-and-gpt4all-models.md",
+   "published": "2026-11-27",
+   "updated": "2026-11-27"
+  },
+  {
    "id": "jetbrains-caches",
    "name": "JetBrains IDE caches",
    "question": "Is it safe to delete ~/Library/Caches/JetBrains?",
@@ -2644,7 +3989,7 @@
    "url": "https://siftmac.com/safe-to-delete/jetbrains-caches",
    "markdown_url": "https://siftmac.com/safe-to-delete/jetbrains-caches.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-26"
   },
   {
    "id": "keychains",
@@ -2703,7 +4048,7 @@
    "url": "https://siftmac.com/safe-to-delete/keychains",
    "markdown_url": "https://siftmac.com/safe-to-delete/keychains.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-26"
   },
   {
    "id": "library-caches",
@@ -2739,7 +4084,8 @@
    "see_also": [
     "system-library-caches",
     "cursor-update-cache",
-    "application-support"
+    "application-support",
+    "app-store-cache"
    ],
    "match": [
     {
@@ -2754,7 +4100,7 @@
    "url": "https://siftmac.com/safe-to-delete/library-caches",
    "markdown_url": "https://siftmac.com/safe-to-delete/library-caches.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-26"
   },
   {
    "id": "library-logs",
@@ -2763,8 +4109,7 @@
    "category": "Library and system",
    "paths": [
     "~/Library/Logs",
-    "/Library/Logs",
-    "/private/var/log"
+    "/Library/Logs"
    ],
    "verdict": "safe",
    "verdict_label": "Safe",
@@ -2807,15 +4152,64 @@
     },
     {
      "glob": "/Library/Logs"
-    },
-    {
-     "glob": "/private/var/log"
     }
    ],
    "url": "https://siftmac.com/safe-to-delete/library-logs",
    "markdown_url": "https://siftmac.com/safe-to-delete/library-logs.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
+  },
+  {
+   "id": "library-updates",
+   "name": "Software Update’s folder",
+   "question": "Can I delete /Library/Updates on a Mac?",
+   "category": "Library and system",
+   "paths": [
+    "/Library/Updates"
+   ],
+   "verdict": "leave",
+   "verdict_label": "Leave it",
+   "answer": "**No.** `/Library/Updates` belongs to Software Update.",
+   "summary": [
+    "**No.** `/Library/Updates` belongs to Software Update. macOS marks it as protected, so it can’t be emptied in Finder or with `sudo` while System Integrity Protection is on.",
+    "**What frees the space instead:** installing the updates that are waiting. Packages here are downloads on their way to being installed.",
+    "**Does it come back?** Yes. Software Update rewrites its catalogue here each time it checks, and fetches the next update when there is one."
+   ],
+   "comes_back": "Yes. Software Update rewrites its catalogue here each time it checks, and fetches the next update when there is one.",
+   "what": "macOS’s updater is a background service, `softwareupdated`, which its manual page calls the main daemon responsible for running software updates. It needs somewhere to keep the list of what Apple currently offers and the smaller packages it has downloaded. `/Library/Updates` is that place.",
+   "measure": [
+    "du -sh /Library/Updates\nls -la /Library/Updates",
+    "softwareupdate --list"
+   ],
+   "how_to_clear": "Because of the `restricted` flag, removing these files isn’t possible in normal use, and the ways around that, starting from Recovery or switching off System Integrity Protection, cost far more than the folder is worth. The supported way to empty it is to let the updates through:\n\n1. **Open System Settings › General › Software Update.** Apple’s steps are to let it check, then click the button to update or restart.\n2. **Install what’s offered**, the smaller updates such as Safari’s as well as macOS itself.\n3. **Restart if asked**, and keep the Mac awake until it finishes.\n4. **Check the folder again** with the `du` line above.\n\nIf an update refuses to install because the disk is full, free room elsewhere first: see [not enough space to update macOS](https://siftmac.com/guides/not-enough-space-to-update-macos).",
+   "clear_commands": [],
+   "sources": [
+    {
+     "title": "Apple: Update macOS on Mac",
+     "url": "https://support.apple.com/en-us/108382"
+    },
+    {
+     "title": "Apple: Keep your Mac up to date",
+     "url": "https://support.apple.com/guide/mac-help/mchlpx1065/mac"
+    },
+    {
+     "title": "macOS manual page: softwareupdate(8)",
+     "url": "https://keith.github.io/xcode-man-pages/softwareupdate.8.html"
+    }
+   ],
+   "see_also": [
+    "assetsv2",
+    "macos-installers"
+   ],
+   "match": [
+    {
+     "glob": "/Library/Updates"
+    }
+   ],
+   "url": "https://siftmac.com/safe-to-delete/library-updates",
+   "markdown_url": "https://siftmac.com/safe-to-delete/library-updates.md",
+   "published": "2026-11-27",
+   "updated": "2026-11-27"
   },
   {
    "id": "lightroom-previews",
@@ -2865,7 +4259,7 @@
    "url": "https://siftmac.com/safe-to-delete/lightroom-previews",
    "markdown_url": "https://siftmac.com/safe-to-delete/lightroom-previews.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
   },
   {
    "id": "lm-studio-models",
@@ -2920,7 +4314,57 @@
    "url": "https://siftmac.com/safe-to-delete/lm-studio-models",
    "markdown_url": "https://siftmac.com/safe-to-delete/lm-studio-models.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
+  },
+  {
+   "id": "lost-and-found",
+   "name": "lost+found folder",
+   "question": "Can I delete the lost+found folder on a Mac or external drive?",
+   "category": "macOS files",
+   "paths": [
+    "/lost+found",
+    "/Volumes/<drive>/lost+found"
+   ],
+   "verdict": "decide",
+   "verdict_label": "You decide",
+   "answer": "**Yes, after checking it.**",
+   "summary": [
+    "**Yes, after checking it.** The folder holds files that a disk repair rescued because they had lost their place in the folder structure. macOS doesn’t use them from there.",
+    "**What it costs you:** possibly the only surviving copy of a file that went missing when the disk was damaged. Open what’s inside before you decide.",
+    "**Does it come back?** Only if a later repair finds more orphaned files. If that keeps happening, the drive itself needs attention."
+   ],
+   "comes_back": "Only if a later repair finds more orphaned files. If that keeps happening, the drive itself needs attention.",
+   "what": "Every file on a disk is recorded in two ways: its contents, and an entry that says which folder it is in and what it is called. When a drive is unplugged mid-write or loses power, the two can come apart, leaving contents with no entry pointing to them. These are called orphaned files.",
+   "measure": [
+    "du -sh \"/Volumes/<drive>/lost+found\"\nfile \"/Volumes/<drive>/lost+found\"/* | head -20"
+   ],
+   "how_to_clear": "1. **Think back.** Did anything go missing from this drive around the time of a crash, a bad eject or a power cut? If so, it may be in here.\n2. **Identify the files** with the `file` command above, or select one in Finder and press Space for a preview.\n3. **Copy anything worth keeping** to a different disk, and give it a proper name and extension so its app opens it.\n4. **Follow Apple’s rule for damaged files:** if you can replace a file or create it again, delete it; if it contains information you need, open it and examine its data to make sure it hasn’t been corrupted.\n5. **Move `lost+found` to the Trash**, then empty the Trash. Finder may ask for an administrator’s password.\n\nThen check the drive’s health. Run First Aid again from Disk Utility. Apple’s guide says that if Disk Utility can’t repair the disk, or First Aid reports that the process failed, you should back up as much of your data as possible, then reformat the disk. More on reading the result: [First Aid found corruption](https://siftmac.com/errors/first-aid-found-corruption).",
+   "clear_commands": [],
+   "sources": [
+    {
+     "title": "macOS manual page: fsck_hfs(8)",
+     "url": "https://keith.github.io/xcode-man-pages/fsck_hfs.8.html"
+    },
+    {
+     "title": "Apple: Repair a storage device in Disk Utility on Mac",
+     "url": "https://support.apple.com/guide/disk-utility/repair-a-storage-device-dskutl1040/mac"
+    }
+   ],
+   "see_also": [
+    "dot-trashes"
+   ],
+   "match": [
+    {
+     "glob": "/lost+found"
+    },
+    {
+     "glob": "/Volumes/*/lost+found"
+    }
+   ],
+   "url": "https://siftmac.com/safe-to-delete/lost-and-found",
+   "markdown_url": "https://siftmac.com/safe-to-delete/lost-and-found.md",
+   "published": "2026-11-27",
+   "updated": "2026-11-27"
   },
   {
    "id": "macos-installers",
@@ -2988,7 +4432,7 @@
    "url": "https://siftmac.com/safe-to-delete/macos-installers",
    "markdown_url": "https://siftmac.com/safe-to-delete/macos-installers.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
   },
   {
    "id": "mail-data",
@@ -3047,7 +4491,7 @@
    "url": "https://siftmac.com/safe-to-delete/mail-data",
    "markdown_url": "https://siftmac.com/safe-to-delete/mail-data.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-26"
   },
   {
    "id": "mail-downloads",
@@ -3162,7 +4606,7 @@
    "url": "https://siftmac.com/safe-to-delete/maven-repository",
    "markdown_url": "https://siftmac.com/safe-to-delete/maven-repository.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-26"
   },
   {
    "id": "messages-attachments",
@@ -3209,7 +4653,7 @@
    "url": "https://siftmac.com/safe-to-delete/messages-attachments",
    "markdown_url": "https://siftmac.com/safe-to-delete/messages-attachments.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
   },
   {
    "id": "microsoft-teams-cache",
@@ -3265,7 +4709,128 @@
    "url": "https://siftmac.com/safe-to-delete/microsoft-teams-cache",
    "markdown_url": "https://siftmac.com/safe-to-delete/microsoft-teams-cache.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-26"
+  },
+  {
+   "id": "minikube-and-kube-cache",
+   "name": "minikube and kubectl’s cache",
+   "question": "Is it safe to delete ~/.minikube and ~/.kube/cache?",
+   "category": "Developer tools",
+   "paths": [
+    "~/.minikube",
+    "~/.kube/cache"
+   ],
+   "verdict": "decide",
+   "verdict_label": "You decide",
+   "answer": "**Yes, with minikube’s own command**, if you no longer need the local clusters.",
+   "summary": [
+    "**Yes, with minikube’s own command**, if you no longer need the local clusters. `minikube delete` removes a cluster and its files. `~/.kube/cache` is plain cache. `~/.kube/config` is neither: keep it.",
+    "**What it costs you:** everything deployed inside a deleted cluster is gone, including data in its volumes.",
+    "**Does it come back?** A new, empty cluster comes back with `minikube start`. What ran in the old one does not."
+   ],
+   "comes_back": "A new, empty cluster comes back with `minikube start`. What ran in the old one does not.",
+   "what": "minikube’s documentation calls this the directory it uses for state and configuration. It holds each local cluster you created (minikube calls them profiles), along with the files minikube downloaded to build them. A cluster is the part that matters: it’s a machine or container with its own disk, and everything you deployed into it lives there.",
+   "measure": [
+    "du -sh ~/.minikube ~/.kube/cache 2>/dev/null\ndu -sh ~/.minikube/* 2>/dev/null | sort -h"
+   ],
+   "how_to_clear": "1. Decide whether anything in the cluster is worth keeping. Export manifests or data you need first.\n2. Run `minikube delete`. Per its docs, it deletes a local Kubernetes cluster: the VM and all associated files.\n3. Add `--all` to delete all profiles. Add `--purge` as well to delete the `.minikube` folder from your user directory, which also removes the downloaded files minikube would otherwise reuse.\n\n```\nminikube delete\nminikube delete --all\nminikube delete --all --purge\n```\n\nUse the command, not Finder. Dragging `~/.minikube` to the Trash can leave the cluster’s virtual machine or container registered with the driver that runs it. If minikube itself is already uninstalled, quit Docker or the VM tool first, then remove the folder.\n\nkubectl’s cache can be emptied directly, with no `kubectl` command running. Note the `cache` at the end of the path:\n\n```\nrm -rf \"$HOME/.kube/cache\"/*\n```",
+   "clear_commands": [
+    "minikube delete\nminikube delete --all\nminikube delete --all --purge",
+    "rm -rf \"$HOME/.kube/cache\"/*"
+   ],
+   "sources": [
+    {
+     "title": "minikube: minikube delete",
+     "url": "https://minikube.sigs.k8s.io/docs/commands/delete/"
+    },
+    {
+     "title": "minikube: Configuration (MINIKUBE_HOME)",
+     "url": "https://minikube.sigs.k8s.io/docs/handbook/config/"
+    },
+    {
+     "title": "minikube: FAQ",
+     "url": "https://minikube.sigs.k8s.io/docs/faq/"
+    },
+    {
+     "title": "Kubernetes: kubectl reference (--cache-dir, KUBECONFIG)",
+     "url": "https://kubernetes.io/docs/reference/kubectl/kubectl/"
+    }
+   ],
+   "see_also": [
+    "docker-raw",
+    "colima-lima-orbstack"
+   ],
+   "match": [
+    {
+     "glob": "~/.minikube"
+    },
+    {
+     "glob": "~/.kube/cache"
+    }
+   ],
+   "url": "https://siftmac.com/safe-to-delete/minikube-and-kube-cache",
+   "markdown_url": "https://siftmac.com/safe-to-delete/minikube-and-kube-cache.md",
+   "published": "2026-11-27",
+   "updated": "2026-11-27"
+  },
+  {
+   "id": "mlx-models",
+   "name": "MLX models (mlx-lm)",
+   "question": "Is it safe to delete MLX and mlx-lm models?",
+   "category": "AI tools",
+   "paths": [
+    "~/.cache/huggingface/hub/models--mlx-community--*",
+    "<project>/mlx_model"
+   ],
+   "verdict": "decide",
+   "verdict_label": "You decide",
+   "answer": "**Yes, the downloaded ones.**",
+   "summary": [
+    "**Yes, the downloaded ones.** A model that `mlx_lm.generate` fetched is a copy of a public repository, stored in the Hugging Face cache. Remove it with `mlx_lm.manage --delete`.",
+    "**What it costs you:** the download, next time you run that model. Models you converted or quantized yourself are a different case: those took your time to make and sit in ordinary folders.",
+    "**Does it come back?** A downloaded model returns when a command asks for it by name. A converted `mlx_model` folder only returns if you run the conversion again."
+   ],
+   "comes_back": "A downloaded model returns when a command asks for it by name. A converted `mlx_model` folder only returns if you run the conversion again.",
+   "what": "MLX is Apple’s machine learning framework for Apple silicon, and `mlx-lm` is the package most people use with it to run language models. There is no `~/.mlx` folder to look for. Give `mlx-lm` a model name and it downloads that repository from the Hugging Face Hub; its own notes on managing models say they are kept in the Hugging Face cache.",
+   "measure": [
+    "mlx_lm.manage --scan\nmlx_lm.manage --scan --pattern mlx-community\ndu -sh ~/path/to/mlx_model"
+   ],
+   "how_to_clear": "Use the package’s own command and name the model. `--pattern` can match several models at once, so run the scan with the same pattern first and read what it lists.\n\n```\nmlx_lm.manage --scan --pattern mlx-community/Mistral-7B-Instruct-v0.2-4bit\nmlx_lm.manage --delete --pattern mlx-community/Mistral-7B-Instruct-v0.2-4bit\n```\n\nHugging Face’s own tools work on the same files, since it is one cache: `hf cache rm` on current versions, or `huggingface-cli delete-cache`, which shows a list to tick, on older ones.\n\nThree things worth doing beyond that:\n\n- After converting, the original full-precision model you converted *from* is still in the cache. If the conversion works, that original is usually the largest thing you can remove.\n- A converted `mlx_model` folder is a normal folder. Stop any Python process using it, then move it to the Trash in Finder, once you are sure you don’t need it or have uploaded it.\n- Rename `mlx_model` folders you want to keep. Every conversion uses that default name, so they are hard to tell apart later.",
+   "clear_commands": [
+    "mlx_lm.manage --scan --pattern mlx-community/Mistral-7B-Instruct-v0.2-4bit\nmlx_lm.manage --delete --pattern mlx-community/Mistral-7B-Instruct-v0.2-4bit"
+   ],
+   "sources": [
+    {
+     "title": "mlx-lm repository: Managing models (mlx_lm.manage --scan and --delete)",
+     "url": "https://github.com/ml-explore/mlx-lm/blob/main/mlx_lm/MANAGE.md"
+    },
+    {
+     "title": "mlx-lm repository: README (mlx_lm.convert and its mlx_model output)",
+     "url": "https://github.com/ml-explore/mlx-lm/blob/main/README.md"
+    },
+    {
+     "title": "Hugging Face: Using MLX at Hugging Face",
+     "url": "https://huggingface.co/docs/hub/en/mlx"
+    }
+   ],
+   "see_also": [
+    "hugging-face-cache",
+    "lm-studio-models",
+    "ollama-models",
+    "jan-and-gpt4all-models"
+   ],
+   "match": [
+    {
+     "glob": "~/.cache/huggingface/hub/models--mlx-community--*"
+    },
+    {
+     "glob": "**/mlx_model"
+    }
+   ],
+   "url": "https://siftmac.com/safe-to-delete/mlx-models",
+   "markdown_url": "https://siftmac.com/safe-to-delete/mlx-models.md",
+   "published": "2026-11-27",
+   "updated": "2026-11-27"
   },
   {
    "id": "nextjs-cache",
@@ -3318,7 +4883,8 @@
    ],
    "see_also": [
     "node-modules",
-    "npm-cache"
+    "npm-cache",
+    "turbo-and-parcel-cache"
    ],
    "match": [
     {
@@ -3331,7 +4897,79 @@
    "url": "https://siftmac.com/safe-to-delete/nextjs-cache",
    "markdown_url": "https://siftmac.com/safe-to-delete/nextjs-cache.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
+  },
+  {
+   "id": "nltk-and-keras-data",
+   "name": "NLTK and Keras data",
+   "question": "Is it safe to delete ~/nltk_data and ~/.keras?",
+   "category": "AI tools",
+   "paths": [
+    "~/nltk_data",
+    "~/.keras/datasets",
+    "~/.keras/models",
+    "~/.keras/keras.json"
+   ],
+   "verdict": "rebuilds",
+   "verdict_label": "Rebuilds",
+   "answer": "**Yes.** Both folders hold public files that a Python library downloaded: corpora and tokenizers for NLTK, datasets and pretrained weights for Keras.",
+   "summary": [
+    "**Yes.** Both folders hold public files that a Python library downloaded: corpora and tokenizers for NLTK, datasets and pretrained weights for Keras. Nothing in them was made by you, apart from one small settings file, `~/.keras/keras.json`.",
+    "**What it costs you:** another download, and for NLTK a manual step, because it won’t fetch a missing package until `nltk.download()` is run.",
+    "**Does it come back?** Keras files return by themselves when code asks for them. NLTK data returns when the download call runs again."
+   ],
+   "comes_back": "Keras files return by themselves when code asks for them. NLTK data returns when the download call runs again.",
+   "what": "These are two of the folders that appear in a home folder after a Python course, a tutorial or an old project, and then stay for years.",
+   "measure": [
+    "du -sh ~/nltk_data ~/.keras 2>/dev/null\ndu -sh ~/nltk_data/* ~/.keras/datasets/* ~/.keras/models/* 2>/dev/null | sort -h"
+   ],
+   "how_to_clear": "Neither library documents a remove command. NLTK’s downloader installs and updates packages, and Keras only fetches. So deleting is done by hand, with Python stopped.\n\n1. Quit the tool first: stop running scripts and shut down Jupyter kernels that import `nltk` or `keras`.\n2. For NLTK, either remove single packages from the subfolders in Finder, or clear everything.\n3. For Keras, clear `datasets` and `models` and leave `keras.json` where it is.\n\n```\nrm -rf ~/nltk_data/*\n```\n\n```\nrm -rf ~/.keras/datasets/*\nrm -rf ~/.keras/models/*\n```\n\n> If you edited `keras.json`, for example to change the backend from `tensorflow` to `jax` or `torch`, that choice is stored only in this file. It is tiny, so there is no reason to delete it.",
+   "clear_commands": [
+    "rm -rf ~/nltk_data/*",
+    "rm -rf ~/.keras/datasets/*\nrm -rf ~/.keras/models/*"
+   ],
+   "sources": [
+    {
+     "title": "NLTK: Installing NLTK Data",
+     "url": "https://www.nltk.org/data.html"
+    },
+    {
+     "title": "NLTK API: nltk.downloader (default download directory, package status)",
+     "url": "https://www.nltk.org/api/nltk.downloader.html"
+    },
+    {
+     "title": "Keras FAQ: Where is the Keras configuration file stored?",
+     "url": "https://keras.io/getting_started/faq/"
+    },
+    {
+     "title": "Keras API: Python utilities (get_file, KERAS_HOME)",
+     "url": "https://keras.io/api/utils/python_utils/"
+    }
+   ],
+   "see_also": [
+    "torch-hub-cache",
+    "hugging-face-cache",
+    "pip-cache",
+    "conda-packages"
+   ],
+   "match": [
+    {
+     "glob": "~/nltk_data"
+    },
+    {
+     "glob": "~/.keras/datasets"
+    },
+    {
+     "glob": "~/.keras/models"
+    },
+    {
+     "glob": "~/.keras/keras.json"
+    }
+   ],
+   "url": "https://siftmac.com/safe-to-delete/nltk-and-keras-data",
+   "markdown_url": "https://siftmac.com/safe-to-delete/nltk-and-keras-data.md",
+   "published": "2026-11-27",
+   "updated": "2026-11-27"
   },
   {
    "id": "node-modules",
@@ -3382,7 +5020,7 @@
    "url": "https://siftmac.com/safe-to-delete/node-modules",
    "markdown_url": "https://siftmac.com/safe-to-delete/node-modules.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
   },
   {
    "id": "npm-cache",
@@ -3446,7 +5084,7 @@
    "url": "https://siftmac.com/safe-to-delete/npm-cache",
    "markdown_url": "https://siftmac.com/safe-to-delete/npm-cache.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
   },
   {
    "id": "ollama-models",
@@ -3499,7 +5137,7 @@
    "url": "https://siftmac.com/safe-to-delete/ollama-models",
    "markdown_url": "https://siftmac.com/safe-to-delete/ollama-models.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
   },
   {
    "id": "parallels-virtual-machines",
@@ -3566,7 +5204,49 @@
    "url": "https://siftmac.com/safe-to-delete/parallels-virtual-machines",
    "markdown_url": "https://siftmac.com/safe-to-delete/parallels-virtual-machines.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
+  },
+  {
+   "id": "photo-booth-library",
+   "name": "Photo Booth Library",
+   "question": "Can I delete ~/Pictures/Photo Booth Library?",
+   "category": "Apple apps",
+   "paths": [
+    "~/Pictures/Photo Booth Library"
+   ],
+   "verdict": "decide",
+   "verdict_label": "You decide",
+   "answer": "**Yes, if you don’t want the pictures.**",
+   "summary": [
+    "**Yes, if you don’t want the pictures.** The library holds only what was taken with Photo Booth on this Mac. macOS and the Photos app don’t depend on it.",
+    "**What it costs you:** the photos and video clips themselves. They aren’t in iCloud Photos unless you added them to the Photos app, so export the ones you care about first.",
+    "**Does it come back?** No. Deleted pictures are gone, and the library holds only what you take from then on."
+   ],
+   "comes_back": "No. Deleted pictures are gone, and the library holds only what you take from then on.",
+   "what": "Photo Booth is the small camera app that comes with every Mac. Each photo, four-up strip and video you take with it is saved straight into its own library, and shown as a row of thumbnails along the bottom of the Photo Booth window.",
+   "measure": [
+    "du -sh ~/Pictures/Photo\\ Booth\\ Library\ndu -sh ~/Pictures/Photo\\ Booth\\ Library/Pictures/* 2>/dev/null | sort -h | tail -10"
+   ],
+   "how_to_clear": "Do it in Photo Booth, so the app’s list and the files stay in step. Apple’s Photo Booth guide gives the commands:\n\n1. **Save what you want first.** Apple notes that you can export photos and videos, or share them, before you delete them.\n2. **Delete some:** select one or more thumbnails, then click the Delete button.\n3. **Changed your mind?** Choose Edit › Undo Delete, once for each deletion you made in a row.\n4. **Delete everything:** choose Edit › Delete All.\n\n> Apple’s warning about the last step: you can’t recover photos and videos that you deleted using Edit › Delete All.\n\nIf you never use Photo Booth and only want the old library gone, quit the app and move `Photo Booth Library` from your Pictures folder to the Trash. That way the pictures stay recoverable until you empty the Trash. Apple doesn’t document this route, so prefer the commands above when you still use the app.",
+   "clear_commands": [],
+   "sources": [
+    {
+     "title": "Apple: Delete photos and videos from Photo Booth on Mac",
+     "url": "https://support.apple.com/guide/photo-booth/delete-photos-and-videos-pbhlpcfe96cc/mac"
+    }
+   ],
+   "see_also": [
+    "photos-library"
+   ],
+   "match": [
+    {
+     "glob": "~/Pictures/Photo Booth Library"
+    }
+   ],
+   "url": "https://siftmac.com/safe-to-delete/photo-booth-library",
+   "markdown_url": "https://siftmac.com/safe-to-delete/photo-booth-library.md",
+   "published": "2026-11-27",
+   "updated": "2026-11-27"
   },
   {
    "id": "photos-library",
@@ -3624,7 +5304,7 @@
    "url": "https://siftmac.com/safe-to-delete/photos-library",
    "markdown_url": "https://siftmac.com/safe-to-delete/photos-library.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-26"
   },
   {
    "id": "pip-cache",
@@ -3666,7 +5346,8 @@
     "python-venv",
     "uv-cache",
     "conda-packages",
-    "library-caches"
+    "library-caches",
+    "nltk-and-keras-data"
    ],
    "match": [
     {
@@ -3676,7 +5357,54 @@
    "url": "https://siftmac.com/safe-to-delete/pip-cache",
    "markdown_url": "https://siftmac.com/safe-to-delete/pip-cache.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
+  },
+  {
+   "id": "playwright-browsers",
+   "name": "Playwright’s browsers",
+   "question": "Is it safe to delete ~/Library/Caches/ms-playwright?",
+   "category": "Developer tools",
+   "paths": [
+    "~/Library/Caches/ms-playwright"
+   ],
+   "verdict": "rebuilds",
+   "verdict_label": "Rebuilds",
+   "answer": "**Yes.** The folder holds browser builds that Playwright downloaded for testing.",
+   "summary": [
+    "**Yes.** The folder holds browser builds that Playwright downloaded for testing. Your tests, your config and the Chrome or Safari you browse with are somewhere else.",
+    "**What it costs you:** tests won’t start until the browsers are downloaded again with `npx playwright install`.",
+    "**Does it come back?** Only when you run that install command, or a tool that runs it for you."
+   ],
+   "comes_back": "Only when you run that install command, or a tool that runs it for you.",
+   "what": "Playwright doesn’t drive the browsers you already have. It downloads its own builds of Chromium, Firefox and WebKit, each one pinned to a Playwright release, and keeps them in one shared folder so every project on the Mac can use the same copy.",
+   "measure": [
+    "du -sh ~/Library/Caches/ms-playwright\ndu -sh ~/Library/Caches/ms-playwright/* | sort -h"
+   ],
+   "how_to_clear": "1. Stop any test run, and close the Playwright UI or codegen windows.\n2. In a project that uses Playwright, run `npx playwright uninstall`. It removes the browsers of that project’s Playwright installation.\n3. To remove the browsers of every Playwright installation on the Mac, add `--all`.\n\n```\nnpx playwright uninstall\nnpx playwright uninstall --all\n```\n\nIf no project has Playwright installed any more, there’s nothing left to run the command from. In that case the folder’s contents can be removed directly, with no tests running:\n\n```\nrm -rf \"$HOME/Library/Caches/ms-playwright\"/*\n```",
+   "clear_commands": [
+    "npx playwright uninstall\nnpx playwright uninstall --all",
+    "rm -rf \"$HOME/Library/Caches/ms-playwright\"/*"
+   ],
+   "sources": [
+    {
+     "title": "Playwright Docs: Browsers (install, uninstall, cache location)",
+     "url": "https://playwright.dev/docs/browsers"
+    }
+   ],
+   "see_also": [
+    "node-modules",
+    "npm-cache",
+    "library-caches"
+   ],
+   "match": [
+    {
+     "glob": "~/Library/Caches/ms-playwright"
+    }
+   ],
+   "url": "https://siftmac.com/safe-to-delete/playwright-browsers",
+   "markdown_url": "https://siftmac.com/safe-to-delete/playwright-browsers.md",
+   "published": "2026-11-27",
+   "updated": "2026-11-27"
   },
   {
    "id": "pnpm-store",
@@ -3798,7 +5526,117 @@
    "url": "https://siftmac.com/safe-to-delete/podcasts-downloads",
    "markdown_url": "https://siftmac.com/safe-to-delete/podcasts-downloads.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-26"
+  },
+  {
+   "id": "poetry-cache",
+   "name": "Poetry’s cache and virtualenvs",
+   "question": "Is it safe to delete ~/Library/Caches/pypoetry?",
+   "category": "Package caches",
+   "paths": [
+    "~/Library/Caches/pypoetry",
+    "~/Library/Caches/pypoetry/virtualenvs"
+   ],
+   "verdict": "rebuilds",
+   "verdict_label": "Rebuilds",
+   "answer": "**Yes**, but know that it is two things.",
+   "summary": [
+    "**Yes**, but know that it is two things. The package cache is pure download cache. The `virtualenvs` folder inside it is where Poetry puts each project’s environment unless you told it otherwise.",
+    "**What it costs you:** cleared packages download again. A removed environment means `poetry install` before that project runs.",
+    "**Does it come back?** The cache refills on the next install. Environments return when you run `poetry install` in each project."
+   ],
+   "comes_back": "The cache refills on the next install. Environments return when you run `poetry install` in each project.",
+   "what": "Poetry’s `cache-dir` setting points at this folder on macOS. Poetry keeps packages it downloaded from PyPI and any other repository you configured here, sorted by repository, so that resolving and installing the same package twice doesn’t mean fetching it twice.",
+   "measure": [
+    "du -sh ~/Library/Caches/pypoetry/* | sort -h\ndu -sh ~/Library/Caches/pypoetry/virtualenvs/* 2>/dev/null | sort -h"
+   ],
+   "how_to_clear": "### The package cache\n\nPoetry’s CLI reference gives the commands. The first clears the whole package cache from all repositories; the second only what came from PyPI.\n\n```\npoetry cache clear --all\npoetry cache clear PyPI --all\n```\n\n### Virtual environments\n\nRemove these per project, from inside the project folder, so Poetry knows which ones belong to it:\n\n```\ncd ~/Projects/my-api\npoetry env list\npoetry env remove --all\n```\n\nFor a project whose folder you already deleted, Poetry has nothing to run from. Its leftover environment is the folder in `virtualenvs` whose name starts with the old project’s name. With no Poetry command running, remove that one folder:\n\n```\nrm -rf \"$HOME/Library/Caches/pypoetry/virtualenvs/old-project-AbCd1234-py3.12\"\n```\n\nThat name is an example. Use the real folder name from the `du` listing above.",
+   "clear_commands": [
+    "poetry cache clear --all\npoetry cache clear PyPI --all",
+    "cd ~/Projects/my-api\npoetry env list\npoetry env remove --all",
+    "rm -rf \"$HOME/Library/Caches/pypoetry/virtualenvs/old-project-AbCd1234-py3.12\""
+   ],
+   "sources": [
+    {
+     "title": "Poetry Docs: Configuration (cache-dir, virtualenvs.path)",
+     "url": "https://python-poetry.org/docs/configuration/"
+    },
+    {
+     "title": "Poetry Docs: Commands (cache, env)",
+     "url": "https://python-poetry.org/docs/cli/"
+    }
+   ],
+   "see_also": [
+    "pip-cache",
+    "python-venv",
+    "uv-cache",
+    "pyenv-versions"
+   ],
+   "match": [
+    {
+     "glob": "~/Library/Caches/pypoetry"
+    },
+    {
+     "glob": "~/Library/Caches/pypoetry/virtualenvs"
+    }
+   ],
+   "url": "https://siftmac.com/safe-to-delete/poetry-cache",
+   "markdown_url": "https://siftmac.com/safe-to-delete/poetry-cache.md",
+   "published": "2026-11-27",
+   "updated": "2026-11-27"
+  },
+  {
+   "id": "preboot-volume",
+   "name": "The Preboot volume",
+   "question": "Can I delete the Preboot volume or what’s inside it?",
+   "category": "macOS files",
+   "paths": [
+    "/System/Volumes/Preboot"
+   ],
+   "verdict": "leave",
+   "verdict_label": "Leave it",
+   "answer": "**No.** Preboot is one of the volumes macOS starts up from.",
+   "summary": [
+    "**No.** Preboot is one of the volumes macOS starts up from. It holds files used before the system is running, and the sealed disk images that carry Safari and other parts of macOS. Remove them and the Mac may not start.",
+    "**What frees space instead:** nothing inside Preboot is yours to clear. Look at your own files, caches and snapshots, which is where reclaimable space is.",
+    "**Does it come back?** macOS writes this volume itself during installs and updates. A reinstall of macOS from Recovery is the supported way to rebuild it."
+   ],
+   "comes_back": "macOS writes this volume itself during installs and updates. A reinstall of macOS from Recovery is the supported way to rebuild it.",
+   "what": "A Mac’s startup disk is not one volume but a group. Howard Oakley of The Eclectic Light Company lists six in macOS 15: System, Data, Recovery, VM, Update and Preboot. He describes Preboot as the volume that supports the early stages of the secure boot process.",
+   "measure": [],
+   "how_to_clear": "Preboot shares the disk’s free space with your Data volume, so its gigabytes do count against you. But they are the working parts of macOS, the same as the system volume itself. There is no cache or leftover in there with a supported way to remove it, and guides that suggest deleting folders from Recovery or after turning off System Integrity Protection risk a Mac that stops at startup.\n\n1. **Keep macOS up to date.** Updates replace the cryptexes with new ones.\n2. **If you believe it is damaged or far larger than Disk Utility says is normal,** back up, then reinstall macOS from Recovery. Apple says reinstalling doesn’t remove your apps or personal data.\n3. **For space, look where you’re in charge:** [what is taking up space](https://siftmac.com/guides/what-is-taking-up-space-on-mac), [local Time Machine snapshots](https://siftmac.com/guides/time-machine-local-snapshots) and [old macOS installers](https://siftmac.com/safe-to-delete/macos-installers).",
+   "clear_commands": [],
+   "sources": [
+    {
+     "title": "Apple Platform Security: Signed system volume security",
+     "url": "https://support.apple.com/guide/security/signed-system-volume-security-secd698747c9/web"
+    },
+    {
+     "title": "Apple: How to reinstall macOS",
+     "url": "https://support.apple.com/en-us/102655"
+    },
+    {
+     "title": "Howard Oakley, The Eclectic Light Company: Boot volume layout and structure in macOS Sequoia",
+     "url": "https://eclecticlight.co/2024/10/22/boot-volume-layout-and-structure-in-macos-sequoia/"
+    },
+    {
+     "title": "Howard Oakley, The Eclectic Light Company: Boot disk structure in macOS, iOS and iPadOS, and AI cryptexes",
+     "url": "https://eclecticlight.co/2025/06/20/boot-disk-structure-in-macos-ios-and-ipados-and-ai-cryptexes/"
+    }
+   ],
+   "see_also": [
+    "assetsv2",
+    "dyld-cache"
+   ],
+   "match": [
+    {
+     "glob": "/System/Volumes/Preboot"
+    }
+   ],
+   "url": "https://siftmac.com/safe-to-delete/preboot-volume",
+   "markdown_url": "https://siftmac.com/safe-to-delete/preboot-volume.md",
+   "published": "2026-11-26",
+   "updated": "2026-11-27"
   },
   {
    "id": "preferences-plist-files",
@@ -3852,7 +5690,174 @@
    "url": "https://siftmac.com/safe-to-delete/preferences-plist-files",
    "markdown_url": "https://siftmac.com/safe-to-delete/preferences-plist-files.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
+  },
+  {
+   "id": "private-tmp",
+   "name": "Temporary folders (/tmp)",
+   "question": "Can I delete /private/tmp and /private/var/tmp on a Mac?",
+   "category": "Library and system",
+   "paths": [
+    "/private/tmp",
+    "/private/var/tmp"
+   ],
+   "verdict": "leave",
+   "verdict_label": "Leave it",
+   "answer": "**Leave them.** The folders themselves must exist, and what’s inside often belongs to something that is running right now.",
+   "summary": [
+    "**Leave them.** The folders themselves must exist, and what’s inside often belongs to something that is running right now. macOS clears old files from `/tmp` every day without your help.",
+    "**What it costs you:** emptying them by hand can break an app, an installer or a Terminal session that is mid-task.",
+    "**Does it come back?** Yes. Apps and system services put new temporary files there as soon as they need them."
+   ],
+   "comes_back": "Yes. Apps and system services put new temporary files there as soon as they need them.",
+   "what": "These are two shared scratch folders inherited from Unix. The macOS manual page for the file-system layout, `hier`, describes them in a few words each:",
+   "measure": [
+    "du -sh /private/tmp /private/var/tmp 2>/dev/null\ndu -sh /private/tmp/* /private/var/tmp/* 2>/dev/null | sort -h | tail -8"
+   ],
+   "how_to_clear": "macOS has a cleaner for this. Its manual page, `tmp_cleaner`, says it checks the `/tmp` directory every day for content that hasn’t been modified recently and removes it, and that it first appeared in macOS 14. On macOS 15 the script it runs is set to three days, and it is scheduled by the system; the manual says not to launch it by hand. An Apple engineer described the same three-day rule for earlier versions of macOS, and added that these details aren’t promised and can change between releases.\n\n`/var/tmp` isn’t in that cleaner’s list, which fits its description as the place for temporary files that should outlast a restart. Each tool is expected to remove what it put there.\n\n1. **Wait three days** if the space is in `/tmp` and you aren’t in a hurry. Idle files go by themselves.\n2. **Quit the tool that made a large item**, then check again. Many tools delete their temporary files on exit.\n3. **Remove only a file that you created** and know is finished with, for example a download you unpacked there yourself in Terminal. Leave everything owned by `root` or by an account whose name begins with an underscore.\n4. **Never remove the folders themselves**, and don’t run a blanket `rm` across them. Sockets and lock files inside are in use even when they are zero bytes.",
+   "clear_commands": [],
+   "sources": [
+    {
+     "title": "macOS manual page: hier(7), layout of the file system",
+     "url": "https://keith.github.io/xcode-man-pages/hier.7.html"
+    },
+    {
+     "title": "Apple Developer Forums: When are /tmp and $TMPDIR cleaned up in macOS? (answer from an Apple engineer)",
+     "url": "https://developer.apple.com/forums/thread/71382"
+    }
+   ],
+   "see_also": [
+    "var-folders",
+    "private-var-log"
+   ],
+   "match": [
+    {
+     "glob": "/private/tmp"
+    },
+    {
+     "glob": "/private/var/tmp"
+    }
+   ],
+   "url": "https://siftmac.com/safe-to-delete/private-tmp",
+   "markdown_url": "https://siftmac.com/safe-to-delete/private-tmp.md",
+   "published": "2026-11-27",
+   "updated": "2026-11-27"
+  },
+  {
+   "id": "private-var-log",
+   "name": "System logs (/var/log)",
+   "question": "Can I delete /private/var/log (or /var/log) on a Mac?",
+   "category": "Library and system",
+   "paths": [
+    "/private/var/log",
+    "/var/log"
+   ],
+   "verdict": "leave",
+   "verdict_label": "Leave it",
+   "answer": "**No need.** `/private/var/log` belongs to macOS, which rotates and compresses these logs by itself.",
+   "summary": [
+    "**No need.** `/private/var/log` belongs to macOS, which rotates and compresses these logs by itself. On most Macs the whole folder is tens of megabytes, so there is little space to win.",
+    "**What it costs you:** the record of installs, updates and disk checks that you or a technician would read when something goes wrong.",
+    "**Does it come back?** Yes. System services write to these files all day and would start new ones straight away."
+   ],
+   "comes_back": "Yes. System services write to these files all day and would start new ones straight away.",
+   "what": "The macOS manual page that describes the layout of the file system, `hier`, lists `/var/log` as the place for miscellaneous system log files. These are the older, plain-text logs kept by parts of macOS inherited from Unix, alongside the newer unified log that lives [in another folder](https://siftmac.com/safe-to-delete/diagnostics-and-uuidtext).",
+   "measure": [
+    "du -sh /private/var/log\ndu -sh /private/var/log/* 2>/dev/null | sort -h | tail -8"
+   ],
+   "how_to_clear": "macOS already keeps this folder in check, in two ways you can see on your own Mac:\n\n- `newsyslog` archives log files when they pass a set size or age and keeps a fixed number of old copies, optionally compressed. Its settings are in `/etc/newsyslog.conf` and `/etc/newsyslog.d/`. That is why you see `wifi.log.0.bz2`, `wifi.log.1.bz2` and so on, up to a limit.\n- `aslmanager` looks after `system.log` and the `asl` folder using the rules in `/etc/asl.conf`, which rotate and compress `system.log` and cap its total size.\n\nRemoving files by hand means using administrator rights on a system folder while services have those files open. A service can keep writing to a file that no longer has a name, or stop logging until it restarts. For a folder this small, that is risk for no gain.\n\nIf you want space back, look at what’s yours: [old logs in your own Library](https://siftmac.com/safe-to-delete/library-logs), [crash reports](https://siftmac.com/safe-to-delete/diagnostic-reports) and the larger items in [System Data](https://siftmac.com/guides/system-data-on-mac).",
+   "clear_commands": [],
+   "sources": [
+    {
+     "title": "Apple: View reports in Console on Mac",
+     "url": "https://support.apple.com/guide/console/cnsl664be99a/mac"
+    },
+    {
+     "title": "macOS manual page: newsyslog(8)",
+     "url": "https://keith.github.io/xcode-man-pages/newsyslog.8.html"
+    },
+    {
+     "title": "macOS manual page: hier(7), layout of the file system",
+     "url": "https://keith.github.io/xcode-man-pages/hier.7.html"
+    }
+   ],
+   "see_also": [
+    "library-logs",
+    "diagnostics-and-uuidtext",
+    "diagnostic-reports"
+   ],
+   "match": [
+    {
+     "glob": "/private/var/log"
+    },
+    {
+     "glob": "/var/log"
+    }
+   ],
+   "url": "https://siftmac.com/safe-to-delete/private-var-log",
+   "markdown_url": "https://siftmac.com/safe-to-delete/private-var-log.md",
+   "published": "2026-11-27",
+   "updated": "2026-11-27"
+  },
+  {
+   "id": "puppeteer-cache",
+   "name": "Puppeteer’s Chrome downloads",
+   "question": "Is it safe to delete ~/.cache/puppeteer?",
+   "category": "Developer tools",
+   "paths": [
+    "~/.cache/puppeteer"
+   ],
+   "verdict": "rebuilds",
+   "verdict_label": "Rebuilds",
+   "answer": "**Yes.** The folder contains copies of Chrome for Testing and `chrome-headless-shell` that Puppeteer fetched.",
+   "summary": [
+    "**Yes.** The folder contains copies of Chrome for Testing and `chrome-headless-shell` that Puppeteer fetched. None of your scripts or their output are kept there.",
+    "**What it costs you:** scripts that launch a browser fail until you run `npx puppeteer browsers install` in the project.",
+    "**Does it come back?** Yes, when the `puppeteer` package is installed again or you run its install command."
+   ],
+   "comes_back": "Yes, when the `puppeteer` package is installed again or you run its install command.",
+   "what": "Installing the `puppeteer` package also downloads a recent Chrome for Testing, and since Puppeteer v21.6.0 a `chrome-headless-shell` binary too. Each Puppeteer release expects a specific Chrome build, so every upgrade brings another one.",
+   "measure": [
+    "du -sh ~/.cache/puppeteer\ndu -sh ~/.cache/puppeteer/*/* 2>/dev/null | sort -h"
+   ],
+   "how_to_clear": "1. Stop any script, test run or scraper that is using Puppeteer. A running job has its Chrome open from this folder.\n2. Empty the folder.\n3. In each project you still use, install the browser again.\n\n```\nrm -rf \"$HOME/.cache/puppeteer\"/*\n```\n\n```\ncd ~/Projects/my-scraper\nnpx puppeteer browsers install\n```\n\nPuppeteer’s browser tool, `@puppeteer/browsers`, has `list` and `clear` commands of its own. Before relying on them, run `npx @puppeteer/browsers clear --help` and check which folder they act on. Its documentation shows the commands but not the folder they default to.",
+   "clear_commands": [
+    "rm -rf \"$HOME/.cache/puppeteer\"/*",
+    "cd ~/Projects/my-scraper\nnpx puppeteer browsers install"
+   ],
+   "sources": [
+    {
+     "title": "Puppeteer: Installation",
+     "url": "https://pptr.dev/guides/installation"
+    },
+    {
+     "title": "Puppeteer: Configuration (cache directory)",
+     "url": "https://pptr.dev/guides/configuration"
+    },
+    {
+     "title": "Puppeteer: Configuration interface (cacheDirectory, PUPPETEER_CACHE_DIR)",
+     "url": "https://pptr.dev/api/puppeteer.configuration"
+    },
+    {
+     "title": "Puppeteer: @puppeteer/browsers",
+     "url": "https://pptr.dev/browsers-api"
+    }
+   ],
+   "see_also": [
+    "playwright-browsers",
+    "cypress-cache",
+    "node-modules",
+    "npm-cache"
+   ],
+   "match": [
+    {
+     "glob": "~/.cache/puppeteer"
+    }
+   ],
+   "url": "https://siftmac.com/safe-to-delete/puppeteer-cache",
+   "markdown_url": "https://siftmac.com/safe-to-delete/puppeteer-cache.md",
+   "published": "2026-11-27",
+   "updated": "2026-11-27"
   },
   {
    "id": "pycache",
@@ -3891,7 +5896,8 @@
    "see_also": [
     "python-venv",
     "pip-cache",
-    "uv-cache"
+    "uv-cache",
+    "pytest-mypy-tox-caches"
    ],
    "match": [
     {
@@ -3901,7 +5907,142 @@
    "url": "https://siftmac.com/safe-to-delete/pycache",
    "markdown_url": "https://siftmac.com/safe-to-delete/pycache.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
+  },
+  {
+   "id": "pyenv-versions",
+   "name": "pyenv’s Python versions",
+   "question": "Is it safe to delete ~/.pyenv/versions?",
+   "category": "Developer tools",
+   "paths": [
+    "~/.pyenv/versions"
+   ],
+   "verdict": "decide",
+   "verdict_label": "You decide",
+   "answer": "**One by one**, yes.",
+   "summary": [
+    "**One by one**, yes. Each folder in `~/.pyenv/versions` is a complete Python install, and one you no longer use can go with `pyenv uninstall`. Don’t empty the whole folder without looking.",
+    "**What it costs you:** every package installed into that Python goes with it, and virtual environments created from it stop working.",
+    "**Does it come back?** No. You would run `pyenv install` again and reinstall the packages."
+   ],
+   "comes_back": "No. You would run `pyenv install` again and reinstall the packages.",
+   "what": "pyenv installs each Python version into its own directory under `$(pyenv root)/versions`. To pyenv, a version name is simply the name of a directory there. Inside each one is a whole interpreter: the `python` binary, the standard library, and a `site-packages` folder with everything you installed using that version’s `pip`.",
+   "measure": [
+    "du -sh ~/.pyenv/versions/* | sort -h"
+   ],
+   "how_to_clear": "1. Find out what still points at it. Look for `.python-version` files in your projects, and check the global setting with `pyenv global`.\n2. If you might want its packages again, save the list first.\n3. Remove it with pyenv’s own command.\n\n```\ngrep -rs --include=.python-version . ~/Projects | sort | uniq -c\n~/.pyenv/versions/3.9.18/bin/python -m pip freeze > ~/py3918-packages.txt\npyenv uninstall 3.9.18\n```\n\npyenv’s README says you can also simply `rm -rf` the version’s directory, with one caveat: plugins may run extra steps on uninstall that you would then have to do by hand. `pyenv uninstall` is the safer of the two, and it’s one line.",
+   "clear_commands": [
+    "grep -rs --include=.python-version . ~/Projects | sort | uniq -c\n~/.pyenv/versions/3.9.18/bin/python -m pip freeze > ~/py3918-packages.txt\npyenv uninstall 3.9.18"
+   ],
+   "sources": [
+    {
+     "title": "pyenv README (versions directory, uninstalling Python versions)",
+     "url": "https://github.com/pyenv/pyenv#readme"
+    },
+    {
+     "title": "pyenv command reference",
+     "url": "https://github.com/pyenv/pyenv/blob/master/COMMANDS.md"
+    }
+   ],
+   "see_also": [
+    "python-venv",
+    "pip-cache",
+    "conda-packages"
+   ],
+   "match": [
+    {
+     "glob": "~/.pyenv/versions"
+    }
+   ],
+   "url": "https://siftmac.com/safe-to-delete/pyenv-versions",
+   "markdown_url": "https://siftmac.com/safe-to-delete/pyenv-versions.md",
+   "published": "2026-11-27",
+   "updated": "2026-11-27"
+  },
+  {
+   "id": "pytest-mypy-tox-caches",
+   "name": "pytest, mypy, ruff and tox caches",
+   "question": "Is it safe to delete .pytest_cache, .mypy_cache, .ruff_cache and .tox?",
+   "category": "Project folders",
+   "paths": [
+    "<project>/.pytest_cache",
+    "<project>/.mypy_cache",
+    "<project>/.ruff_cache",
+    "<project>/.tox"
+   ],
+   "verdict": "rebuilds",
+   "verdict_label": "Rebuilds",
+   "answer": "**Yes.** All four are written by tools as they run, and each tool makes its folder again the next time you use it.",
+   "summary": [
+    "**Yes.** All four are written by tools as they run, and each tool makes its folder again the next time you use it.",
+    "**What it costs you:** a slower next run. mypy rechecks everything, tox rebuilds its environments, and pytest forgets which tests failed last time.",
+    "**Does it come back?** Yes, the next time you run that tool in the project."
+   ],
+   "comes_back": "Yes, the next time you run that tool in the project.",
+   "what": "`.tox` is the one that matters for disk space. tox’s work directory defaults to `.tox` in the project root, and every environment in your tox configuration becomes a complete virtualenv inside it, with its own copy of your dependencies. A project tested against four Python versions carries four environments.",
+   "measure": [
+    "cd ~/Projects/my-app\ndu -sh .pytest_cache .mypy_cache .ruff_cache .tox 2>/dev/null",
+    "find ~/Projects \\( -name .tox -o -name .mypy_cache -o -name .ruff_cache -o -name .pytest_cache \\) -type d -prune -exec du -sh {} + 2>/dev/null | sort -h"
+   ],
+   "how_to_clear": "- **pytest:** `pytest --cache-clear` removes all cached values ahead of a test run. pytest recommends it for CI runs, where isolation matters more than speed.\n- **Ruff:** `ruff clean` clears any caches in the current directory and any subdirectories.\n- **tox:** `tox run -r` recreates the environments. That replaces them; it doesn’t free the space. To get the space back, delete the folder.\n- **mypy:** there is no clean command. Delete the folder, or pass `--cache-dir=/dev/null` to stop mypy writing one.\n\n```\ncd ~/Projects/my-app\npytest --cache-clear\nruff clean\n```\n\nFor `.tox` and `.mypy_cache`, stop any running test or type-check first (including the mypy daemon and your editor’s type checker), then remove them by full path:\n\n```\nrm -rf \"$HOME/Projects/my-app/.tox\" \"$HOME/Projects/my-app/.mypy_cache\"\n```",
+   "clear_commands": [
+    "cd ~/Projects/my-app\npytest --cache-clear\nruff clean",
+    "rm -rf \"$HOME/Projects/my-app/.tox\" \"$HOME/Projects/my-app/.mypy_cache\""
+   ],
+   "sources": [
+    {
+     "title": "pytest: How to re-run failed tests and maintain state between test runs",
+     "url": "https://docs.pytest.org/en/stable/how-to/cache.html"
+    },
+    {
+     "title": "mypy: The mypy command line (incremental mode, --cache-dir)",
+     "url": "https://mypy.readthedocs.io/en/stable/command_line.html"
+    },
+    {
+     "title": "mypy: Additional features (the incremental cache)",
+     "url": "https://mypy.readthedocs.io/en/stable/additional_features.html"
+    },
+    {
+     "title": "Ruff: Settings (cache-dir)",
+     "url": "https://docs.astral.sh/ruff/settings/"
+    },
+    {
+     "title": "Ruff: Configuring Ruff (ruff clean)",
+     "url": "https://docs.astral.sh/ruff/configuration/"
+    },
+    {
+     "title": "tox: Configuration (work_dir)",
+     "url": "https://tox.wiki/en/latest/reference/config.html"
+    },
+    {
+     "title": "tox: CLI interface (--recreate, --workdir)",
+     "url": "https://tox.wiki/en/latest/reference/cli.html"
+    }
+   ],
+   "see_also": [
+    "pycache",
+    "python-venv",
+    "pip-cache",
+    "uv-cache"
+   ],
+   "match": [
+    {
+     "glob": "**/.pytest_cache"
+    },
+    {
+     "glob": "**/.mypy_cache"
+    },
+    {
+     "glob": "**/.ruff_cache"
+    },
+    {
+     "glob": "**/.tox"
+    }
+   ],
+   "url": "https://siftmac.com/safe-to-delete/pytest-mypy-tox-caches",
+   "markdown_url": "https://siftmac.com/safe-to-delete/pytest-mypy-tox-caches.md",
+   "published": "2026-11-27",
+   "updated": "2026-11-27"
   },
   {
    "id": "python-venv",
@@ -3952,7 +6093,8 @@
     "pycache",
     "pip-cache",
     "uv-cache",
-    "conda-packages"
+    "conda-packages",
+    "poetry-cache"
    ],
    "match": [
     {
@@ -3966,7 +6108,7 @@
    "url": "https://siftmac.com/safe-to-delete/python-venv",
    "markdown_url": "https://siftmac.com/safe-to-delete/python-venv.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
   },
   {
    "id": "quicklook-thumbnail-cache",
@@ -4020,7 +6162,109 @@
    "url": "https://siftmac.com/safe-to-delete/quicklook-thumbnail-cache",
    "markdown_url": "https://siftmac.com/safe-to-delete/quicklook-thumbnail-cache.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
+  },
+  {
+   "id": "relocated-items",
+   "name": "Relocated Items folder",
+   "question": "Can I delete the Relocated Items folder on my Mac?",
+   "category": "macOS files",
+   "paths": [
+    "/Users/Shared/Relocated Items",
+    "~/Desktop/Relocated Items"
+   ],
+   "verdict": "decide",
+   "verdict_label": "You decide",
+   "answer": "**Usually yes,** once you’ve looked inside.",
+   "summary": [
+    "**Usually yes,** once you’ve looked inside. Apple says the folder holds files that a macOS upgrade couldn’t move to their new locations. macOS itself doesn’t use them from there.",
+    "**What it costs you:** nothing, unless one of those files is a setting or document you still want. Read the PDF in the folder and check the rest before you delete.",
+    "**Does it come back?** Not by itself. A later macOS upgrade can make a new one if it again finds files it can’t place."
+   ],
+   "comes_back": "Not by itself. A later macOS upgrade can make a new one if it again finds files it can’t place.",
+   "what": "After upgrading macOS, some people find a new item on the desktop called Relocated Items. Apple’s Mac User Guide explains it in one line: if any of your files couldn’t be moved to their new locations during the upgrade, they’re placed in a Relocated Items folder.",
+   "measure": [
+    "du -sh \"/Users/Shared/Relocated Items\"\nls -R \"/Users/Shared/Relocated Items\" | head -50"
+   ],
+   "how_to_clear": "1. **Open the folder** from the desktop alias and read the PDF that Apple puts in it.\n2. **Look through the other files.** If you recognise something you set up yourself and still need, copy it somewhere in your home folder, such as Documents. Don’t try to put files back into system folders.\n3. **Check that your Mac and your apps work** as they did before the upgrade. If something that used to work has stopped, keep the folder until you’ve sorted that out, since the old file may show what changed.\n4. **Drag the Relocated Items folder** in `/Users/Shared` to the Trash. Finder may ask for an administrator’s password.\n5. **Drag the alias on the desktop to the Trash** too, then empty the Trash.\n\n> Deleting only the desktop alias removes the shortcut and frees no space. The folder stays in `/Users/Shared` until you delete it there.",
+   "clear_commands": [],
+   "sources": [
+    {
+     "title": "Apple: If a Relocated Items folder appears on your Mac after upgrading macOS",
+     "url": "https://support.apple.com/guide/mac-help/a-relocated-items-folder-appears-mac-mchl8ae423a3/mac"
+    }
+   ],
+   "see_also": [
+    "macos-installers",
+    "trash"
+   ],
+   "match": [
+    {
+     "glob": "/Users/Shared/Relocated Items"
+    },
+    {
+     "glob": "~/Desktop/Relocated Items"
+    }
+   ],
+   "url": "https://siftmac.com/safe-to-delete/relocated-items",
+   "markdown_url": "https://siftmac.com/safe-to-delete/relocated-items.md",
+   "published": "2026-11-27",
+   "updated": "2026-11-27"
+  },
+  {
+   "id": "ruby-gems-and-rbenv",
+   "name": "Ruby gems and rbenv versions",
+   "question": "Is it safe to delete ~/.gem and ~/.rbenv/versions?",
+   "category": "Developer tools",
+   "paths": [
+    "~/.gem",
+    "~/.rbenv/versions"
+   ],
+   "verdict": "decide",
+   "verdict_label": "You decide",
+   "answer": "**Not wholesale.** Old versions of gems can go with `gem cleanup`, and a Ruby you’ve stopped using can be removed from `~/.rbenv/versions`.",
+   "summary": [
+    "**Not wholesale.** Old versions of gems can go with `gem cleanup`, and a Ruby you’ve stopped using can be removed from `~/.rbenv/versions`. Deleting either folder outright removes tools you may still run.",
+    "**What it costs you:** commands that came from gems (`pod`, `fastlane`, `jekyll`, `bundle`) stop working if their gem or their Ruby goes.",
+    "**Does it come back?** No. Gems have to be installed again, and a Ruby has to be built again."
+   ],
+   "comes_back": "No. Gems have to be installed again, and a Ruby has to be built again.",
+   "what": "RubyGems installs into a directory it calls `GEM_HOME`. When you install with `--user-install`, which is common with the Ruby that ships with macOS because the system gem directory isn’t yours to write to, gems go to a folder in your home directory instead. RubyGems can tell you exactly where with `gem environment user_gemhome`.",
+   "measure": [
+    "du -sh ~/.gem ~/.rbenv/versions/* 2>/dev/null | sort -h"
+   ],
+   "how_to_clear": "### Old gem versions\n\n`gem cleanup` removes old versions of gems from `GEM_HOME` that aren’t required to meet a dependency. Preview first with `--dry-run`, which lists what would go without uninstalling anything. Add `--user-install` to clean the gems in your home directory instead of `GEM_HOME`.\n\n```\ngem cleanup --dry-run\ngem cleanup\ngem cleanup --user-install\n```\n\nWith rbenv, `gem` acts on the active Ruby only. Switch versions and repeat if you keep more than one. To remove a single gem you no longer want, use `gem uninstall` with its name.\n\n### A whole Ruby you no longer use\n\nCheck that no project’s `.ruby-version` file names it. If you have the ruby-build plugin, it provides `rbenv uninstall`. Without the plugin, rbenv’s README says to remove the version’s directory, which `rbenv prefix` prints. Close any terminal session running that Ruby first.\n\n```\nrbenv uninstall 2.7.0\nrbenv prefix 2.7.0\nrm -rf \"$HOME/.rbenv/versions/2.7.0\"\n```\n\nUse one or the other, not both: the last two lines are the manual route.",
+   "clear_commands": [
+    "gem cleanup --dry-run\ngem cleanup\ngem cleanup --user-install",
+    "rbenv uninstall 2.7.0\nrbenv prefix 2.7.0\nrm -rf \"$HOME/.rbenv/versions/2.7.0\""
+   ],
+   "sources": [
+    {
+     "title": "RubyGems Guides: Command reference (gem cleanup, environment, uninstall)",
+     "url": "https://guides.rubygems.org/command-reference/"
+    },
+    {
+     "title": "rbenv README (versions, uninstalling Ruby versions)",
+     "url": "https://github.com/rbenv/rbenv#readme"
+    }
+   ],
+   "see_also": [
+    "cocoapods-cache",
+    "homebrew-cache",
+    "pyenv-versions"
+   ],
+   "match": [
+    {
+     "glob": "~/.gem"
+    },
+    {
+     "glob": "~/.rbenv/versions"
+    }
+   ],
+   "url": "https://siftmac.com/safe-to-delete/ruby-gems-and-rbenv",
+   "markdown_url": "https://siftmac.com/safe-to-delete/ruby-gems-and-rbenv.md",
+   "published": "2026-11-27",
+   "updated": "2026-11-27"
   },
   {
    "id": "rust-target-folder",
@@ -4059,7 +6303,8 @@
    ],
    "see_also": [
     "cargo-registry",
-    "node-modules"
+    "node-modules",
+    "rustup-toolchains"
    ],
    "match": [
     {
@@ -4070,7 +6315,64 @@
    "url": "https://siftmac.com/safe-to-delete/rust-target-folder",
    "markdown_url": "https://siftmac.com/safe-to-delete/rust-target-folder.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
+  },
+  {
+   "id": "rustup-toolchains",
+   "name": "rustup’s toolchains",
+   "question": "Is it safe to delete ~/.rustup/toolchains?",
+   "category": "Developer tools",
+   "paths": [
+    "~/.rustup/toolchains"
+   ],
+   "verdict": "decide",
+   "verdict_label": "You decide",
+   "answer": "**Partly.** Remove the toolchains you don’t build with, using `rustup toolchain uninstall`.",
+   "summary": [
+    "**Partly.** Remove the toolchains you don’t build with, using `rustup toolchain uninstall`. Keep at least the one your projects use, or `cargo` and `rustc` stop working.",
+    "**What it costs you:** a toolchain you removed has to be downloaded again before a project that needs it can build.",
+    "**Does it come back?** Only if you install it again with rustup."
+   ],
+   "comes_back": "Only if you install it again with rustup.",
+   "what": "The rustup book defines a toolchain as a single installation of the Rust compiler. In practice each one bundles `rustc`, `cargo`, the standard library, and any extra components and cross-compilation targets you added to it.",
+   "measure": [
+    "du -sh ~/.rustup/toolchains/* | sort -h"
+   ],
+   "how_to_clear": "1. List the folder (the command above) and decide which names you still need. In each project you care about, `rustup show` says which one is used there.\n2. Uninstall the others by name with rustup.\n3. If you only want to slim down a toolchain you’re keeping, remove a target you no longer build for.\n\n```\nrustup toolchain uninstall nightly\nrustup toolchain uninstall 1.42.0\nrustup target remove arm-linux-androideabi\n```\n\nUse rustup for this and don’t delete the folders by hand: rustup also keeps settings, such as the default toolchain and per-directory overrides, that should stay in step with what is installed. `rustup toolchain help` lists the other toolchain subcommands.",
+   "clear_commands": [
+    "rustup toolchain uninstall nightly\nrustup toolchain uninstall 1.42.0\nrustup target remove arm-linux-androideabi"
+   ],
+   "sources": [
+    {
+     "title": "The rustup book: Toolchains",
+     "url": "https://rust-lang.github.io/rustup/concepts/toolchains.html"
+    },
+    {
+     "title": "The rustup book: Examples (toolchain uninstall, target remove, show)",
+     "url": "https://rust-lang.github.io/rustup/examples.html"
+    },
+    {
+     "title": "The rustup book: Environment variables (RUSTUP_HOME)",
+     "url": "https://rust-lang.github.io/rustup/environment-variables.html"
+    },
+    {
+     "title": "The rustup book: Installation (rustup self uninstall)",
+     "url": "https://rust-lang.github.io/rustup/installation/index.html"
+    }
+   ],
+   "see_also": [
+    "rust-target-folder",
+    "cargo-registry"
+   ],
+   "match": [
+    {
+     "glob": "~/.rustup/toolchains"
+    }
+   ],
+   "url": "https://siftmac.com/safe-to-delete/rustup-toolchains",
+   "markdown_url": "https://siftmac.com/safe-to-delete/rustup-toolchains.md",
+   "published": "2026-11-27",
+   "updated": "2026-11-27"
   },
   {
    "id": "safari-cache",
@@ -4138,7 +6440,7 @@
    "url": "https://siftmac.com/safe-to-delete/safari-cache",
    "markdown_url": "https://siftmac.com/safe-to-delete/safari-cache.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-26"
   },
   {
    "id": "saved-application-state",
@@ -4185,6 +6487,58 @@
    "markdown_url": "https://siftmac.com/safe-to-delete/saved-application-state.md",
    "published": "2026-11-21",
    "updated": "2026-11-21"
+  },
+  {
+   "id": "siri-voices",
+   "name": "Downloaded voices",
+   "question": "Can I delete downloaded Siri and system voices on a Mac?",
+   "category": "macOS files",
+   "paths": [
+    "/System/Library/AssetsV2/com_apple_MobileAsset_MacinTalkVoiceAssets",
+    "/System/Library/AssetsV2/com_apple_MobileAsset_VoiceServices_CombinedVocalizerVoices"
+   ],
+   "verdict": "decide",
+   "verdict_label": "You decide",
+   "answer": "**Yes, in System Settings.**",
+   "summary": [
+    "**Yes, in System Settings.** A voice you downloaded for spoken text can be deleted from the voice list. Don’t remove voice files from the system folder they’re stored in.",
+    "**What it costs you:** that voice is no longer offered until you download it again, which needs an internet connection.",
+    "**Does it come back?** Only if you download it again, or choose it as Siri’s voice or your system voice."
+   ],
+   "comes_back": "Only if you download it again, or choose it as Siri’s voice or your system voice.",
+   "what": "A Mac can read text aloud: selected text, alerts, the whole screen through VoiceOver, and Siri’s answers. It comes with a few voices, and many more can be added, in dozens of languages and in higher-quality versions. Apple’s Mac User Guide says that when a Download button appears beside a voice you can click it to download the voice from Apple, and that you need an internet connection.",
+   "measure": [
+    "du -sh /System/Library/AssetsV2/*Voice* /System/Library/AssetsV2/*TextToSpeech* 2>/dev/null",
+    "say -v '?'"
+   ],
+   "how_to_clear": "Apple’s guide gives these steps for deleting a voice you downloaded:\n\n1. Choose Apple menu › System Settings, then click Accessibility in the sidebar.\n2. Click Read & Speak. On earlier versions of macOS this pane is called Spoken Content.\n3. Click the Info button next to “System voice”, then click the voice’s name.\n4. Swipe left with two fingers on the voice you want to remove, then click Delete.\n\nBefore deleting, check that the voice isn’t the one chosen in the “System voice” pop-up menu, or in VoiceOver if you use it. Pick another there first.\n\n> Leave the voice folders in `/System/Library/AssetsV2` alone. They can’t be removed while macOS is running, and working around that isn’t worth it for a voice the settings list can delete.",
+   "clear_commands": [],
+   "sources": [
+    {
+     "title": "Apple: Change the voice your Mac uses to speak text",
+     "url": "https://support.apple.com/guide/mac-help/change-the-voice-your-mac-uses-to-speak-text-mchlp2290/mac"
+    },
+    {
+     "title": "Apple: Customize Siri on Mac",
+     "url": "https://support.apple.com/guide/mac-help/customize-siri-mchl31570551/mac"
+    }
+   ],
+   "see_also": [
+    "assetsv2",
+    "aerial-wallpapers"
+   ],
+   "match": [
+    {
+     "glob": "/System/Library/AssetsV2/com_apple_MobileAsset_MacinTalkVoiceAssets"
+    },
+    {
+     "glob": "/System/Library/AssetsV2/com_apple_MobileAsset_VoiceServices_CombinedVocalizerVoices"
+    }
+   ],
+   "url": "https://siftmac.com/safe-to-delete/siri-voices",
+   "markdown_url": "https://siftmac.com/safe-to-delete/siri-voices.md",
+   "published": "2026-11-27",
+   "updated": "2026-11-27"
   },
   {
    "id": "slack-cache",
@@ -4243,7 +6597,7 @@
    "url": "https://siftmac.com/safe-to-delete/slack-cache",
    "markdown_url": "https://siftmac.com/safe-to-delete/slack-cache.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
   },
   {
    "id": "sleepimage",
@@ -4339,7 +6693,7 @@
    "url": "https://siftmac.com/safe-to-delete/spotify-cache",
    "markdown_url": "https://siftmac.com/safe-to-delete/spotify-cache.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
   },
   {
    "id": "spotlight-index",
@@ -4376,7 +6730,8 @@
    ],
    "see_also": [
     "fseventsd",
-    "document-revisions"
+    "document-revisions",
+    "core-spotlight-metadata"
    ],
    "match": [
     {
@@ -4389,7 +6744,7 @@
    "url": "https://siftmac.com/safe-to-delete/spotlight-index",
    "markdown_url": "https://siftmac.com/safe-to-delete/spotlight-index.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
   },
   {
    "id": "steam-games",
@@ -4439,7 +6794,7 @@
    "url": "https://siftmac.com/safe-to-delete/steam-games",
    "markdown_url": "https://siftmac.com/safe-to-delete/steam-games.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-26"
   },
   {
    "id": "swap-files",
@@ -4545,7 +6900,8 @@
    ],
    "see_also": [
     "cocoapods-cache",
-    "xcode-simulators"
+    "xcode-simulators",
+    "cocoapods-pods-folder"
    ],
    "match": [
     {
@@ -4559,7 +6915,7 @@
    "url": "https://siftmac.com/safe-to-delete/swift-package-manager-cache",
    "markdown_url": "https://siftmac.com/safe-to-delete/swift-package-manager-cache.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
   },
   {
    "id": "system-library-caches",
@@ -4597,7 +6953,8 @@
    ],
    "see_also": [
     "library-caches",
-    "font-caches"
+    "font-caches",
+    "content-caching"
    ],
    "match": [
     {
@@ -4610,7 +6967,7 @@
    "url": "https://siftmac.com/safe-to-delete/system-library-caches",
    "markdown_url": "https://siftmac.com/safe-to-delete/system-library-caches.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
   },
   {
    "id": "telegram-cache",
@@ -4662,7 +7019,122 @@
    "url": "https://siftmac.com/safe-to-delete/telegram-cache",
    "markdown_url": "https://siftmac.com/safe-to-delete/telegram-cache.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
+  },
+  {
+   "id": "terraform-folders",
+   "name": "Terraform’s .terraform folders",
+   "question": "Is it safe to delete a .terraform folder?",
+   "category": "Project folders",
+   "paths": [
+    "<project>/.terraform",
+    "~/.terraform.d/plugin-cache"
+   ],
+   "verdict": "rebuilds",
+   "verdict_label": "Rebuilds",
+   "answer": "**Yes.** `.terraform` is Terraform’s working folder for cached provider plugins and modules, and `terraform init` builds it again.",
+   "summary": [
+    "**Yes.** `.terraform` is Terraform’s working folder for cached provider plugins and modules, and `terraform init` builds it again. The files to protect sit next to it: `terraform.tfstate` and `.terraform.lock.hcl`.",
+    "**What it costs you:** every Terraform command in that directory fails until you run `terraform init`, which downloads the providers again.",
+    "**Does it come back?** Yes, with `terraform init`."
+   ],
+   "comes_back": "Yes, with `terraform init`.",
+   "what": "HashiCorp’s docs describe it as a hidden directory that Terraform uses to manage cached provider plugins and modules. It also records which workspace is currently active and the last known backend configuration. Terraform creates it during initialization and manages it automatically.",
+   "measure": [
+    "find ~/Projects -type d -name .terraform -prune -exec du -sh {} + 2>/dev/null | sort -h\ndu -sh ~/.terraform.d/plugin-cache 2>/dev/null"
+   ],
+   "how_to_clear": "1. Make sure no `plan` or `apply` is running in that directory.\n2. If you use workspaces, note which one you are on. The selection is stored in `.terraform`.\n3. Remove only the `.terraform` folder. Type the name in full, so that a wildcard never catches `terraform.tfstate` or the lock file.\n\n```\ncd ~/Projects/infra\nls -a\nrm -rf \"$HOME/Projects/infra/.terraform\"\n```\n\nThe plugin cache can be emptied as well, with no Terraform command running. Old provider versions in it are the ones worth removing.\n\n```\nrm -rf \"$HOME/.terraform.d/plugin-cache\"/*\n```",
+   "clear_commands": [
+    "cd ~/Projects/infra\nls -a\nrm -rf \"$HOME/Projects/infra/.terraform\"",
+    "rm -rf \"$HOME/.terraform.d/plugin-cache\"/*"
+   ],
+   "sources": [
+    {
+     "title": "HashiCorp: Initializing working directories (.terraform)",
+     "url": "https://developer.hashicorp.com/terraform/cli/init"
+    },
+    {
+     "title": "HashiCorp: CLI configuration file (provider plugin cache)",
+     "url": "https://developer.hashicorp.com/terraform/cli/config/config-file"
+    },
+    {
+     "title": "HashiCorp: Dependency lock file",
+     "url": "https://developer.hashicorp.com/terraform/language/files/dependency-lock"
+    }
+   ],
+   "see_also": [
+    "node-modules",
+    "docker-raw",
+    "git-folder"
+   ],
+   "match": [
+    {
+     "glob": "**/.terraform"
+    },
+    {
+     "glob": "~/.terraform.d/plugin-cache"
+    }
+   ],
+   "url": "https://siftmac.com/safe-to-delete/terraform-folders",
+   "markdown_url": "https://siftmac.com/safe-to-delete/terraform-folders.md",
+   "published": "2026-11-27",
+   "updated": "2026-11-27"
+  },
+  {
+   "id": "torch-hub-cache",
+   "name": "PyTorch Hub cache",
+   "question": "Is it safe to delete ~/.cache/torch (the PyTorch Hub cache)?",
+   "category": "AI tools",
+   "paths": [
+    "~/.cache/torch/hub",
+    "~/.cache/torch/hub/checkpoints"
+   ],
+   "verdict": "rebuilds",
+   "verdict_label": "Rebuilds",
+   "answer": "**Yes.** Everything in `~/.cache/torch` was downloaded by PyTorch Hub or by a library such as torchvision.",
+   "summary": [
+    "**Yes.** Everything in `~/.cache/torch` was downloaded by PyTorch Hub or by a library such as torchvision. PyTorch’s documentation says plainly that it doesn’t clean these files up after loading them, so the folder only ever grows.",
+    "**What it costs you:** the first run after deleting is slower, because the weights your code asks for are fetched again. Offline, that run fails until you are back online.",
+    "**Does it come back?** Yes, by itself, and only the parts your code still uses. Weights from old experiments stay gone."
+   ],
+   "comes_back": "Yes, by itself, and only the parts your code still uses. Weights from old experiments stay gone.",
+   "what": "PyTorch Hub is the part of PyTorch that fetches published models. Two kinds of download end up in its folder:",
+   "measure": [
+    "du -sh ~/.cache/torch\nls -lhS ~/.cache/torch/hub/checkpoints | head -20"
+   ],
+   "how_to_clear": "PyTorch has no command that empties the cache. Its one related switch works per model: `torch.hub.load(..., force_reload=True)` deletes that model’s cached repository and weights and downloads a fresh copy. That is for fixing a stale or broken download, not for freeing space.\n\n1. Stop Python first: quit running scripts, training jobs and Jupyter kernels, so nothing is reading a checkpoint while you remove it.\n2. To free the most space with the least loss, clear only the weights.\n3. To start clean, clear the whole hub folder, repositories included.\n\n```\nrm -rf ~/.cache/torch/hub/checkpoints/*\n```\n\n```\nrm -rf ~/.cache/torch/hub/*\n```\n\n> If you set `TORCH_HOME` to move the cache, for example to an external drive, these paths are empty and the files are under that folder instead. Use the `get_dir()` command above before deleting anything.",
+   "clear_commands": [
+    "rm -rf ~/.cache/torch/hub/checkpoints/*",
+    "rm -rf ~/.cache/torch/hub/*"
+   ],
+   "sources": [
+    {
+     "title": "PyTorch documentation: torch.hub (where models are saved, get_dir, force_reload)",
+     "url": "https://docs.pytorch.org/docs/stable/hub.html"
+    },
+    {
+     "title": "torchvision documentation: Models and pre-trained weights",
+     "url": "https://docs.pytorch.org/vision/stable/models.html"
+    }
+   ],
+   "see_also": [
+    "hugging-face-cache",
+    "whisper-models",
+    "pip-cache",
+    "conda-packages"
+   ],
+   "match": [
+    {
+     "glob": "~/.cache/torch/hub"
+    },
+    {
+     "glob": "~/.cache/torch/hub/checkpoints"
+    }
+   ],
+   "url": "https://siftmac.com/safe-to-delete/torch-hub-cache",
+   "markdown_url": "https://siftmac.com/safe-to-delete/torch-hub-cache.md",
+   "published": "2026-11-27",
+   "updated": "2026-11-27"
   },
   {
    "id": "trash",
@@ -4670,8 +7142,7 @@
    "question": "Is it safe to empty the Trash on a Mac?",
    "category": "macOS files",
    "paths": [
-    "~/.Trash",
-    "/Volumes/MyDrive/.Trashes"
+    "~/.Trash"
    ],
    "verdict": "decide",
    "verdict_label": "You decide",
@@ -4711,20 +7182,175 @@
     }
    ],
    "see_also": [
-    "downloads-folder"
+    "downloads-folder",
+    "dot-trashes"
    ],
    "match": [
     {
      "glob": "~/.Trash"
-    },
-    {
-     "glob": "/Volumes/*/.Trashes"
     }
    ],
    "url": "https://siftmac.com/safe-to-delete/trash",
    "markdown_url": "https://siftmac.com/safe-to-delete/trash.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
+  },
+  {
+   "id": "turbo-and-parcel-cache",
+   "name": ".turbo and .parcel-cache",
+   "question": "Is it safe to delete .turbo and .parcel-cache?",
+   "category": "Project folders",
+   "paths": [
+    "<project>/.turbo",
+    "<project>/.parcel-cache"
+   ],
+   "verdict": "rebuilds",
+   "verdict_label": "Rebuilds",
+   "answer": "**Yes.** Both folders store results of earlier builds so the next one can skip work.",
+   "summary": [
+    "**Yes.** Both folders store results of earlier builds so the next one can skip work. Neither holds source code or anything you wrote.",
+    "**What it costs you:** one cold build. Turborepo runs every task again and Parcel rebuilds every file, where they would have reused cached results.",
+    "**Does it come back?** Yes, on the next `turbo run` or the next time Parcel starts."
+   ],
+   "comes_back": "Yes, on the next `turbo run` or the next time Parcel starts.",
+   "what": "Turborepo stores the results of tasks in the `.turbo/cache` directory on your machine. It caches two kinds of output: the files a task produced (whatever is listed under `outputs` in `turbo.json`) and the task’s terminal logs. Before running a task, it turns the task’s inputs into a hash and looks for that hash in the cache. On a match it restores the files and replays the log without running anything.",
+   "measure": [
+    "find ~/Projects \\( -name .turbo -o -name .parcel-cache \\) -type d -prune -exec du -sh {} + 2>/dev/null | sort -h"
+   ],
+   "how_to_clear": "1. Stop the dev server, watcher or build that is running in the project. Both tools write to their cache while they work.\n2. Remove the folder, giving its full path.\n\n```\nrm -rf \"$HOME/Projects/my-monorepo/.turbo\"\nrm -rf \"$HOME/Projects/my-site/.parcel-cache\"\n```\n\nIf you’re chasing a stale build and don’t need the space, there are flags for that and nothing has to be deleted. `turbo run build --force` runs the tasks again; Turborepo’s docs note this disables reading the cache, not writing, so fresh results are still stored. Parcel’s `--no-cache` likewise only disables reading: a `.parcel-cache` folder is still created.",
+   "clear_commands": [
+    "rm -rf \"$HOME/Projects/my-monorepo/.turbo\"\nrm -rf \"$HOME/Projects/my-site/.parcel-cache\""
+   ],
+   "sources": [
+    {
+     "title": "Turborepo Docs: Caching",
+     "url": "https://turborepo.dev/docs/crafting-your-repository/caching"
+    },
+    {
+     "title": "Parcel Docs: Development (caching)",
+     "url": "https://parceljs.org/features/development/"
+    }
+   ],
+   "see_also": [
+    "nextjs-cache",
+    "node-modules",
+    "npm-cache"
+   ],
+   "match": [
+    {
+     "glob": "**/.turbo"
+    },
+    {
+     "glob": "**/.parcel-cache"
+    }
+   ],
+   "url": "https://siftmac.com/safe-to-delete/turbo-and-parcel-cache",
+   "markdown_url": "https://siftmac.com/safe-to-delete/turbo-and-parcel-cache.md",
+   "published": "2026-11-27",
+   "updated": "2026-11-27"
+  },
+  {
+   "id": "tv-app-downloads",
+   "name": "Apple TV app downloads",
+   "question": "Can I delete downloaded films and shows in ~/Movies/TV?",
+   "category": "Apple apps",
+   "paths": [
+    "~/Movies/TV",
+    "~/Movies/TV/Media"
+   ],
+   "verdict": "decide",
+   "verdict_label": "You decide",
+   "answer": "**Yes, from inside the TV app.**",
+   "summary": [
+    "**Yes, from inside the TV app.** A downloaded film or episode is an offline copy. Remove Download takes the copy off your Mac and leaves the title in your library.",
+    "**What it costs you:** you need an internet connection to watch it again, and time to download it if you want it offline. Home videos you imported yourself are a different matter: the file may be your only copy.",
+    "**Does it come back?** Only if you download it again, or if automatic downloads are turned on in the app’s settings."
+   ],
+   "comes_back": "Only if you download it again, or if automatic downloads are turned on in the app’s settings.",
+   "what": "The Apple TV app can save films and episodes to your Mac so they play without a connection, on a flight for instance. Video is heavy, so a season kept for a trip months ago is one of the commonest reasons a Mac’s Movies folder is large.",
+   "measure": [
+    "du -sh ~/Movies/TV\ndu -sh ~/Movies/TV/Media*/* 2>/dev/null | sort -h | tail -10"
+   ],
+   "how_to_clear": "1. **Open the Apple TV app** and go to your library. Downloaded in the sidebar narrows it to titles with a copy on this Mac.\n2. **Move the pointer over a title** and click the More button.\n3. **Choose Remove Download.** The copy on this Mac goes, and the title stays in your library to stream or download later.\n4. **Repeat** for each film, or each episode of a show.\n\nThe same menu has Delete from Library. That does more: Apple’s guide says it hides the purchase, so it no longer appears in your library or in Family Sharing. Use it only when you want the title out of sight as well as off the disk.\n\nTo stop the folder filling again, look at two settings. Under TV › Settings › Files, “Automatically delete watched movies and TV shows” removes downloads after you play them. Under TV › Settings › General, automatic downloads fetch purchases made on your other devices, so turn that off if you’d sooner choose.\n\n> Don’t drag files out of `~/Movies/TV/Media` in Finder. The app would still list the title and fail to play it. For a video you imported yourself, copy the file somewhere safe before you delete it from the library.",
+   "clear_commands": [],
+   "sources": [
+    {
+     "title": "Apple: Delete movies and TV shows in the Apple TV app",
+     "url": "https://support.apple.com/en-us/118410"
+    },
+    {
+     "title": "Apple: Manage your library in the Apple TV app",
+     "url": "https://support.apple.com/guide/tvapp/manage-your-library-atvb2030c6e3/web"
+    },
+    {
+     "title": "Apple: Change Files settings in the Apple TV app on Mac",
+     "url": "https://support.apple.com/en-ca/guide/tvapp-mac/tv0f5accea/mac"
+    }
+   ],
+   "see_also": [
+    "podcasts-downloads",
+    "apple-music-downloads"
+   ],
+   "match": [
+    {
+     "glob": "~/Movies/TV"
+    },
+    {
+     "glob": "~/Movies/TV/Media"
+    }
+   ],
+   "url": "https://siftmac.com/safe-to-delete/tv-app-downloads",
+   "markdown_url": "https://siftmac.com/safe-to-delete/tv-app-downloads.md",
+   "published": "2026-11-27",
+   "updated": "2026-11-27"
+  },
+  {
+   "id": "unity-library-folder",
+   "name": "Unity’s Library folder",
+   "question": "Is it safe to delete a Unity project’s Library folder?",
+   "category": "Project folders",
+   "paths": [
+    "<Unity project>/Library",
+    "<Unity project>/Temp"
+   ],
+   "verdict": "rebuilds",
+   "verdict_label": "Rebuilds",
+   "answer": "**Yes**, with the project closed.",
+   "summary": [
+    "**Yes**, with the project closed. Unity’s manual calls Library a local cache of imported assets and metadata, and says Unity regenerates it the next time you open the project.",
+    "**What it costs you:** time. Unity has to recompile all project code and reimport every asset, which on a large project is a long wait.",
+    "**Does it come back?** Yes, in full, as soon as the project is opened again. So this only saves space for projects you aren’t opening."
+   ],
+   "comes_back": "Yes, in full, as soon as the project is opened again. So this only saves space for projects you aren’t opening.",
+   "what": "Unity doesn’t use your source assets directly. Textures, models, audio and scripts in `Assets` are imported into formats the editor and the target platform can use, and the results are stored in `Library`. Unity’s manual describes the folder as unique to your computer and a working directory for the project. That’s why it is excluded from version control.",
+   "measure": [
+    "cd ~/Unity\\ Projects/MyGame\ndu -sh Assets Library Temp Logs 2>/dev/null"
+   ],
+   "how_to_clear": "Unity’s own advice is cautious: for troubleshooting, delete Library only as a last resort, because of the reimport time. For disk space the reasoning is simpler. It’s worth doing for projects you’ve finished or shelved, and pointless for the one you’ll open tomorrow.\n\n1. Quit the Unity editor. Never remove the folder while the project is open.\n2. Confirm you are inside a Unity project: `Assets`, `Packages` and `ProjectSettings` should be sitting next to `Library`.\n3. Delete the `Library` folder, by its full path.\n\n```\nls ~/Unity\\ Projects/MyGame\nrm -rf \"$HOME/Unity Projects/MyGame/Library\"\n```\n\n`Temp` needs no attention: Unity clears it every time the editor closes. If it’s still there after a crash, it can go too.",
+   "clear_commands": [
+    "ls ~/Unity\\ Projects/MyGame\nrm -rf \"$HOME/Unity Projects/MyGame/Library\""
+   ],
+   "sources": [
+    {
+     "title": "Unity Manual: Default project directories",
+     "url": "https://docs.unity.com/en-us/engine/current/manual/get-started/project-configuration/default-directories"
+    }
+   ],
+   "see_also": [
+    "steam-games"
+   ],
+   "match": [
+    {
+     "glob": "**/*/Library"
+    },
+    {
+     "glob": "**/*/Temp"
+    }
+   ],
+   "url": "https://siftmac.com/safe-to-delete/unity-library-folder",
+   "markdown_url": "https://siftmac.com/safe-to-delete/unity-library-folder.md",
+   "published": "2026-11-27",
+   "updated": "2026-11-27"
   },
   {
    "id": "utm-virtual-machines",
@@ -4789,7 +7415,7 @@
    "url": "https://siftmac.com/safe-to-delete/utm-virtual-machines",
    "markdown_url": "https://siftmac.com/safe-to-delete/utm-virtual-machines.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-26"
   },
   {
    "id": "uv-cache",
@@ -4834,7 +7460,9 @@
     "python-venv",
     "pip-cache",
     "pycache",
-    "conda-packages"
+    "conda-packages",
+    "poetry-cache",
+    "pytest-mypy-tox-caches"
    ],
    "match": [
     {
@@ -4844,7 +7472,7 @@
    "url": "https://siftmac.com/safe-to-delete/uv-cache",
    "markdown_url": "https://siftmac.com/safe-to-delete/uv-cache.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
   },
   {
    "id": "var-folders",
@@ -4886,7 +7514,10 @@
    "see_also": [
     "library-caches",
     "system-library-caches",
-    "quicklook-thumbnail-cache"
+    "quicklook-thumbnail-cache",
+    "app-store-cache",
+    "chrome-code-sign-clone",
+    "private-tmp"
    ],
    "match": [
     {
@@ -4896,7 +7527,7 @@
    "url": "https://siftmac.com/safe-to-delete/var-folders",
    "markdown_url": "https://siftmac.com/safe-to-delete/var-folders.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
   },
   {
    "id": "virtualbox-virtual-machines",
@@ -4955,7 +7586,7 @@
    "url": "https://siftmac.com/safe-to-delete/virtualbox-virtual-machines",
    "markdown_url": "https://siftmac.com/safe-to-delete/virtualbox-virtual-machines.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-26"
   },
   {
    "id": "vs-code-cache",
@@ -4965,8 +7596,7 @@
    "paths": [
     "~/Library/Application Support/Code/Cache",
     "~/Library/Application Support/Code/CachedData",
-    "~/Library/Application Support/Code/CachedExtensionVSIXs",
-    "~/.vscode/extensions"
+    "~/Library/Application Support/Code/CachedExtensionVSIXs"
    ],
    "verdict": "rebuilds",
    "verdict_label": "Rebuilds",
@@ -5004,7 +7634,8 @@
     "cursor-extensions",
     "cursor-update-cache",
     "jetbrains-caches",
-    "application-support"
+    "application-support",
+    "continue-and-aider"
    ],
    "match": [
     {
@@ -5015,17 +7646,57 @@
     },
     {
      "glob": "~/Library/Application Support/Code/CachedExtensionVSIXs"
-    },
-    {
-     "glob": "~/.vscode/extensions",
-     "verdict": "leave",
-     "note": "Uninstall extensions you don’t use from VS Code. Only a folder for an older version of an extension, one VS Code no longer uses, can go by hand, with VS Code quit."
     }
    ],
    "url": "https://siftmac.com/safe-to-delete/vs-code-cache",
    "markdown_url": "https://siftmac.com/safe-to-delete/vs-code-cache.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
+  },
+  {
+   "id": "vscode-extensions",
+   "name": "VS Code’s extensions folder",
+   "question": "Is it safe to delete the ~/.vscode/extensions folder?",
+   "category": "Developer tools",
+   "paths": [
+    "~/.vscode/extensions"
+   ],
+   "verdict": "leave",
+   "verdict_label": "Leave it",
+   "answer": "**No, let VS Code do it.**",
+   "summary": [
+    "**No, let VS Code do it.** `~/.vscode/extensions` is not a cache. It is the installed copy of every extension you use: themes, language support, debuggers. Remove the ones you don’t want with `code --uninstall-extension` or the Extensions view.",
+    "**What it costs you:** an uninstalled extension can be installed again from the Marketplace in a minute. Emptying the folder by hand leaves VS Code with no extensions at all until you reinstall each one.",
+    "**Does it come back?** Not by itself, unless Settings Sync is on, in which case your synced extensions can be installed again."
+   ],
+   "comes_back": "Not by itself, unless Settings Sync is on, in which case your synced extensions can be installed again.",
+   "what": "Visual Studio Code is a small editor that gets most of its abilities from extensions. Microsoft’s documentation says extensions are installed in a per-user extensions folder, and on macOS that folder is `~/.vscode/extensions`. Installing an extension unpacks it there; uninstalling takes it out again.",
+   "measure": [
+    "code --list-extensions --show-versions\ndu -sh ~/.vscode/extensions/* 2>/dev/null | sort -h | tail -20"
+   ],
+   "how_to_clear": "Go through the list from the previous step and uninstall by ID. The ID is the `publisher.extension` name the list prints, without the version:\n\n```\ncode --uninstall-extension <publisher.extension>\n```\n\nOr in the editor:\n\n1. Open the Extensions view with `⇧⌘X`.\n2. Select the Manage gear button on the extension you don’t use.\n3. Choose Uninstall.\n4. When VS Code prompts you, choose Restart Extensions so the change takes effect.\n\nNot sure about one? Disable it instead, from the same gear menu, either everywhere or just for the current workspace. A disabled extension keeps its disk space but stops loading, and it stays disabled until you turn it back on. That is a good test before uninstalling something large.\n\n> Removing VS Code itself doesn’t remove this folder. If you have uninstalled the editor for good, `~/.vscode` is a leftover and can go to the Trash; see [how to uninstall VS Code completely](https://siftmac.com/uninstall/vs-code).",
+   "clear_commands": [
+    "code --uninstall-extension <publisher.extension>"
+   ],
+   "sources": [
+    {
+     "title": "Visual Studio Code documentation: Extension Marketplace (install location, command line, uninstall and disable)",
+     "url": "https://code.visualstudio.com/docs/configure/extensions/extension-marketplace"
+    }
+   ],
+   "see_also": [
+    "vs-code-cache",
+    "cursor-extensions"
+   ],
+   "match": [
+    {
+     "glob": "~/.vscode/extensions"
+    }
+   ],
+   "url": "https://siftmac.com/safe-to-delete/vscode-extensions",
+   "markdown_url": "https://siftmac.com/safe-to-delete/vscode-extensions.md",
+   "published": "2026-11-27",
+   "updated": "2026-11-27"
   },
   {
    "id": "whatsapp-media",
@@ -5085,7 +7756,125 @@
    "url": "https://siftmac.com/safe-to-delete/whatsapp-media",
    "markdown_url": "https://siftmac.com/safe-to-delete/whatsapp-media.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
+  },
+  {
+   "id": "whisper-models",
+   "name": "Whisper speech models",
+   "question": "Is it safe to delete Whisper’s models in ~/.cache/whisper?",
+   "category": "AI tools",
+   "paths": [
+    "~/.cache/whisper",
+    "whisper.cpp/models/ggml-*.bin",
+    "whisper.cpp/models/*-encoder.mlmodelc"
+   ],
+   "verdict": "rebuilds",
+   "verdict_label": "Rebuilds",
+   "answer": "**Yes.** `~/.cache/whisper` only holds model weights that OpenAI’s Whisper package downloaded.",
+   "summary": [
+    "**Yes.** `~/.cache/whisper` only holds model weights that OpenAI’s Whisper package downloaded. None of your audio or transcripts live there, so the folder can be emptied whenever no transcription is running.",
+    "**What it costs you:** the wait while a model downloads again. With whisper.cpp it costs a little more: you run its download script again yourself, and Core ML models have to be generated again.",
+    "**Does it come back?** For the Python package, yes, by itself: the next `whisper.load_model()` call fetches whichever size it asks for. whisper.cpp files come back only when you fetch them."
+   ],
+   "comes_back": "For the Python package, yes, by itself: the next `whisper.load_model()` call fetches whichever size it asks for. whisper.cpp files come back only when you fetch them.",
+   "what": "Whisper is OpenAI’s open-source speech recognition model. It comes in sizes, from `tiny` up to `large-v3` and `turbo`, and the Python package downloads a size the first time your code or the `whisper` command asks for it. The weights are saved once and reused on every later run.",
+   "measure": [
+    "ls -lh ~/.cache/whisper\ndu -sh ~/.cache/whisper\ndu -sh ~/path/to/whisper.cpp/models/*"
+   ],
+   "how_to_clear": "Neither project ships a clean-up command, so this is one of the cases where you remove files yourself. Stop any script, notebook or app that is transcribing first.\n\n1. List the folder with `ls -lh ~/.cache/whisper` and note which sizes are there.\n2. Delete the sizes you no longer use, or all of them.\n3. For whisper.cpp, delete only the `ggml-*.bin` files and `.mlmodelc` folders you downloaded or generated. Leave the scripts and the rest of `models` alone: they belong to the repository.\n\n```\nrm -rf ~/.cache/whisper/*\n```\n\n> If you went from `large` to `turbo`, or from `medium` to `small.en`, the old size is still on disk. Removing just that one file frees the space without any wait later.",
+   "clear_commands": [
+    "rm -rf ~/.cache/whisper/*"
+   ],
+   "sources": [
+    {
+     "title": "openai/whisper: load_model and its default download folder (whisper/__init__.py)",
+     "url": "https://github.com/openai/whisper/blob/main/whisper/__init__.py"
+    },
+    {
+     "title": "whisper.cpp: models README (download script, file names, sizes)",
+     "url": "https://github.com/ggml-org/whisper.cpp/blob/master/models/README.md"
+    },
+    {
+     "title": "whisper.cpp: README (Core ML support)",
+     "url": "https://github.com/ggml-org/whisper.cpp/blob/master/README.md"
+    }
+   ],
+   "see_also": [
+    "hugging-face-cache",
+    "torch-hub-cache",
+    "pip-cache"
+   ],
+   "match": [
+    {
+     "glob": "~/.cache/whisper"
+    },
+    {
+     "glob": "**/whisper.cpp/models/ggml-*.bin"
+    },
+    {
+     "glob": "**/whisper.cpp/models/*-encoder.mlmodelc"
+    }
+   ],
+   "url": "https://siftmac.com/safe-to-delete/whisper-models",
+   "markdown_url": "https://siftmac.com/safe-to-delete/whisper-models.md",
+   "published": "2026-11-27",
+   "updated": "2026-11-27"
+  },
+  {
+   "id": "windsurf-and-codeium",
+   "name": "Windsurf and ~/.codeium",
+   "question": "Is it safe to delete ~/.codeium and Windsurf’s Application Support folder?",
+   "category": "Developer tools",
+   "paths": [
+    "~/.codeium",
+    "~/.codeium/windsurf",
+    "~/Library/Application Support/Windsurf",
+    "~/.windsurf/extensions"
+   ],
+   "verdict": "decide",
+   "verdict_label": "You decide",
+   "answer": "**Not ~/.codeium.** It is still in use: your MCP server list, user settings, global workflows and skills live there, and the editor’s command-line tools too.",
+   "summary": [
+    "**Not ~/.codeium.** It is still in use: your MCP server list, user settings, global workflows and skills live there, and the editor’s command-line tools too. The old `Windsurf` folder in Application Support is another matter once you have moved to Devin Desktop.",
+    "**What it costs you:** deleting `~/.codeium` loses configuration you set up by hand. Deleting the legacy Windsurf folders after migrating costs nothing you still use, but check first.",
+    "**Does it come back?** The app recreates its folders, empty. Your MCP servers, workflows and skills don’t return."
+   ],
+   "comes_back": "The app recreates its folders, empty. Your MCP servers, workflows and skills don’t return.",
+   "what": "Windsurf is the AI code editor that grew out of Codeium, which is why its home-folder data is named `.codeium`. On 2 June 2026 Windsurf became Devin Desktop, delivered as a normal over-the-air update, and the app is now called Devin.app on a Mac. The maker’s FAQ sets out what moved and what didn’t:",
+   "measure": [
+    "du -sh ~/.codeium ~/.windsurf ~/.devin ~/Library/\"Application Support\"/Windsurf ~/Library/\"Application Support\"/Devin 2>/dev/null"
+   ],
+   "how_to_clear": "**If you migrated to Devin Desktop.** The FAQ says choosing Migrate from Windsurf copies the legacy user data and extensions to the Devin paths: settings, keybindings, snippets, workspace state and installed extensions. It skips caches, logs, crash dumps and Local History, and the legacy extensions folder is only read from afterwards.\n\n1. Open Devin Desktop and confirm your settings, keybindings and extensions are all there.\n2. If you rely on the editor’s Local History to recover old versions of files, note that it was not copied. Keep the Windsurf folder if that matters to you.\n3. Quit the editor first, with `⌘Q`.\n4. Move `~/Library/Application Support/Windsurf` and `~/.windsurf` to the Trash, and empty it after a few days of normal work.\n\n**If you still use Windsurf itself**, treat its folder as you would [VS Code’s](https://siftmac.com/safe-to-delete/vs-code-cache): with the editor quit, the cache folders inside it rebuild, and the `User` folder is your settings.\n\n> Leave `~/.codeium` alone in both cases. The maker’s FAQ states its directory structure is not changing, so Devin Desktop reads your MCP config, workflows and skills from the same place Windsurf did.",
+   "clear_commands": [],
+   "sources": [
+    {
+     "title": "Devin documentation: Devin Desktop FAQ (the rename from Windsurf, folder paths, migration)",
+     "url": "https://docs.devin.ai/desktop/devin-desktop-faq"
+    }
+   ],
+   "see_also": [
+    "cursor-extensions",
+    "vs-code-cache",
+    "cursor-update-cache"
+   ],
+   "match": [
+    {
+     "glob": "~/.codeium"
+    },
+    {
+     "glob": "~/.codeium/windsurf"
+    },
+    {
+     "glob": "~/Library/Application Support/Windsurf"
+    },
+    {
+     "glob": "~/.windsurf/extensions"
+    }
+   ],
+   "url": "https://siftmac.com/safe-to-delete/windsurf-and-codeium",
+   "markdown_url": "https://siftmac.com/safe-to-delete/windsurf-and-codeium.md",
+   "published": "2026-11-27",
+   "updated": "2026-11-27"
   },
   {
    "id": "xcode-archives",
@@ -5136,7 +7925,7 @@
    "url": "https://siftmac.com/safe-to-delete/xcode-archives",
    "markdown_url": "https://siftmac.com/safe-to-delete/xcode-archives.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
   },
   {
    "id": "xcode-simulators",
@@ -5200,7 +7989,7 @@
    "url": "https://siftmac.com/safe-to-delete/xcode-simulators",
    "markdown_url": "https://siftmac.com/safe-to-delete/xcode-simulators.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
   },
   {
    "id": "yarn-cache",
@@ -5318,7 +8107,7 @@
    "url": "https://siftmac.com/safe-to-delete/zoom-recordings",
    "markdown_url": "https://siftmac.com/safe-to-delete/zoom-recordings.md",
    "published": "2026-11-21",
-   "updated": "2026-11-21"
+   "updated": "2026-11-27"
   }
  ]
 }

@@ -8,7 +8,8 @@ cd "$(dirname "$0")/.." || exit 2
 ROOT=$(pwd)
 ATLAS="$ROOT/bin/folder-atlas"
 # Not $TMPDIR: on a Mac that is inside /var/folders, which is itself in the Atlas.
-TMP=$(mktemp -d /tmp/atlas-test.XXXXXX) || exit 2
+# Not /tmp: the Atlas has an entry for /private/tmp, which would match everything made here.
+TMP=$(mktemp -d "$HOME/.atlas-test.XXXXXX") || exit 2
 trap 'rm -rf "$TMP"' EXIT
 export HOME=/Users/tester NO_COLOR=1
 pass=0
@@ -69,7 +70,7 @@ expect deleted-users "/Users/Deleted Users/old.dmg"
 expect trash "~/.Trash"
 expect spotlight-index "/Volumes/Backup/.Spotlight-V100"
 expect fseventsd "/Volumes/Backup/.fseventsd"
-expect trash "/Volumes/Backup/.Trashes"
+expect dot-trashes "/Volumes/Backup/.Trashes"
 expect dot-underscore-files "/Volumes/Backup/Photos/._IMG_0001.jpg"
 expect ds-store-files "$HOME/Desktop/project/.DS_Store"
 expect macos-installers "/Applications/Install macOS Ventura.app"
@@ -92,12 +93,12 @@ mkdir -p "$TMP/rs/target/debug" "$TMP/plain/target" "$TMP/fl/build" "$TMP/gr/bui
 : >"$TMP/ios/Podfile"
 expect rust-target-folder "$TMP/rs/target/debug"
 expect_none "$TMP/plain/target"
-expect flutter-pub-cache "$TMP/fl/build"
+expect dart-tool-and-flutter-build "$TMP/fl/build"
 expect_none "$TMP/gr/build"
 expect python-venv "$TMP/py/venv"
 expect_none "$TMP/nv/venv"
 expect swift-package-manager-cache "$TMP/sw/.build"
-expect cocoapods-cache "$TMP/ios/Pods"
+expect cocoapods-pods-folder "$TMP/ios/Pods"
 
 # 5. Relative paths and bare names.
 mkdir -p "$TMP/app/node_modules"
